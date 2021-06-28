@@ -53,7 +53,7 @@ def loadImages(path):
             img = cv2.imread(img_path, cv2.IMREAD_COLOR)    # 알파 채널 걸러주기 (3차원 이미지만 읽어야함)
             img = cv2.resize(img, (50, 50))    # 이미지 전부 50x50 크기로 resize
         except Exception as e:
-            print(path, image)                 # 걸러야 할 이미지 print 해줌 -> 예외처리 된 이미지니까
+            print(path, image)                 # 걸러야 할 이미지 print(예외처리)
             print(str(e))
         loadedImages.append(img)    # 걸러진 img를 loadedImg 리스트에 저장
 
@@ -136,13 +136,13 @@ for layer in base_model.layers:
     layer.trainable = False
 #
 model = Model(base_model.input, predictions)
-# https://wooono.tistory.com/100   compile() 메서드는 학습 방식에 대한 환경 설정 (학습 하기 전에 )
+# compile() 메서드는 학습 방식에 대한 환경 설정 (학습 하기 전에 )
 model.compile (loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
 
 # In[9]:
 
-# https://tykimos.github.io/2017/03/25/Fit_Talk/
+
 # model.fit(입력데이터, 라벨값, bath_size: 몇개의 샘플로 가중치를 갱신할 건지, epochs: 학습 반복 횟수 )
 history=model.fit(X_train, y_train, epochs=50, batch_size=50, verbose=1,validation_data=(X_test, y_test))
 
