@@ -1,5 +1,4 @@
 import cv2
-from Common.haar_utils import *
 import numpy as np
 
 
