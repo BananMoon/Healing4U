@@ -18,7 +18,7 @@ class ViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view)
-        Log.w("테스트4","테스트4")
+        Log.w("테스트3","테스트3")
 
         Firebase.dynamicLinks
             .getDynamicLink(intent)
