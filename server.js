@@ -1,34 +1,16 @@
-// mongodb 연동
-const mongoose = require('mongoose');
-const db = mongoose.connection;
-//const userModel = require('./schema/userSchema')
-const URL = "mongodb+srv://woo:woo@healing4u.mpydi.mongodb.net/Healing4U?retryWrites=true&w=majority"
-mongoose.connect(URL);
+const mysql = require('mysql');
 
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', ()=>{
-  console.log('DB connected');
+//connection 정의
+const con = mysql.createConnection({
+    host: 'healing.cdkn59lq9zjm.ap-northeast-2.rds.amazonaws.com',
+    user: 'healing4u',
+    password: 'healing4u',
+    database: "healing"
 });
 
-//model은 객체를 DB에 연결하는 것. Cat 객체를 이용해서 DB명령을 가능하게 해줍니다. model의 첫번째 인자는 model이름을 갖고, 두번째 인자는 model에서 사용될 Schema를 갖습니다.
-const userSchema = mongoose.Schema({
-  emotion: Number,          // 사용자 표정(0,1)
-  grade: Number             //0~5
-});
-const User = mongoose.model('User', userSchema);
-
-const serviceSchema = mongoose.Schema({
-  image: Array,
-  placeName: String,      // 장소명
-  descript: Array         //[0(0:아침,1:저녁), "Rain", 6(월)]
-});
-
-const Service = mongoose.model('Service', serviceSchema);
-
-//model을 사용해서 데이터를 데이터베이스에 저장하는 방법
-//var test = new User({ emotion: 0, image: [2,4,6], placeName: "Dongtan", grade: 3});
-//test.save();
-//console.log('save Succeed!');
+// RDS에 접속
+con.connect();
+testQuery = "SELECT img_src, address, detail_short, service_name FROM services WHERE (emotion=0 AND img_src is not null";
 
 //body-parser: 클라이언트에서 받은 데이터들을 서버로 옮길 때 옮겨주는 과정을 하는 역할
 
@@ -54,24 +36,13 @@ app.set('views', path.join(__dirname, '/public/views'));
 // /beauty/home으로 GET요청 -> 뷰티 상품들을 보여줌
 // 링크에 넣는게 get
 // READ
-app.get('/userdbtest', function(req, res) {  //req, res
-//  res.send('healing 패널 페이지입니다.');
-  User.find({}, (err, user) => {
-    if(err) return res.json(err);
-    //res.render('read', { user: user }); -> html과 같이 띄우기위해
-    //res.json(user)
-    res.json(user);
-    //
+app.get('/dbtest', function (req, res) {  
+  con.query("SELECT * FROM services WHERE emotion=0 AND video_src IS NOT NULL", function (err, rows, fields) {
+      if(err) console.log('query is not excuted. select fail...\n' + err);
+      else res.send(rows);
   });
 });
-app.get('/servicedbtest', function(req,res) {
-  Service.find({}, (err, service) => {
-    if(err) return res.json(err);
-    //res.render('read', { user: user }); -> html과 같이 띄우기위해
-    //res.json(user)
-    res.json(service);
-  });
-});
+
 //수정 사항 발생 시 서버 재실행이 귀찮음
 //자동화 시키는 script library -> npm install -g(모든 폴더에서 이용할 수 있도록) nodemon
 //html 파일 보내보자
