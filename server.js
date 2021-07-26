@@ -36,8 +36,16 @@ app.set('views', path.join(__dirname, '/public/views'));
 // /beauty/home으로 GET요청 -> 뷰티 상품들을 보여줌
 // 링크에 넣는게 get
 // READ
+// app.get('/dbtest', function (req, res) {  
+//   con.query("SELECT * FROM services WHERE emotion=0 AND video_src IS NOT NULL", function (err, rows, fields) {
+//       if(err) console.log('query is not excuted. select fail...\n' + err);
+//       else res.send(rows);
+//   });
+// });
+
+//전체데이터
 app.get('/dbtest', function (req, res) {  
-  con.query("SELECT * FROM services WHERE emotion=0 AND video_src IS NOT NULL", function (err, rows, fields) {
+  con.query("SELECT * FROM services", function (err, rows, fields) {
       if(err) console.log('query is not excuted. select fail...\n' + err);
       else res.send(rows);
   });
