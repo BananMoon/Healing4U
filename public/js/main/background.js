@@ -96,11 +96,36 @@ function onGeoOk(position){
 //         }
 //     }
 // }
+var dbConObj = require('../../server');	//사용자 정의한 함수 사용
+var dbconn = dbConObj.init();
 
+var clubList = {
+	//클럽목록
+	list : function(req, res){
+		
+		var sql = 'SELECT * FROM CLUB'; // 클럽목록
+		
+		dbconn.query(sql, function(err, results, field){
+			
+			res.render('club/clubList', {data : 'testData list ejs', clubList : results});
+		});
+	}
+};
+
+module.exports = clubList;
 const createImg  = (number) => {
     // <img> 요소를 만듭니다.
     const bgImage = document.querySelector('#bgImage');
-//    const bgImage = document.createElement('img');
+
+    //날씨 api주소와 계절(1~12), 시간에 따라 query문을 달리해야함
+    //맑음
+    
+    //비
+
+    //눈
+
+    
+
     // <img> src, alt 값을 지정하고 'bgImg' 클래스를 추가합니다.
     bgImage.src = `img/img_${number}.jpg`;
     bgImage.alt = 'background images';

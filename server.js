@@ -1,15 +1,18 @@
 const mysql = require('mysql');
 
 //connection 정의
-const con = mysql.createConnection({
+const dbconnection = mysql.createConnection({
     host: 'healing.cdkn59lq9zjm.ap-northeast-2.rds.amazonaws.com',
     user: 'healing4u',
     password: 'healing4u',
-    database: "healing"
+    database: "healingDB"
 });
 
 // RDS에 접속
-con.connect();
+dbconnection.connect();
+// 다른 js 파일에 보내는 방법
+module.exports = dbconnection;
+
 testQuery = "SELECT img_src, address, detail_short, service_name FROM services WHERE (emotion=0 AND img_src is not null";
 
 //body-parser: 클라이언트에서 받은 데이터들을 서버로 옮길 때 옮겨주는 과정을 하는 역할
@@ -18,13 +21,12 @@ testQuery = "SELECT img_src, address, detail_short, service_name FROM services W
 const express = require('express');
 const app = express(); //express 라이브러리 사용
 const path = require('path');   //ejs사용
-//const connect = require('./schema')
-//middle ware
+
 //모든 서버로 오는 요청은 해당 middleware를 지나가야한다.
 app.use(express.static(__dirname+"/public"));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/public/views'));
-//connect();
+
 //listen (param1, param2)
 // param1:서버띄울 포트번호, param2: 서버 띄운 후 실행할 코드
 // 8080 port에 서버 띄워주세요~~
@@ -36,8 +38,15 @@ app.set('views', path.join(__dirname, '/public/views'));
 // /beauty/home으로 GET요청 -> 뷰티 상품들을 보여줌
 // 링크에 넣는게 get
 // READ
-app.get('/dbtest', function (req, res) {  
-  con.query("SELECT * FROM services WHERE emotion=0 AND video_src IS NOT NULL", function (err, rows, fields) {
+app.get('/servicesDB', function (req, res) {  
+  dbconnection.query("SELECT * FROM services WHERE emotion=0 AND video_src IS NOT NULL", function (err, rows, fields) {
+      if(err) console.log('query is not excuted. select fail...\n' + err);
+      else res.send(rows);
+  });
+});
+
+app.get('/user', function (req, res) {  
+  dbconnection.query("SELECT * FROM users WHERE emotion=0", function (err, rows, fields) {
       if(err) console.log('query is not excuted. select fail...\n' + err);
       else res.send(rows);
   });

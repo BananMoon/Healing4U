@@ -46,8 +46,8 @@
 #clock{
     text-align: center;
     z-index:2;
-    width: 170px; 
-    bottom: 330px; 
+    width: 220px; 
+    bottom: 270px; 
     font-size: 2.0em; 
     font-weight: bold; 
     position: absolute;
