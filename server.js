@@ -1,3 +1,7 @@
+//수정 사항 발생 시 서버 재실행이 귀찮음. 자동화 시키는 script library; npm install -g(모든 폴더에서 이용할 수 있도록) nodemon
+//body-parser: 클라이언트에서 받은 데이터들을 서버로 옮길 때 옮겨주는 과정을 하는 역할
+
+/*--------------mysql 연동-------------*/
 const mysql = require('mysql');
 
 //connection 정의
@@ -13,20 +17,26 @@ dbconnection.connect();
 // 다른 js 파일에 보내는 방법
 module.exports = dbconnection;
 
-testQuery = "SELECT img_src, address, detail_short, service_name FROM services WHERE (emotion=0 AND img_src is not null";
+//testQuery = "SELECT img_src, address, detail_short, service_name FROM services WHERE (emotion=0 AND img_src is not null";
 
-//body-parser: 클라이언트에서 받은 데이터들을 서버로 옮길 때 옮겨주는 과정을 하는 역할
 
-//nodejs에서 서버(express)를 만들기위한 기본셋팅
+/*--------------서버 setting-------------*/
 const express = require('express');
 const app = express(); //express 라이브러리 사용
 const path = require('path');   //ejs사용
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+module.exports = app;
+
 //모든 서버로 오는 요청은 해당 middleware를 지나가야한다.
 app.use(express.static(__dirname+"/public"));
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '/public/views'));
+// app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, '/public/views'));
 
+const indexRouter = require('./routes/index');
+app.use('/', indexRouter);
 //listen (param1, param2)
 // param1:서버띄울 포트번호, param2: 서버 띄운 후 실행할 코드
 // 8080 port에 서버 띄워주세요~~
@@ -38,6 +48,8 @@ app.set('views', path.join(__dirname, '/public/views'));
 // /beauty/home으로 GET요청 -> 뷰티 상품들을 보여줌
 // 링크에 넣는게 get
 // READ
+
+/*--------안드로이드 송신용 페이지---------*/
 app.get('/servicesDB', function (req, res) {  
   dbconnection.query("SELECT * FROM services WHERE emotion=0 AND video_src IS NOT NULL", function (err, rows, fields) {
       if(err) console.log('query is not excuted. select fail...\n' + err);
@@ -45,24 +57,30 @@ app.get('/servicesDB', function (req, res) {
   });
 });
 
-app.get('/user', function (req, res) {  
-  dbconnection.query("SELECT * FROM users WHERE emotion=0", function (err, rows, fields) {
-      if(err) console.log('query is not excuted. select fail...\n' + err);
-      else res.send(rows);
+app.get('/usersDB', function (req, res) {  
+  dbconnection.query("SELECT * FROM users WHERE now_emotion=0", function (err, rows, fields) {
+    if(err) console.log('query is not excuted. select fail...\n' + err);
+    else res.send(rows);
   });
 });
 
-//수정 사항 발생 시 서버 재실행이 귀찮음
-//자동화 시키는 script library -> npm install -g(모든 폴더에서 이용할 수 있도록) nodemon
-//html 파일 보내보자
-app.get('/', function(req, res) {
-  //html파일을 브라우저에 보낼 수 있음
-  res.sendFile(__dirname + '/main.html');
-  // User.find({}, (err, users) => {
-  //   if(err) return res.json(err);
-  //   res.json(users);
-  // });
+app.get('/healingsDB', function (req, res) {  
+  dbconnection.query("SELECT * FROM healings", function (err, rows, fields) {
+    if(err) console.log('query is not excuted. select fail...\n' + err);
+    else res.send(rows);
+  });
 });
+
+/*-------------패널 메인 화면------------*/
+//html 파일 보내보자
+// app.get('/', function(req, res) {
+//   //html파일을 브라우저에 보낼 수 있음
+//   res.sendFile(__dirname + '/main.html');
+//   // User.find({}, (err, users) => {
+//   //   if(err) return res.json(err);
+//   //   res.json(users);
+//   // });
+// });
 //__dirname : 현재 server.js가 실행되는 경로
 
 // SERVICE

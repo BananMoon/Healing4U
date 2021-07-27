@@ -96,23 +96,28 @@ function onGeoOk(position){
 //         }
 //     }
 // }
-var dbConObj = require('../../server');	//사용자 정의한 함수 사용
-var dbconn = dbConObj.init();
+var express = require('express');
+var router = express.Router();
+const db = require('./../../../db_info');
+db.getAllServices((datas) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
+    console.log(datas);
+    //res.render('background', {rows: datas});
+});
 
-var clubList = {
-	//클럽목록
-	list : function(req, res){
+// var clubList = {
+// 	//클럽목록
+// 	list : function(req, res){
 		
-		var sql = 'SELECT * FROM CLUB'; // 클럽목록
+// 		var sql = 'SELECT * FROM CLUB'; // 클럽목록
 		
-		dbconn.query(sql, function(err, results, field){
+// 		dbconn.query(sql, function(err, results, field){
 			
-			res.render('club/clubList', {data : 'testData list ejs', clubList : results});
-		});
-	}
-};
+// 			res.render('club/clubList', {data : 'testData list ejs', clubList : results});
+// 		});
+// 	}
+// };
 
-module.exports = clubList;
+// module.exports = clubList;
 const createImg  = (number) => {
     // <img> 요소를 만듭니다.
     const bgImage = document.querySelector('#bgImage');
@@ -125,7 +130,6 @@ const createImg  = (number) => {
     //눈
 
     
-
     // <img> src, alt 값을 지정하고 'bgImg' 클래스를 추가합니다.
     bgImage.src = `img/img_${number}.jpg`;
     bgImage.alt = 'background images';
