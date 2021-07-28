@@ -6,6 +6,7 @@ const db = require('./../db_info');
 /*-------------패널 메인 화면------------*/
 /*GET home page */
 router.get('/', function(req, res) {
+  db.getHealingService((data) => {
     //html파일을 브라우저에 보낼 수 있음
     //res.sendFile(__dirname + '/main.html');
 
@@ -19,6 +20,7 @@ router.get('/', function(req, res) {
       }
     });
     //ejs이용
+    console.log('1');
     res.render('background', {weatherList: sunnyList});  //sunny에 해당하는 데이터만
     
     //if (weather_API === '비') {rainyList 전달}

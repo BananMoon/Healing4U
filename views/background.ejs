@@ -7,6 +7,7 @@
     <body>
         <h1>Service List</h1>
         <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
+        <%=data.season%>
         <div class="bg">
             <video muted autoplay loop>
               <source src="<%=data.video_src%>" type="video/mp4">
