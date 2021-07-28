@@ -1,33 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+ <html>
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content = "IE=edge">
-        <meta name = "viewport" content="width=device-width, initial-scale=1.0">
-        <link rel = "stylesheet", href="css/main.css"/>
-        <title>Healing Pannel MainPage</title>
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
-          </style>
-    </head>
+        <title>Simple memo</title> 
+        <link rel='stylesheet' href='/css/style.css' /> 
+    </head> 
     <body>
-      <div id="container">
-        <img id="bgImage" src="<%=rows.img_src %>"/>
-        <h2 id="clock">00:00:00</h2>      
-        <div id="quote" class="quote">
-          <span></span>
-          <br>
-          <span></span>
-        </div><br>
-        <div id="weather">
-          <span></span>
-          <br>
-          <span></span>
-        </div>  
-      </div>
-      <script src="js/main/clock.js"></script>
-      <script src="js/main/quotes.js"></script>
-      <script src="js/main/background.js"></script>
-      <script src="js/main/weather.js"></script>
-    </body>
+        <h1>Service List</h1>
+        <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
+        <div class="bg">
+            <video muted autoplay loop>
+              <source src="<%=data.video_src%>" type="video/mp4">
+            </video>
+            <div class="quote">
+              <p><%=data.quote%></p>
+              <p><%=data.quote_src%></p>
+            </div>
+          </div>
+        </table> 
+    </body> 
 </html>

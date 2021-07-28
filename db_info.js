@@ -16,19 +16,18 @@ function getAllServices(callback) {
         callback(rows);
     });
 }
-//getOneService 함수 정의
-function getOneService(callback) {
-    con.query(`SELECT * FROM services WHERE season=9`, (err, row, fields) => {
+//getHealingService 함수 정의: healings 테이블 쿼리
+function getHealingService(callback) {
+    con.query(`SELECT * FROM healings`, (err, row, fields) => {
         if (err) throw err;
         callback(row);
+        
     });
 }
-
-
-//module.exports = dbconnection;
 
 //외부에서 require를 통해 추가한 스크립트의 함수를 참조할 때 선언해주어야 해당 함수를 참조할 수 있음
 module.exports = {
     getAllServices,
-    getOneService
+    getHealingService
+//    getOneService
 }
