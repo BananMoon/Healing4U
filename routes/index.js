@@ -2,7 +2,14 @@
 var express = require('express');
 var router = express.Router();
 const db = require('./../db_info');
+const clock = require('../public/js/main/clock');
 
+const moment= require("moment");
+
+router.use((req, res, next)=>{
+    res.locals.moment= moment;
+    next();
+});
 /*-------------패널 메인 화면------------*/
 /*GET home page */
 router.get('/', function(req, res) {
@@ -21,7 +28,10 @@ router.get('/', function(req, res) {
     });
     //ejs이용
     console.log('1');
-    res.render('background', {weatherList: sunnyList});  //sunny에 해당하는 데이터만
+    res.render('background', {
+      weatherList: sunnyList
+      //clockFunc: clock.renderclockFunc
+    });  //sunny에 해당하는 데이터만
     
     //if (weather_API === '비') {rainyList 전달}
   });

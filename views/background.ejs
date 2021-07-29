@@ -5,7 +5,9 @@
         <link rel='stylesheet' href='/css/style.css' /> 
     </head> 
     <body>
-        <h1>Service List</h1>
+        <h2 id="clock">00:00:00</h2> <!--getClock 오류..-->
+        <%= moment().format('YYYY년 MM월 DD일'); %><br>
+        <%= moment().format('HH시 mm분 ss초'); %><!--YYYY-MM-DD HH:mm:ss--><br>
         <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
         <%=data.season%>
         <div class="bg">

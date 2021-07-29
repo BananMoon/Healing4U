@@ -1,4 +1,4 @@
-const clock = document.querySelector("h2#clock");
+//const clock = document.querySelector("h2#clock");
 
 
 function getClock() {
@@ -16,5 +16,10 @@ function getClock() {
     ${hours} : ${minutes} : ${seconds}`;
 } //이 함수를 매 2초마다 실행
 
-getClock();
-setInterval(getClock, 1000);  // 동작은 전혀 다름.
+function renderclockFunc() {
+    getClock();
+    setInterval(getClock, 1000);  // 동작은 전혀 다름.
+};
+    
+    
+module.exports = renderclockFunc;
