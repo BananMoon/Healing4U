@@ -35,7 +35,7 @@ app.use(express.static(__dirname+"/public"));
 // app.set('view engine', 'ejs');
 // app.set('views', path.join(__dirname, '/public/views'));
 
-const indexRouter = require('./routes/index');
+const indexRouter = require('./routes');
 app.use('/', indexRouter);
 //listen (param1, param2)
 // param1:서버띄울 포트번호, param2: 서버 띄운 후 실행할 코드
@@ -84,12 +84,14 @@ app.get('/healingsDB', function (req, res) {
 //__dirname : 현재 server.js가 실행되는 경로
 
 // SERVICE
+
 app.get('/category', function(req, res) {
   res.sendFile(__dirname + '/category.html');
 });
 
-app.get('/service.html',function(req, res) {
-  res.sendFile(__dirname + '/service.html');
+app.get('/advertisement',function(req, res) {
+  res.render('advertisement');  //advertisement.ejs 랜더링
+  //res.sendFile(__dirname + '/service.html');
 });
 
 

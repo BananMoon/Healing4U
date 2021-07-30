@@ -1,0 +1,22 @@
+<!--넘어오는 data : foodImgList, foodVideoList / activityImgList, activityVideoList-->
+<!--이미지와 비디오 조건 어떻게 나누지
+조건에 따라 <img> 추가하거나 <video> 추가하면 될듯-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ./part/header %> <!--필요하면!-->
+    </head>
+    <body>
+        <% if ()
+        <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
+        <%=data.season%>
+        <div class="bg">
+            <video muted autoplay loop>
+              <source src="<%=data.video_src%>" type="video/mp4">
+            </video>
+        advertisement template
+        <footer>    
+            <% include ./part/footer %>
+        </footer>
+    </body>
+</html>

@@ -1,7 +1,7 @@
 // router 이용
 var express = require('express');
 var router = express.Router();
-const db = require('./../db_info');
+const db = require('../db_info');
 const clock = require('../public/js/main/clock');
 
 const moment= require("moment");
@@ -28,7 +28,7 @@ router.get('/', function(req, res) {
     });
     //ejs이용
     console.log('1');
-    res.render('background', {
+    res.render('healing', {
       weatherList: sunnyList
       //clockFunc: clock.renderclockFunc
     });  //sunny에 해당하는 데이터만
@@ -37,4 +37,43 @@ router.get('/', function(req, res) {
   });
 });
 
+router.get('/food_AD',function(req, res) {
+  db.getFoodAdService((data) => {
+    let foodImgList = [];
+    let foodVideoList = [];
+    data.forEach((row, index) => {
+      if (!row.img_src) {  //비어있다면
+        foodVideoList.push(row.video_src);
+      }
+      else if (!row.video_src) {
+        foodImgList.push(row.img_src)
+      }
+    })
+    console.log('2');
+    res.render('advertisement', {
+      foodImgList: foodImgList,
+      foodVideoList: foodVideoList
+    });
+  });  
+});
+
+router.get('/activity_AD',function(req, res) {
+  db.getActivityAdService((data) => {
+    let activityImgList = [];
+    let activityVideoList = [];
+    data.forEach((row, index) => {
+      if (!row.img_src) {  //비어있다면
+        activityVideoList.push(row.video_src);
+      }
+      else if (!row.video_src) {
+        activityImgList.push(row.img_src)
+      }
+    })
+    console.log('3');
+    res.render('advertisement', {
+      activityImgList: activityImgList,
+      activityVideoList: activityVideoList
+    });
+  });  
+});
 module.exports = router;
