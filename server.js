@@ -50,8 +50,8 @@ app.use('/', indexRouter);
 // READ
 
 /*--------안드로이드 송신용 페이지---------*/
-app.get('/servicesDB', function (req, res) {  
-  dbconnection.query("SELECT * FROM services WHERE emotion=0 AND video_src IS NOT NULL", function (err, rows, fields) {
+app.get('/adsDB', function (req, res) {  
+  dbconnection.query("SELECT * FROM advertisement", function (err, rows, fields) {
       if(err) console.log('query is not excuted. select fail...\n' + err);
       else res.send(rows);
   });
