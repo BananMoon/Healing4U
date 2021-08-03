@@ -2,14 +2,12 @@
  <html>
     <head>
         <title>Providing Healing Service..</title> 
-        <link rel='stylesheet' href='/css/style.css' /> 
+        <link rel='stylesheet' href='/css/main.css' /> 
     </head> 
     <body>
-        <h2 id="clock">00:00:00</h2> <!--getClock 오류..-->
-        <%= moment().format('YYYY년 MM월 DD일'); %><br>
-        <%= moment().format('HH시 mm분 ss초'); %><!--YYYY-MM-DD HH:mm:ss--><br>
+        <h2 id="date"><%= moment().format('YYYY년 MM월 DD일'); %></h2>
+        <h2 id="clock"></h2><%= moment().format('HH시 mm분 ss초'); %></h2> 
         <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
-        <%=data.season%>
         <div class="bg">
             <video muted autoplay loop>
               <source src="<%=data.video_src%>" type="video/mp4">
@@ -18,7 +16,7 @@
               <p><%=data.quote%></p>
               <p><%=data.quote_src%></p>
             </div>
-          </div>
-        </table> 
+        </div> 
+        <script src="js/main/clock.js"></script>
     </body> 
 </html>

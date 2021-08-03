@@ -4,19 +4,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <% include ./part/header %> <!--필요하면!-->
-    </head>
+        <%- include ("./part/header") %>
+    </head> 
+ 
     <body>
-        <% if ()
-        <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
-        <%=data.season%>
         <div class="bg">
+        <% let data = adsList[Math.floor(Math.random()*adsList.length)]; %>
+        <% console.log(data);%>
+        <% if (data.indexOf('.jpg') != -1 ) { %>
             <video muted autoplay loop>
-              <source src="<%=data.video_src%>" type="video/mp4">
+              <source src="<%= data %>" type="video/mp4">
             </video>
-        advertisement template
-        <footer>    
-            <% include ./part/footer %>
-        </footer>
+        <% } %>
+        <!-- <% else if (data.indexOf('.mp4') != -1) { %> -->
+        <% else { %>
+            <img src="<%= data %>">
+        <% } %>
+        </div>
+
+        <%- include ("./part/footer") %>
     </body>
 </html>

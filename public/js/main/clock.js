@@ -22,4 +22,6 @@ function renderclockFunc() {
 };
     
     
-module.exports = renderclockFunc;
+module.exports = {
+    renderclockFunc
+}

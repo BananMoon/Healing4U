@@ -28,6 +28,7 @@ router.get('/', function(req, res) {
     });
     //ejs이용
     console.log('1');
+    
     res.render('healing', {
       weatherList: sunnyList
       //clockFunc: clock.renderclockFunc
@@ -35,6 +36,9 @@ router.get('/', function(req, res) {
     
     //if (weather_API === '비') {rainyList 전달}
   });
+  
+  // 2개 렌더링해도되나?
+  //clock.renderclockFunc()
 });
 
 router.get('/food_AD',function(req, res) {
@@ -49,10 +53,14 @@ router.get('/food_AD',function(req, res) {
         foodImgList.push(row.img_src)
       }
     })
-    console.log('2');
+    //랜덤으로 하나씩 고르기
+    foodVideo = foodVideoList[Math.floor(Math.random()*foodVideoList.length)];
+    foodImg = foodImgList[Math.floor(Math.random()*foodImgList.length)];
+    foodData = [foodVideo, foodImg];
+    console.log(foodData);
+
     res.render('advertisement', {
-      foodImgList: foodImgList,
-      foodVideoList: foodVideoList
+      adsList: foodData
     });
   });  
 });
@@ -69,10 +77,15 @@ router.get('/activity_AD',function(req, res) {
         activityImgList.push(row.img_src)
       }
     })
-    console.log('3');
-    res.render('advertisement', {
-      activityImgList: activityImgList,
-      activityVideoList: activityVideoList
+    //랜덤으로 하나씩 고르기
+    actVideo = activityVideoList[Math.floor(Math.random()*activityVideoList.length)];
+    actImg = activityImgList[Math.floor(Math.random()*activityImgList.length)];
+    activityData = [actVideo, actImg];
+    console.log(activityData);
+
+    //ejs 템플릿에서 .mp4 vs. .jpg 랜덤 띄우기?
+    res.render('advertisement', {   //ejs 페이지에 렌더링할 때 데이터 전달
+      adsList: activityData
     });
   });  
 });
