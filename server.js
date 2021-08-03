@@ -97,7 +97,7 @@ app.listen(2004, function() {
   console.log('listening on 2004♥');
 });
 
-app.post('/abc',function(req,res,next){
+app.get('/abc',function(req,res,next){
   console.log('posting');
   return res.json({success:true, msg:"good"});
 });
