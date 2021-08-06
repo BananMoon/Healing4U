@@ -26,9 +26,7 @@ router.get('/', function(req, res) {
         sunnyList.push(row);
       }
     });
-    //ejs이용
-    console.log('1');
-    
+    //ejs이용    
     res.render('healing', {
       weatherList: sunnyList
       //clockFunc: clock.renderclockFunc
@@ -41,52 +39,21 @@ router.get('/', function(req, res) {
   //clock.renderclockFunc()
 });
 
-router.get('/food_AD',function(req, res) {
-  db.getFoodAdService((data) => {
-    let foodImgList = [];
-    let foodVideoList = [];
+router.get('/advertisement', function(req, res) {
+  db.getAdService((data) => {
+    let adsList =[];
     data.forEach((row, index) => {
-      if (!row.img_src) {  //비어있다면
-        foodVideoList.push(row.video_src);
+      if (row.img_src) {  //img가 있다면
+        adsList.push(row.img_src);
       }
-      else if (!row.video_src) {
-        foodImgList.push(row.img_src)
+      if (row.video_src) {  //video가 있다면
+        adsList.push(row.video_src);
       }
     })
-    //랜덤으로 하나씩 고르기
-    foodVideo = foodVideoList[Math.floor(Math.random()*foodVideoList.length)];
-    foodImg = foodImgList[Math.floor(Math.random()*foodImgList.length)];
-    foodData = [foodVideo, foodImg];
-    console.log(foodData);
-
     res.render('advertisement', {
-      adsList: foodData
+      adsList: adsList
     });
-  });  
+  });
 });
 
-router.get('/activity_AD',function(req, res) {
-  db.getActivityAdService((data) => {
-    let activityImgList = [];
-    let activityVideoList = [];
-    data.forEach((row, index) => {
-      if (!row.img_src) {  //비어있다면
-        activityVideoList.push(row.video_src);
-      }
-      else if (!row.video_src) {
-        activityImgList.push(row.img_src)
-      }
-    })
-    //랜덤으로 하나씩 고르기
-    actVideo = activityVideoList[Math.floor(Math.random()*activityVideoList.length)];
-    actImg = activityImgList[Math.floor(Math.random()*activityImgList.length)];
-    activityData = [actVideo, actImg];
-    console.log(activityData);
-
-    //ejs 템플릿에서 .mp4 vs. .jpg 랜덤 띄우기?
-    res.render('advertisement', {   //ejs 페이지에 렌더링할 때 데이터 전달
-      adsList: activityData
-    });
-  });  
-});
 module.exports = router;

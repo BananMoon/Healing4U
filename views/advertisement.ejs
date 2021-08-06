@@ -9,19 +9,18 @@
  
     <body>
         <div class="bg">
+            <!--img인지 video인지 조건처리해야함-->
+        <h2><%= adsList %></h2>
         <% let data = adsList[Math.floor(Math.random()*adsList.length)]; %>
-        <% console.log(data);%>
-        <% if (data.indexOf('.jpg') != -1 ) { %>
+        <% if (data.indexOf('.jpg') != -1) { %>
+            <img src="<%= data %>"/>
+        <% }else if (data.indexOf('.mp4') != -1) { %>
             <video muted autoplay loop>
-              <source src="<%= data %>" type="video/mp4">
+                <source src="<%= data %>" type="video/mp4">
             </video>
         <% } %>
-        <!-- <% else if (data.indexOf('.mp4') != -1) { %> -->
-        <% else { %>
-            <img src="<%= data %>">
-        <% } %>
+        <h2><%= data %></h2>
         </div>
-
         <%- include ("./part/footer") %>
     </body>
 </html>
