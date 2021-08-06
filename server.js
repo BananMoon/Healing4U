@@ -72,6 +72,7 @@ app.get('/abc',function(req,res,next){
 });
 
 // string (console 통해서)
+// /*-------------DL 서버 연동------------*/
 var net = require('net');
 var server = net.createServer(function(client) {
   console.log('Client connection: ');
