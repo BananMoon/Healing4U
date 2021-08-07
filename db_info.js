@@ -13,7 +13,6 @@ function getHealingService(callback) {
     con.query(`SELECT * FROM healings`, (err, row, fields) => {
         if (err) throw err;
         callback(row);
-        
     });
 }
 

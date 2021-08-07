@@ -23,5 +23,8 @@ function renderclockFunc() {
     
     
 module.exports = {
-    renderclockFunc
+    renderclockFunc,
+    test: function(a,b) {
+        return a+b
+    }
 }

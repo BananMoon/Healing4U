@@ -4,13 +4,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%- include ("./part/header") %>
+        <link rel='stylesheet' href='/css/main.css' /> 
     </head> 
- 
     <body>
         <div class="bg">
-            <!--img인지 video인지 조건처리해야함-->
-        <h2><%= adsList %></h2>
         <% let data = adsList[Math.floor(Math.random()*adsList.length)]; %>
         <% if (data.indexOf('.jpg') != -1) { %>
             <img src="<%= data %>"/>
@@ -19,8 +16,6 @@
                 <source src="<%= data %>" type="video/mp4">
             </video>
         <% } %>
-        <h2><%= data %></h2>
         </div>
-        <%- include ("./part/footer") %>
     </body>
 </html>

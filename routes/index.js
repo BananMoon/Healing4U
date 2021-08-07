@@ -2,14 +2,14 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../db_info');
-const clock = require('../public/js/main/clock');
 
-const moment= require("moment");
 
-router.use((req, res, next)=>{
-    res.locals.moment= moment;
-    next();
-});
+// const moment= require("moment");
+
+// router.use((req, res, next)=>{
+//     res.locals.moment= moment;
+//     next();
+// });
 /*-------------패널 메인 화면------------*/
 /*GET home page */
 router.get('/', function(req, res) {
