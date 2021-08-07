@@ -27,3 +27,7 @@ import renderclockFunc from "../public/js/main/clock.js";
             <%- include ("./part/footer") %>
         </body>
     </html>        
+
+healing.ejs
+    <h2 id="date"><%= moment().format('YYYY년 MM월 DD일'); %></h2>z
+    <h2 id="clock"></h2><%= moment().format('HH시 mm분 ss초'); %></h2> 

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();           //express 라이브러리 사용
 const path = require('path');   //ejs사용
 const mysql = require('mysql'); //mysql 사용
+const moment = require('moment');
 
 /*--------------서버 setting-------------*/
 
@@ -119,3 +120,5 @@ function writeData(socket, data){
     })(socket, data);
   }
 }
+
+module.exports={moment};
