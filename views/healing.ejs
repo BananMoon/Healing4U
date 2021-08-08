@@ -5,16 +5,38 @@
         <link rel='stylesheet' href='/css/main.css' /> 
     </head> 
     <body>
-        <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
-        <div class="bg">
-            <video muted autoplay loop>
-              <source src="<%=data.video_src%>" type="video/mp4">
-            </video>
-            <div class="quote">
-              <p><%=data.quote%></p>
-              <p><%=data.quote_src%></p>
-            </div>
-        </div> 
-        <script src="js/main/clock.js"></script>
+      <div id="clock"></div>
+      <script>
+      function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('clock').innerHTML =
+        h + ":" + m + ":" + s;
+        console.log(today);
+        var t = setTimeout(startTime, 500);
+        console.log(today);
+      }
+      // add zero in front of numbers < 10
+      function checkTime(i) {
+        if (i < 10) {i = "0" + i};  
+        return i;
+      }
+      </script>
+      
+      <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
+      <div class="bg">
+        <video muted autoplay loop>
+          <source src="<%=data.video_src%>" type="video/mp4">
+        </video> 
+          <div class="quote">
+            <p><%=data.quote%></p>
+            <p><%=data.quote_src%></p>
+          </div>
+      </div> 
+      <script src="js/main/clock.js"></script>
     </body> 
 </html>

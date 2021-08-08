@@ -22,9 +22,9 @@ function renderclockFunc() {
 };
     
     
-module.exports = {
-    renderclockFunc,
-    test: function(a,b) {
-        return a+b
-    }
-}
+// module.exports = {
+//     renderclockFunc,
+//     test: function(a,b) {
+//         return a+b
+//     }
+// }

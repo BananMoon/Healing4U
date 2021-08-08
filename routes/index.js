@@ -1,9 +1,11 @@
 // router 이용
 var express = require('express');
 var router = express.Router();
-const db = require('../db_info');
+const db_config = require('../config/db_info');
+const conn = db_config.init(); // db의 커넥터를 활성화 시킨다.
+db_config.connect(conn); //db에 커넥터를 연결해준다.
 
-
+const moment = require('moment');
 // const moment= require("moment");
 
 // router.use((req, res, next)=>{
@@ -13,46 +15,69 @@ const db = require('../db_info');
 /*-------------패널 메인 화면------------*/
 /*GET home page */
 router.get('/', function(req, res) {
-  db.getHealingService((data) => {
-    //html파일을 브라우저에 보낼 수 있음
-    //res.sendFile(__dirname + '/main.html');
-
-    //여기서 조건문추가
-    //if (weather_API === '맑음') {}  날씨API 정보가 맑음이면 video_src의 주소에서 폴더명으로 구분하기. {s3 주소}/sunny/{영상명}.mp4
-    let sunnyList = [];
-    // if 실시간 날씨가 맑음이면 맑음 데이터 전달
-    data.forEach((row, index)=>{
-      if (row.weather==='맑음') {
-        sunnyList.push(row);
-      }
-    });
-    //ejs이용    
-    res.render('healing', {
-      weatherList: sunnyList
-      //clockFunc: clock.renderclockFunc
-    });  //sunny에 해당하는 데이터만
+  let sunnyList = [];
+  var sql = 'SELECT * FROM healings';
+  conn.query(sql, function (err, rows, fields){
     
-    //if (weather_API === '비') {rainyList 전달}
+    rows.forEach((row, index)=>{
+      //날씨 API 가져와야함.
+      //봄
+      if (row.season===3) {
+        sunnyList.push(row);
+        console.log(row);
+      }
+      //가을
+      //겨울
+      //여름
+      console.log(sunnyList);
+    });
+    // for (let row=0; row<rows.length;row++) {
+    //   if (row.season==='3') {
+    //     sunnyList.push(row);
+    //   }
+    //   console.log(row.season)
+    //}
+    if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
+    else  res.render('healing', {
+      weatherList: sunnyList,
+      moment: moment
+    }); //오류가 안뜬다면 healing.ejs 로 rows값들을 list에 넣어 보낸다.
   });
-  
-  // 2개 렌더링해도되나?
-  //clock.renderclockFunc()
 });
 
 router.get('/advertisement', function(req, res) {
-  db.getAdService((data) => {
-    let adsList =[];
-    data.forEach((row, index) => {
-      if (row.img_src) {  //img가 있다면
-        adsList.push(row.img_src);
+  let adsList=[];
+  let sql = 'SELECT * FROM advertisement';
+  conn.query(sql, function (err, rows, fields){
+    // 1. 계절 구분
+    rows.forEach((row, index)=>{
+      //광고서비스는 only 계절로 구분 (3-5 6-8 9-11 12-2)      
+      if (3<=row.season<=5) {
+        adsList.push(row);
+      } else if (6<=row.season<=8) {
+        adsList.push(row);
+      } else if (9<=row.season<=11) {
+        adsList.push(row);
+      } else {
+        adsList.push(row);
       }
-      if (row.video_src) {  //video가 있다면
-        adsList.push(row.video_src);
-      }
-    })
-    res.render('advertisement', {
-      adsList: adsList
     });
+    //2. 랜덤 광고데이터 1개 저장
+    let adData = adsList[Math.floor(Math.random()*adsList.length)];
+    let update_sql = 'UPDATE advertisement SET provised = 1 WHERE src = ?'
+    let params = adData.src;
+
+    // console.log(update_sql);
+    // console.log("params: "+ params);
+    //3. db provised 칼럼 변환
+    conn.query(update_sql, params, function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
+      if(err) console.log('query is not excuted. insert fail...\n' + err);
+      else console.log('sql_provised column updated');
+    });
+
+    res.render('advertisement', {
+      adData: params
+    })
   });
 });
 

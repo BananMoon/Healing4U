@@ -8,12 +8,11 @@
     </head> 
     <body>
         <div class="bg">
-        <% let data = adsList[Math.floor(Math.random()*adsList.length)]; %>
-        <% if (data.indexOf('.jpg') != -1) { %>
-            <img src="<%= data %>"/>
-        <% }else if (data.indexOf('.mp4') != -1) { %>
+        <% if (adData.indexOf('.jpg') != -1) { %>
+            <img src="<%= adData %>"/>
+        <% }else if (adData.indexOf('.mp4') != -1) { %>
             <video muted autoplay loop>
-                <source src="<%= data %>" type="video/mp4">
+                <source src="<%= adData %>" type="video/mp4">
             </video>
         <% } %>
         </div>

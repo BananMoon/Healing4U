@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();           //express 라이브러리 사용
 const path = require('path');   //ejs사용
-const mysql = require('mysql'); //mysql 사용
 const moment = require('moment');
+
+const db_config = require(__dirname + '/config/db_info.js'); //config/database.js 에 저장해놓은 mysql 정보를 불러온다.
+const dbconnection = db_config.init(); // db의 커넥터를 활성화 시킨다.
+db_config.connect(dbconnection); //db에 커넥터를 연결해준다.
 
 /*--------------서버 setting-------------*/
 
@@ -33,15 +36,14 @@ app.listen(2004, function() {
 -> 다음의 이유로 db 조회요청을 위한 router를 따로 만들어줘야할듯함 */
 
 //connection 정의
-const dbconnection = mysql.createConnection({
-  host: 'healing.cdkn59lq9zjm.ap-northeast-2.rds.amazonaws.com',
-  user: 'healing4u',
-  password: 'healing4u',
-  database: "healingDB"
-});
+// const dbconnection = mysql.createConnection({
+//   host: 'healing.cdkn59lq9zjm.ap-northeast-2.rds.amazonaws.com',
+//   user: 'healing4u',
+//   password: 'healing4u',
+//   database: "healingDB"
+// });
 
-dbconnection.connect();         // RDS에 접속
-module.exports = dbconnection;  // 다른 js 파일에 export. db_info.js에서 또 스키마를 정의하지않도록 해야함.
+// dbconnection.connect();         // RDS에 접속
 
 //testQuery = "SELECT img_src, address, detail_short, service_name FROM services WHERE (emotion=0 AND img_src is not null";
 

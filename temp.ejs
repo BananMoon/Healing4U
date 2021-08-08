@@ -29,5 +29,16 @@ import renderclockFunc from "../public/js/main/clock.js";
     </html>        
 
 healing.ejs
-    <h2 id="date"><%= moment().format('YYYY년 MM월 DD일'); %></h2>z
+    <h2 id="date"><%= moment().format('YYYY년 MM월 DD일'); %></h2>
+    moment().format('MMMM Do YYYY, h:mm:ss a');
     <h2 id="clock"></h2><%= moment().format('HH시 mm분 ss초'); %></h2> 
+
+    <h2 id="cloack"><% setInterval( function () { %>
+        moment().format('h:mm:ss a');
+      <% }, 1000); %></h2>
+      <h2 id="date"><%= moment().format('YYYY년 MM월 DD일'); %></h2>
+      <h2 id="clock"><%= moment().format('MMMM Do YYYY, h:mm:ss a'); %></h2>
+
+
+      
+      <%= adData let data = adsList[Math.floor(Math.random()*adsList.length)]; %>
