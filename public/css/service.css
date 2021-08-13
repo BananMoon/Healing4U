@@ -1,0 +1,106 @@
+@font-face{font-family:'NanumSquare_acR'; src:url('../fonts/NanumSquare_acR.ttf')}
+@font-face{font-family:'Nanum SquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+.bg {
+    width: 200px;
+    height: 150px;
+    overflow: hidden;
+}
+
+.bg img {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+#bgd {
+    position: absolute;
+    background-image: url("../img/rating_bg.jpg");
+    background-size: 121%;
+    background-repeat: no-repeat;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    width: 100%;
+    height: 100% auto;
+    content: "";
+    z-index: -1;
+    opacity: 0.8;
+    overflow: hidden;
+    position: absolute;
+    size: cover;
+    margin: 0px auto;
+}
+
+.container-max{
+    max-width: 1200px;
+}
+
+#content {
+    color: #f2f2f2;
+    position: relative;
+    margin-left: 18%;
+    margin-top: 9.5%;
+}
+
+#content h1 {
+    font-family: "Exo 2","Helvetica Neue",Helvetica,sans-serif;
+    color: #575656;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 64px;
+    margin: 1.25em 0 0.2em;
+    letter-spacing: -2px;
+}
+
+#content p {
+    margin: 0 0 1.313em;
+    font-size: 20px;
+    font-weight: 300;
+    color: #3b3a3a;
+}
+
+#button_grp {
+    position: absolute;
+    left: 25%;
+
+}
+
+#button_grp button {
+    border:0;
+    outline: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10%;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 400px;
+}
+#button_grp #btn_img {
+    width: 400px;
+    border-radius: 10%;
+}
+
+#button_grp .like {
+    margin-right: 50px;
+}
+#button_grp .unlike {
+    margin-left: 50px;
+}
+#button_grp button:hover {
+    border-color: rgb(186, 144, 253);
+    background-color:rgb(186, 144, 253);
+}
+
+#count_text {
+    position: absolute;
+    bottom: 23%;
+    left: 40%;
+    font-size: 20px;
+}

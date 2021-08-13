@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
+<HTML> 
+<HEAD>
+    <META http-equiv="content-type" content="text/html; charset=euc-kr"> 
+    <link rel = "stylesheet", href="css/service.css"/>    
+    <TITLE> Healing Rating Page</TITLE> 
+    <SCRIPT LANGUAGE="JavaScript"> 
+        function Timer() { 
+            setTimeout("locateKap()",25000); 
+        } 
+        function locateKap(){
+            location.replace("/");
+        }
+    </SCRIPT> 
+    <script language='javascript'>
+    cnt = 25; // 카운트다운 시간 초단위로 표시
+    function countdown() {
+        if(cnt == 0){
+            // 시간이 0일경우
+            locateKap();
+        } else {
+            // 시간이 남았을 경우 카운트다운을 지속한다.
+            document.all.count_text.innerHTML = cnt + "초후에 힐링 화면으로 이동합니다..";
+            setTimeout("countdown()",1000);
+            cnt--;
+        }
+    }
+    </script>
+</HEAD> 
+<BODY onLoad="Timer();">
+    
+    <div id="bgd"></div>
+    <div id="content" class ="container-max">
+        <h1>방금 제공 받으신 서비스, 어떠셨나요?</h1>
+        <p>축적된 별점데이터를 기반으로 저희의 어플 "Healing4U"의 사용자분들께 서비스를 추천해드리고 있습니다.</p>
+    </div>
+    <div id="button_grp">
+        <button type="button" class="like" value="1" onclick="good_run(this.value)">
+            <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Like-512.png">
+        </button>
+        <button type="button" class="unlike" value="0" onclick="bad_run(this.value)">
+            <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Unlike-512.png">
+        </button>
+    </div>
+    <div id="count_text"></div>
+    <script>countdown();</script>
+    <script src="routes/index.js"></script>
+
+</BODY> 
+</HTML>

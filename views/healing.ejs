@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+ <html>
+    <head>
+        <title>Providing Healing Service..</title> 
+        <link rel='stylesheet' href='/css/main.css' /> 
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+          </style>
+    </head> 
+    <body>
+      <div id="container">
+        <h2 id="clock">00:00:00</h2>
+        <script>
+          const clock = document.querySelector("h2#clock");
+
+          function getClock() {
+              const date = new Date();  //호출 당시 시각
+              const hours = String(date.getHours()).padStart(2, "0");
+              const minutes = String(date.getMinutes()).padStart(2, "0");
+              const seconds = String(date.getSeconds()).padStart(2, "0");
+              clock.innerText = `${hours}:${minutes}:${seconds}`;
+          } //이 함수를 매 2초마다 실행
+
+          getClock();
+          setInterval(getClock, 1000);  // 동작은 전혀 다름.
+        </script>
+        <div id="weather">
+          <span></span>
+          <br>
+          <span></span>
+        </div>
+        <script>
+          const weatherAPI = document.getElementById("weather");
+          const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8"
+          function onGeoOk(position){
+              const lat = position.coords.latitude;
+              const lon = position.coords.longitude;
+              const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+              fetch(url)
+              .then((response) => response.json())
+              .then((data) => {
+                  const city = document.querySelector('#weather span:first-child');
+                  const weatherAPI =  document.querySelector('#weather span:last-child');
+                  const temperature = data.main.temp;
+                  const weather = data.weather[0].main;
+                  city.innerText = `City: ${data.name}`;
+                  weatherAPI.innerText = `Weather: ${weather}  Temporary: ${temperature} °C`;
+              });
+          }
+
+          function onGeoError() {
+              alert("Can't find you. No weather for you.");
+          }
+          navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
+  //rain, haze
+        </script>
+      </div>
+      <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
+      <div class="bg">
+        <video muted autoplay loop>
+          <source src="<%=data.video_src%>" type="video/mp4">
+        </video> 
+          <div class="quote">
+            <p><%=data.quote%></p>
+            <p><%=data.quote_src%></p>
+          </div>
+      </div> 
+      <script src="/healing.js"></script>
+    </body> 
+</html>
