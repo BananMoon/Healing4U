@@ -7,8 +7,6 @@ db_config.connect(conn); //db에 커넥터를 연결해준다.
 
 const moment = require('moment');
 
-/*--------------날씨 API---------------*/
-
 /*-------------패널 메인 화면------------*/
 /*GET home page */
 router.get('/', function(req, res) {

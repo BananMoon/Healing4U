@@ -3,6 +3,7 @@
     <head>
         <title>Providing Healing Service..</title> 
         <link rel='stylesheet' href='/css/main.css' /> 
+<<<<<<< HEAD
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
           </style>
@@ -55,6 +56,32 @@
   //rain, haze
         </script>
       </div>
+=======
+    </head> 
+    <body>
+      <div id="clock"></div>
+      <script>
+      function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('clock').innerHTML =
+        h + ":" + m + ":" + s;
+        console.log(today);
+        var t = setTimeout(startTime, 500);
+        console.log(today);
+      }
+      // add zero in front of numbers < 10
+      function checkTime(i) {
+        if (i < 10) {i = "0" + i};  
+        return i;
+      }
+      </script>
+      
+>>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
       <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
       <div class="bg">
         <video muted autoplay loop>
@@ -65,6 +92,10 @@
             <p><%=data.quote_src%></p>
           </div>
       </div> 
+<<<<<<< HEAD
       <script src="/healing.js"></script>
+=======
+      <script src="js/main/clock.js"></script>
+>>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
     </body> 
 </html>

@@ -5,11 +5,15 @@
 *{
     font-family: 'Do Hyeon', sans-serif;
 }
+<<<<<<< HEAD
 #container{
     height: 400px;
     width:400px;
     position: relative;
 }
+=======
+
+>>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
 .hidden{
     display:none;
 }
@@ -36,6 +40,7 @@ img {
     height: 100%;
 }
 .quote{
+<<<<<<< HEAD
     text-align: center;
     z-index:2;
     justify-content: center;
@@ -49,6 +54,21 @@ img {
     left: 35%; 
     color: rgb(102, 97, 22);
     background-color: rgba(255,255,255,0.4);
+=======
+    z-index:2;
+    justify-content: center;
+    align-items: center;
+    bottom: 20%; 
+    width: 550px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.8em; 
+    position: absolute;
+    margin: 1.25em 0 0.2em;
+    left: 30%; 
+    color: rgb(61, 58, 7);
+    background-color: rgba(255,255,255,0.5);
+>>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
 }
 
 
@@ -56,13 +76,18 @@ img {
     text-align: center;
     z-index:2;
     width: 170px; 
+<<<<<<< HEAD
     bottom: 330px; 
+=======
+    bottom: 650px; 
+>>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
     font-size: 2.0em; 
     font-weight: bold; 
     position: absolute;
     color: #000;
     background-color: rgba(255,255,255,0.3);
 }
+<<<<<<< HEAD
 #weather{
     text-align: center;
     z-index:2;
@@ -77,6 +102,8 @@ img {
 }
 
 
+=======
+>>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
 #date{
     text-align: center;
     margin-left: 20px;
@@ -87,3 +114,18 @@ img {
     color: #000;
     background-color: rgba(255,255,255,0.3);
 }
+<<<<<<< HEAD
+=======
+#weather{
+    text-align: center;
+    z-index:2;
+    width: 250px; 
+    font-size: 1.8em; 
+    font-weight: bold; 
+    position: absolute;
+    left: 800px;
+    bottom: -80%;
+    color: rgb(45, 88, 204);
+    background-color: rgba(255,255,255,0.6);
+}
+>>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
