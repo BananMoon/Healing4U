@@ -5,38 +5,31 @@ const db_config = require('../config/db_info');
 const conn = db_config.init(); // db의 커넥터를 활성화 시킨다.
 db_config.connect(conn); //db에 커넥터를 연결해준다.
 
-const moment = require('moment');
 
+rating = require('../public/js/main/rating');
+console.log('점수: ', rating);
 /*-------------패널 메인 화면------------*/
 /*GET home page */
 router.get('/', function(req, res) {
-
-  let sunnyList = [];
+  let weatherList = [];
+  let today = new Date();
+  let month = today.getMonth()+1;
   var sql = 'SELECT * FROM healings';
+
   conn.query(sql, function (err, rows, fields){
     
     rows.forEach((row, index)=>{
       //날씨 API 가져와야함.
-      //봄
-      if (row.season===3) {
-        sunnyList.push(row);
-        //console.log(row);
+      //일단 계절
+      //날씨 조건문
+      if (row.season==month) {      //봄
+        weatherList.push(row);
+        console.log(weatherList);
       }
-      //가을
-      //겨울
-      //여름
-      //console.log(sunnyList);
     });
-    // for (let row=0; row<rows.length;row++) {
-    //   if (row.season==='3') {
-    //     sunnyList.push(row);
-    //   }
-    //   console.log(row.season)
-    //}
     if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
     else  res.render('healing', {
-      weatherList: sunnyList,
-      moment: moment
+      weatherList: weatherList
     }); //오류가 안뜬다면 healing.ejs 로 rows값들을 list에 넣어 보낸다.
   });
 });
@@ -70,7 +63,6 @@ router.get('/advertisement', function(req, res) {
     let params5 = adData.detail_long;
     let params6 = adData.tel;
     let params7 = adData.navermap_url;
-
 
     //3. android 테이블에 새 행 추가
     conn.query(insert_sql, [params1,params2,params3, params4, params5, params6, params7], function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.

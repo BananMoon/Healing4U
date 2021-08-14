@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-@font-face{font-family:'NanumSquare_acR'; src:url('../fonts/NanumSquare_acR.ttf')}
-@font-face{font-family:'Nanum SquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
-
-=======
->>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
 body {
     font-family: 'Open Sans', sans-serif;
 }
@@ -24,36 +18,22 @@ body {
 
 #bgd {
     position: absolute;
-<<<<<<< HEAD
     background-image: url("../img/rating_bg.jpg");
-=======
-    background-image: url("../img/category_bg.jpg");
->>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
     background-size: 121%;
     background-repeat: no-repeat;
     top:0;
     left:0;
     bottom:0;
     right:0;
-<<<<<<< HEAD
     width: 100%;
     height: 100% auto;
-=======
-    height: auto;
-    min-height: 1500px;
-    width: 100%;
-    height: 100%;
->>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
     content: "";
     z-index: -1;
     opacity: 0.8;
     overflow: hidden;
-<<<<<<< HEAD
     position: absolute;
     size: cover;
     margin: 0px auto;
-=======
->>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
 }
 
 .container-max{
@@ -63,7 +43,7 @@ body {
 #content {
     color: #f2f2f2;
     position: relative;
-    margin-left: 18%;
+    margin-left: 10%;
     margin-top: 9.5%;
 }
 
@@ -72,11 +52,7 @@ body {
     color: #575656;
     text-transform: uppercase;
     font-weight: 800;
-<<<<<<< HEAD
     font-size: 64px;
-=======
-    font-size: 74px;
->>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf
     margin: 1.25em 0 0.2em;
     letter-spacing: -2px;
 }
@@ -85,7 +61,6 @@ body {
     margin: 0 0 1.313em;
     font-size: 20px;
     font-weight: 300;
-<<<<<<< HEAD
     color: #3b3a3a;
 }
 
@@ -102,10 +77,11 @@ body {
     border-radius: 10%;
     margin-left: 10px;
     margin-right: 10px;
-    width: 400px;
+    width: 350px;
 }
 #button_grp #btn_img {
-    width: 400px;
+    width: 300px;
+    height: 300px;
     border-radius: 10%;
 }
 
@@ -122,29 +98,7 @@ body {
 
 #count_text {
     position: absolute;
-    bottom: 23%;
+    bottom: 15%;
     left: 40%;
     font-size: 20px;
 }
-=======
-}
-
-#content #your-move {
-    text-decoration: none;
-    text-transform: uppercase;
-    color: #f2f2f2;
-    border: 1px solid rgb(180, 137, 250);
-    border-color:rgb(180, 137, 250);
-    background-color:rgb(180, 137, 250);
-    
-
-    display: inline-block;
-    padding: 19px;
-    font-size: 19px;
-}
-
-#content #your-move:hover {
-    border-color: rgb(132, 37, 156);
-    background-color:rgb(132, 37, 156);
-}
->>>>>>> 6577f16041e4b678bfd0a0796ff99c090eb25dbf

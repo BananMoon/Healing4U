@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <link rel='stylesheet' href='/css/main.css' /> 
+        </head> 
+        <script>
+            $(document).ready(function () {
+            get_goods()
+            $("#categorySelect").on("change", function () {
+                get_goods($(this).val())
+            })
+        })
+        function get_goods(rating) {
+            $("#goodsList").empty()
+            console.log(rating)
+            $.ajax({
+                type: "GET",
+                url: `/${rating ? "?category=" + rating : ""}`,
+                data: {},
+                success: function (response) {
+                    let goods = response["goods"]
+                    for (let i = 0; i < goods.length; i++) {
+                        make_card(goods[i])
+
+                    }
+                }
+            })
+        }
+
+        </script>
+        <body>
+            <button type="button" id="like" class="like" value="1">
+            <button type="button" class="unlike" value="0">
+            <script>
+                $('#like').click(function() {
+                    get_goods($(this).val())
+    });
+            </script>
+        </body>
+</html>

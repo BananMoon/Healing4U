@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();           //express 라이브러리 사용
 const path = require('path');   //ejs사용
-const moment = require('moment');
 
 const db_config = require(__dirname + '/config/db_info.js'); //config/database.js 에 저장해놓은 mysql 정보를 불러온다.
 const dbconnection = db_config.init(); // db의 커넥터를 활성화 시킨다.
@@ -131,5 +130,3 @@ function writeData(socket, data){
     })(socket, data);
   }
 }
-
-module.exports={moment};

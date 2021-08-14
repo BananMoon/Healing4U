@@ -22,7 +22,8 @@ module.exports = {
             
               console.log('mysql is connected successfullyconnected as id ' + conn.threadId);
             });
-    }
+    },
+    mysql: mysql
 }
 // function getHealingService(callback) {
 //     dbconnection.query(`SELECT * FROM healings`, (err, row, fields) => {
