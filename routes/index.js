@@ -76,4 +76,9 @@ router.get('/advertisement', function(req, res) {
   });
 });
 
+router.get('/rating', function(req, res) {
+  res.render('rating', {
+  })
+})
+
 module.exports = router;
