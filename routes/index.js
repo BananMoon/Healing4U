@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
 
   var sql = 'SELECT * FROM healings';
   conn.query(sql, function (err, rows, fields){
-    
+    console.log('이번 달은 :',month);
     rows.forEach((row, index)=>{
       //날씨 API 가져와야함.
       //일단 계절
@@ -107,6 +107,7 @@ router.get("/rating/:result", async (req, res) => {
     if(err) console.log('query is not excuted. insert fail...\n' + err);
     else console.log('a rating data is inserted');
   });
+  res.render('healing');
 });
 
 module.exports = router;
