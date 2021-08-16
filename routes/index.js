@@ -7,6 +7,7 @@ db_config.connect(conn); //db에 커넥터를 연결해준다.
 
 
 rating = require('../public/js/main/rating');
+//error!!!!!!!!!!!! healing.ejs에서 가져와지지가 않음...healing = require('../views/healing');
 console.log('점수: ', rating);
 /*-------------패널 메인 화면------------*/
 /*GET home page */
@@ -14,8 +15,11 @@ router.get('/', function(req, res) {
   let weatherList = [];
   let today = new Date();
   let month = today.getMonth()+1;
-  var sql = 'SELECT * FROM healings';
+  //날씨API
+  //console.log('날씨데이터: ',healing.WeatherApp);
 
+
+  var sql = 'SELECT * FROM healings';
   conn.query(sql, function (err, rows, fields){
     
     rows.forEach((row, index)=>{
@@ -24,7 +28,6 @@ router.get('/', function(req, res) {
       //날씨 조건문
       if (row.season==month) {      //봄
         weatherList.push(row);
-        console.log(weatherList);
       }
     });
     if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
@@ -80,5 +83,30 @@ router.get('/rating', function(req, res) {
   res.render('rating', {
   })
 })
+
+// router.get("/rating/:result", async (req, res) => {
+//   const { data } = req.params;
+//   console.log('서버:',data);
+//   // goods = await Goods.findOne({ goodsId: goodsId });
+//   // res.json({ detail: goods });
+// });
+
+// router.post('/rating/good', function (req, res) {
+//   let data = req.body;
+//   console.log('서버:',data);
+// })
+
+router.get("/rating/:result", async (req, res) => {
+  const { result } = req.params;
+  console.log('서버에서 rating값: ',result);
+  let insert_sql = 'INSERT INTO users (rating) VALUES (?)';
+  let rating_param = result;
+  // goods = await Goods.findOne({ goodsId: goodsId });
+  // res.json({ detail: goods });
+  conn.query(insert_sql, rating_param, function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
+    if(err) console.log('query is not excuted. insert fail...\n' + err);
+    else console.log('a rating data is inserted');
+  });
+});
 
 module.exports = router;

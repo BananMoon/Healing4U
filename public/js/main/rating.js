@@ -39,10 +39,66 @@
 //         }
 //     });
 //}
+
 function good_run(result){
     console.log(result);
     console.log('button clicked!');
-    module.exports = {rating:result};
+    requestAPI(result);
+}
+
+function bad_run(result) {
+    console.log(result);
+    console.log('button clicked!');
+    requestAPI(result);
+}
+
+function requestAPI(result) {
+    $.ajax({
+        type: "GET",
+        url: `/rating/${result}`,
+        data: {},
+        error: function(xhr, status, error) {
+            if (status == 404) {
+                alert("서버 응답 실패");
+            }
+            window.location.href = "/";
+        },
+        success: function(response) {
+            alert("저장 완료");
+        }
+    });
+}
+    // // XMLHttpRequest 객체의 생성
+    // var xhr = new XMLHttpRequest();
+
+    // // json으로 전송하는 경우
+    // xhr.open('POST', '/rating/good');
+    
+    // // 클라이언트가 서버로 전송할 데이터의 MIME-type 지정: json
+    // xhr.setRequestHeader('Content-type', 'application/json');
+    
+    // const data = { rating: result};
+    
+    // xhr.send(JSON.stringify(data));
+    // // 비동기 방식으로 Request를 오픈한다
+    // // xhr.open('GET', '/rating/good/${result}');
+    // // Request를 전송한다
+    
+    // //// onreadystatechange 이벤트를 이용해 요청에 대한 응답 결과를 처리합니다.
+    // xhr.onreadystatechange = function () {
+    //     // 서버 응답 완료 && 정상 응답
+    //     if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    
+    //     if (xhr.status === 200) {
+    //       console.log(xhr.responseText);
+    //     } else {
+    //       console.log('server response is failed');
+    //     }
+    // }
+    
+    //xhr.send();
+    
+    //module.exports = {rating:result};
     // let insert_sql = 'INSERT INTO users (rating) VALUES (?)';
     // let params = result;
 
@@ -53,12 +109,18 @@ function good_run(result){
     // });
     //dbInsert(result);
     //이 1과 0을 db에 저장해야해
-}
-
-function bad_run(result) {
-    console.log(result);
-    console.log('button clicked!');
-    //dbInsert(result);
-
-}
-
+        // fetch("/rating/good/", {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //         data:result
+    //     }),
+    // })
+    // .then((response) => console.log(response))
+    // .then((res) => {
+    //     if (res.success) {
+    //       alert("저장 완료");
+    //     }
+    // });
