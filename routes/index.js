@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
 
   var sql = 'SELECT * FROM healings';
   conn.query(sql, function (err, rows, fields){
-    console.log('이번 달은 :',month);
+    
     rows.forEach((row, index)=>{
       //날씨 API 가져와야함.
       //일단 계절
@@ -35,6 +35,14 @@ router.get('/', function(req, res) {
       weatherList: weatherList
     }); //오류가 안뜬다면 healing.ejs 로 rows값들을 list에 넣어 보낸다.
   });
+});
+
+router.get('/healing/:result', async (req, res) => {
+  const {weatherList} = req.params;
+  console.log('서버에서 weatherList 값: ', weatherList);
+  // res.render('healing', {
+  //   weatherList:weatherList
+  // })
 });
 
 router.get('/advertisement', function(req, res) {
@@ -79,6 +87,8 @@ router.get('/advertisement', function(req, res) {
   });
 });
 
+
+
 router.get('/rating', function(req, res) {
   res.render('rating', {
   })
@@ -95,6 +105,12 @@ router.get('/rating', function(req, res) {
 //   let data = req.body;
 //   console.log('서버:',data);
 // })
+
+
+
+
+//      <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
+
 
 router.get("/rating/:result", async (req, res) => {
   const { result } = req.params;

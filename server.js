@@ -91,13 +91,18 @@ var server = net.createServer(function(client) {
   console.log('   remote = %s:%s', client.remoteAddress, client.remotePort);
   client.setTimeout(500);
   client.setEncoding('utf8');
+
+  //연결 시
   client.on('data', function(data) {
     console.log('Received data from client on port %d: %s',
                 client.remotePort, data.toString());
     console.log('  Bytes received: ' + client.bytesRead);
     writeData(client, 'Sending: ' + data.toString());
+    
     console.log('  Bytes sent: ' + client.bytesWritten);
   });
+  console.log(data);  //여기서 아래에 찍히는지 확인부탁드려요
+  //끊길 시
   client.on('end', function() {
     console.log('Client disconnected');
     server.getConnections(function(err, count){

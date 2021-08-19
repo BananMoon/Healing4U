@@ -5,32 +5,10 @@
         <link rel='stylesheet' href='/css/main.css' /> 
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
-          </style>
-    </head> 
-    <body>
-      <div id="container">
-        <h2 id="clock">00:00:00</h2>
+        </style>
+        <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script>
-          const clock = document.querySelector("h2#clock");
-
-          function getClock() {
-              const date = new Date();  //호출 당시 시각
-              const hours = String(date.getHours()).padStart(2, "0");
-              const minutes = String(date.getMinutes()).padStart(2, "0");
-              const seconds = String(date.getSeconds()).padStart(2, "0");
-              clock.innerText = `${hours}:${minutes}:${seconds}`;
-          } //이 함수를 매 2초마다 실행
-
-          getClock();
-          setInterval(getClock, 1000);  // 동작은 전혀 다름.
-        </script>
-        <div id="weather">
-          <span></span>
-          <br>
-          <span></span>
-        </div>
-        <script>
-            const weatherAPI = document.getElementById("weather");
+          const weatherAPI = document.getElementById("weather");
             const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8"
             function onGeoOk(position){
                 const lat = position.coords.latitude;
@@ -47,42 +25,65 @@
                     cityTag.innerText = `City: ${city}`;
                     weatherTag.innerText = `Weather: ${weather}
                     Temporary: ${temperature} °C`;
+                    const weatherList = [city, weather, temperature];
+                    serviceAPI(weatherList);
                 });
             }
             function onGeoError() {
               alert("Can't find you. No weather for you.");
             }
-            navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
-          // function WeatherApp() {
-          //   const weatherAPI = document.getElementById("weather");
-          //   const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8"
-          //   function onGeoOk(position){
-          //       const lat = position.coords.latitude;
-          //       const lon = position.coords.longitude;
-          //       const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-          //       fetch(url)
-          //       .then((response) => response.json())
-          //       .then((data) => {
-          //           const cityTag = document.querySelector('#weather span:first-child');
-          //           const weatherTag =  document.querySelector('#weather span:last-child');
-          //           const temperature = data.main.temp;
-          //           const weather = data.weather[0].main;
-          //           const city = data.name;
-          //           cityTag.innerText = `City: ${city}`;
-          //           weatherTag.innerText = `Weather: ${weather}
-          //           Temporary: ${temperature} °C`;
-          //       });
-          //       function onGeoError() {
-          //         alert("Can't find you. No weather for you.");
-          //       }
-          //       navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
-          //   }
-          //   return [city, weather, temperature]
-          // }
-          // WeatherApp();
-          // export default WeatherApp
-  //rain, haze
+            function serviceAPI(result) {
+              $.ajax({
+                  type: "GET",
+                  url: `/healing/${result}`,
+                  data: {},
+                  error: function(xhr, status, error) {
+                      if (status == 404) {
+                          alert("서버 응답 실패");
+                      }
+                      window.location.href = "/";
+                  },
+                  success: function(response) {
+                      alert("저장 완료");
+                  }
+              });
+            }
+        </script>  
+    </head> 
+    <body>
+      <div id="container">
+        <audio src="/public/bgms/waterfall.mp3" autoplay></audio>
+        <h2 id="date">날짜</h2>
+        <script>
+          const dateTag = document.querySelector("h2#date");
+          date = new Date();
+          dateFormat = String(moment(date).format(`dddd, Do MM YYYY`));
+          dateTag.innerText= `${dateFormat}`;
         </script>
+        <h2 id="clock">00:00:00</h2>
+        <script>
+          const clock = document.querySelector("h2#clock");
+
+          function getClock() {
+              const date = new Date();  //호출 당시 시각
+              const hours = String(date.getHours()).padStart(2, "0");
+              const minutes = String(date.getMinutes()).padStart(2, "0");
+              const seconds = String(date.getSeconds()).padStart(2, "0");
+              day = String(moment(date).format(`dddd, Do MM YYYY`));
+
+              clock.innerText = `${hours}시 ${minutes}분 ${seconds}초`;
+          } //이 함수를 매 2초마다 실행
+
+          getClock();
+          setInterval(getClock, 1000);  // 동작은 전혀 다름.
+        </script>
+
+        <div id="weather">
+          <span></span>
+          <br>
+          <span></span>
+        </div>
+        <script>navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);</script>
       </div>
       <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
       <div class="bg">
