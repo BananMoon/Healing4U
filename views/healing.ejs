@@ -6,11 +6,12 @@
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
         </style>
+        <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
         <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script>
           const weatherAPI = document.getElementById("weather");
-            const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8"
-            function onGeoOk(position){
+          const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8"
+          function onGeoOk(position){
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
                 const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
@@ -26,33 +27,93 @@
                     weatherTag.innerText = `Weather: ${weather}
                     Temporary: ${temperature} °C`;
                     const weatherList = [city, weather, temperature];
-                    serviceAPI(weatherList);
+                    //serviceAPI(weatherList);
+                    console.log('api안에 ',weather);
+                    // fetch('/test', {
+                    //     method: 'POST',
+                    //     cache: 'no-cache',
+                    //     headers: {
+                    //         'Content-Type': 'application/x-www-form-urlencoded'
+                    //     },
+                    //     body: new URLSearchParams({
+                    //         weather: 'weather'
+                    //     })
+                    // }).then((response) => response.json()).then((data) => {
+                    //     console.log(data);
+                    // });
+                    // $.ajax({
+                    //     type: "POST",
+                    //     url: `/${weather}`,
+                    //     data: {},
+                    //     error: function(xhr, status, error) {
+                    //         if (status == 404) {
+                    //             alert("서버 응답 실패");
+                    //         }
+                    //         window.location.href = "/";
+                    //     },
+                    //     success: function(response) {
+                    //         alert("저장 완료");
+                    //     }
+                    // });
+                    //===========
+                    // $.ajax ({
+                    //   "url" : "/test",
+                    //   type: "POST",
+                    //   dataType : 'application/json',
+                    //   data : {
+                    //     weather: weather
+                    //   }
+                    // })
+                    // .done(function (json) {
+                    //   data = json.video_src;
+                    //   console.log(data);
+                    //   $(".bgVideo").src(json.video_src)
+                    //   $(".quote_p1").text(json.quoet)
+                    // })
+                    // .fail(function (shr, status, errorThrown) {
+                    //   alert('Ajax failed');
+                    // })
                 });
-            }
-            function onGeoError() {
-              alert("Can't find you. No weather for you.");
-            }
-            function serviceAPI(result) {
-              $.ajax({
-                  type: "GET",
-                  url: `/healing/${result}`,
-                  data: {},
-                  error: function(xhr, status, error) {
-                      if (status == 404) {
-                          alert("서버 응답 실패");
-                      }
-                      window.location.href = "/";
-                  },
-                  success: function(response) {
-                      alert("저장 완료");
-                  }
-              });
-            }
+          }
+          function onGeoError() {
+            alert("Can't find you. No weather for you.");
+          }
+          timer = setInterval( function() {
+            //날씨api
+            navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError); 
+            //날씨에 따른 힐링데이터 요청
+            // $.ajax ({
+            //   "url" : "/",
+            //   type: "POST",
+            //   dataType : "JSON",
+            //   data : {"weather": weather}
+            // })
+            // .done(function (json) {
+            //   data = json.video_src;
+            //   console.log(data);
+            //   $(".bgVideo").src(json.video_src)
+            //   $(".quote_p1").text(json.quoet)
+            // })
+            // .fail(function (shr, status, errorThrown) {
+            //   alert('Ajax failed');
+            // })
+          
+          }, 5000);
         </script>  
+
     </head> 
     <body>
       <div id="container">
-        <audio src="/public/bgms/waterfall.mp3" autoplay></audio>
+        <div class="bg">
+          <video muted autoplay loop class="bgVideo">
+            <source src="<%=healingData.video_src%>" type="video/mp4">
+          </video> 
+          <div class="quote">
+            <p class="quote_p1"><%=healingData.quote%></p>
+            <p><%=healingData.quote_src%></p>
+          </div>
+        </div>
+        <!-- <audio src="/public/bgms/waterfall.mp3" autoplay></audio> -->
         <h2 id="date">날짜</h2>
         <script>
           const dateTag = document.querySelector("h2#date");
@@ -69,7 +130,6 @@
               const hours = String(date.getHours()).padStart(2, "0");
               const minutes = String(date.getMinutes()).padStart(2, "0");
               const seconds = String(date.getSeconds()).padStart(2, "0");
-              day = String(moment(date).format(`dddd, Do MM YYYY`));
 
               clock.innerText = `${hours}시 ${minutes}분 ${seconds}초`;
           } //이 함수를 매 2초마다 실행
@@ -83,18 +143,8 @@
           <br>
           <span></span>
         </div>
-        <script>navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);</script>
+        <script>timer;</script>
       </div>
-      <% let data = weatherList[Math.floor(Math.random()*weatherList.length)]; %>
-      <div class="bg">
-        <video muted autoplay loop>
-          <source src="<%=data.video_src%>" type="video/mp4">
-        </video> 
-          <div class="quote">
-            <p><%=data.quote%></p>
-            <p><%=data.quote_src%></p>
-          </div>
-      </div> 
-      <script src="/js/main/weather.js"></script>
+      <!-- <script src="/js/main/weather.js"></script> -->
     </body> 
 </html>

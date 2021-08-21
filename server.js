@@ -16,6 +16,8 @@ console.log('뷰 엔진이 ejs로 설정되었습니다.');
 // middleware 
 app.use(express.static(__dirname+"/public"));     // 모든 서버로 오는 요청은 해당 middleware를 지나가야한다.
 
+app.use('/node_modules', express.static(path.join(__dirname+'/node_modules')))
+
 // router - service page
 const indexRouter = require('./routes');
 app.use('/', indexRouter);
@@ -84,54 +86,54 @@ app.get('/abc',function(req,res,next){
 
 // string (console 통해서)
 // /*-------------DL 서버 연동------------*/
-var net = require('net');
-var server = net.createServer(function(client) {
-  console.log('Client connection: ');
-  console.log('   local = %s:%s', client.localAddress, client.localPort);
-  console.log('   remote = %s:%s', client.remoteAddress, client.remotePort);
-  client.setTimeout(500);
-  client.setEncoding('utf8');
+// var net = require('net');
+// var server = net.createServer(function(client) {
+//   console.log('Client connection: ');
+//   console.log('   local = %s:%s', client.localAddress, client.localPort);
+//   console.log('   remote = %s:%s', client.remoteAddress, client.remotePort);
+//   client.setTimeout(500);
+//   client.setEncoding('utf8');
 
-  //연결 시
-  client.on('data', function(data) {
-    console.log('Received data from client on port %d: %s',
-                client.remotePort, data.toString());
-    console.log('  Bytes received: ' + client.bytesRead);
-    writeData(client, 'Sending: ' + data.toString());
+//   //연결 시
+//   client.on('data', function(data) {
+//     console.log('Received data from client on port %d: %s',
+//                 client.remotePort, data.toString());
+//     console.log('  Bytes received: ' + client.bytesRead);
+//     writeData(client, 'Sending: ' + data.toString());
     
-    console.log('  Bytes sent: ' + client.bytesWritten);
-  });
-  console.log(data);  //여기서 아래에 찍히는지 확인부탁드려요
-  //끊길 시
-  client.on('end', function() {
-    console.log('Client disconnected');
-    server.getConnections(function(err, count){
-      console.log('Remaining Connections: ' + count);
-    });
-  });
-  client.on('error', function(err) {
-    console.log('Socket Error: ', JSON.stringify(err));
-  });
-  client.on('timeout', function() {
-    console.log('Socket Timed out');
-  });
-});
-server.listen(8080, function() {
-  console.log('Server listening: ' + JSON.stringify(server.address()));
-  server.on('close', function(){
-    console.log('Server Terminated');
-  });
-  server.on('error', function(err){
-    console.log('Server Error: ', JSON.stringify(err));
-  });
-});
-function writeData(socket, data){
-  var success = !socket.write(data);
-  if (!success){
-    (function(socket, data){
-      socket.once('drain', function(){
-        writeData(socket, data);
-      });
-    })(socket, data);
-  }
-}
+//     console.log('  Bytes sent: ' + client.bytesWritten);
+//   });
+//   console.log(data);  //여기서 아래에 찍히는지 확인부탁드려요 ->이렇게만 적혀있는데 보기 편하시게 하려면 console.log('===================',data,'==================');이런식으로 바꾸면 보기 편할거에요!!
+//   //끊길 시
+//   client.on('end', function() {
+//     console.log('Client disconnected');
+//     server.getConnections(function(err, count){
+//       console.log('Remaining Connections: ' + count);
+//     });
+//   });
+//   client.on('error', function(err) {
+//     console.log('Socket Error: ', JSON.stringify(err));
+//   });
+//   client.on('timeout', function() {
+//     console.log('Socket Timed out');
+//   });
+// });
+// server.listen(8080, function() {
+//   console.log('Server listening: ' + JSON.stringify(server.address()));
+//   server.on('close', function(){
+//     console.log('Server Terminated');
+//   });
+//   server.on('error', function(err){
+//     console.log('Server Error: ', JSON.stringify(err));
+//   });
+// });
+// function writeData(socket, data){
+//   var success = !socket.write(data);
+//   if (!success){
+//     (function(socket, data){
+//       socket.once('drain', function(){
+//         writeData(socket, data);
+//       });
+//     })(socket, data);
+//   }
+// }
