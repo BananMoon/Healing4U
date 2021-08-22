@@ -6,8 +6,8 @@
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
         </style>
+        <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
         <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
-        <!-- <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script> -->
         <script>
           const weatherAPI = document.getElementById("weather");
           const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8"
@@ -28,33 +28,17 @@
                     Temporary: ${temperature} °C`;
                     const weatherList = [city, weather, temperature];
                     //serviceAPI(weatherList);
-                    console.log('api안에 ',weather);
-
-                    // $.ajax({
-                    //     type: "POST",
-                    //     url: `/${weather}`,
-                    //     data: {},
-                    //     error: function(xhr, status, error) {
-                    //         if (status == 404) {
-                    //             alert("서버 응답 실패");
-                    //         }
-                    //         window.location.href = "/";
-                    //     },
-                    //     success: function(response) {
-                    //         console.log("저장 완료");
-                    //     }
-                    // });
                 });
           }
           function onGeoError() {
             alert("Can't find you. No weather for you.");
           }
-          // timer = setInterval( function() {
-          //   //날씨api
-          //   navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
- 
-          // }, 5000);
+          timer = setInterval( function() {
+            //날씨api
+            navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);           
+          }, 5000);
         </script>  
+
     </head> 
     <body>
       <div id="container">
@@ -63,10 +47,17 @@
             <source src="<%= healingData.video_src %>" type="video/mp4">
           </video> 
           <div class="quote">
-            <p><%=healingData.quote%></p>
+            <p class="quote_p1"><%=healingData.quote%></p>
             <p><%=healingData.quote_src%></p>
           </div>
         </div>
+        <h2 id="date">날짜</h2>
+        <script>
+          const dateTag = document.querySelector("h2#date");
+          date = new Date();
+          dateFormat = String(moment(date).format(`dddd, Do MM YYYY`));
+          dateTag.innerText= `${dateFormat}`;
+        </script>
         <h2 id="clock">00:00:00</h2>
         <script>
           const clock = document.querySelector("h2#clock");
@@ -83,22 +74,13 @@
           getClock();
           setInterval(getClock, 1000);  // 동작은 전혀 다름.
         </script>
-        <h1 id="date">날짜</h2>
-        <script>
-          const dateTag = document.querySelector("h1#date");
-          date = new Date();
-          dateFormat = String(moment(date).format(`dddd, Do MM YYYY`));
-          dateTag.innerText= `${dateFormat}`;
-        </script>
 
         <div id="weather">
           <span></span>
           <br>
           <span></span>
         </div>
-        <script>navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);</script>
-        <!-- <script>timer;</script> -->
+        <script>timer;</script>
       </div>
-      <!-- <script src="/js/main/weather.js"></script> -->
     </body> 
 </html>
