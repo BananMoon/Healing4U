@@ -1,7 +1,3 @@
-/*  현재 문제 : 
-1. 사진에 따라 글꼴 위치가 바뀜. 
-2. 사진이 화면에 꽉 안참. 
-*/
 *{
     font-family: 'Do Hyeon', sans-serif;
 }
@@ -10,13 +6,12 @@
     width:400px;
     position: relative;
 }
-.hidden{
-    display:none;
-}
+
 body {
     padding: 0px;
     margin: 0px;
 }
+
 .bg {
     position: absolute;
     left: 0;
@@ -27,47 +22,19 @@ body {
     overflow: hidden;
     margin: 0px auto;
 }
-video {
+.bg video {
     width: 100%;
     height: 100%;
 }
-img {
+.bg img {
     width: 100%;
     height: 100%;
 }
-.quote{
-    text-align: center;
-    z-index:2;
-    justify-content: center;
-    align-items: center;
-    bottom: 30%; 
-    width: 500px;
-    font-size: 1.8em; 
-    position: absolute;
-    margin: 1.25em 0 0.2em;
-
-    left: 35%; 
-    color: rgb(102, 97, 22);
-    background-color: rgba(255,255,255,0.4);
-}
-
-#date{
-    text-align: center;
-    width:34s0px;
-    z-index:2;
-    bottom: 330px; 
-    font-size: 2.0em; 
-    font-weight: bold; 
-    position: absolute;
-    color: #000;
-    background-color: rgba(255,255,255,0.3);
-}
-
 #clock{
     text-align: center;
     z-index:2;
     width: 200px; 
-    bottom: 290px; 
+    bottom: 650px; 
     font-size: 2.0em; 
     font-weight: bold; 
     position: absolute;
@@ -82,19 +49,35 @@ img {
     font-size: 1.8em; 
     font-weight: bold; 
     position: absolute;
-    left: 250%;
-    bottom: -80%;
+    bottom:20%;
+    left: 70%;
     color: rgb(41, 50, 73);
     background-color: rgba(255,255,255,0.6);
 }
 
+#quote{
+    text-align: center;
+    z-index:2;
+    align-items: center;
+    width: 500px;
+    font-size: 1.8em; 
+    left:50%;
+    bottom: 50%;
+    position: absolute;
+    margin: 1.25em 0 0.2em;
+    color: rgb(102, 97, 22);
+    background-color: rgba(255,255,255,0.4);
+}
+
 #date{
     text-align: center;
-    margin-left: 20px;
+    width:340px;
     z-index:2;
+    bottom: 700px; 
     font-size: 2.0em; 
     font-weight: bold; 
     position: absolute;
     color: #000;
     background-color: rgba(255,255,255,0.3);
 }
+

@@ -7,8 +7,8 @@
           @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
         </style>
         <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
-        <!-- <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script> -->
         <script>
+          /*========== 날씨 api(openweatherapi이용) ==========*/
           const weatherAPI = document.getElementById("weather");
           const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8"
           function onGeoOk(position){
@@ -30,6 +30,7 @@
                     //serviceAPI(weatherList);
                     console.log('api안에 ',weather);
 
+                    /* ========== 날씨 api값을 이용하여 api 호출. ============ */
                     // $.ajax({
                     //     type: "POST",
                     //     url: `/${weather}`,
@@ -49,6 +50,7 @@
           function onGeoError() {
             alert("Can't find you. No weather for you.");
           }
+          /*==== 처음 날씨api 호출과 별개로 **초마다 날씨 api호출해서 db조회한 데이터와함께 화면 다시 랜더링해야함. timer 호출은 아래에서==== */
           // timer = setInterval( function() {
           //   //날씨api
           //   navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
@@ -59,16 +61,23 @@
     <body>
       <div id="container">
         <div class="bg">
-          <video muted autoplay loop>
-            <source src="<%= healingData.video_src %>" type="video/mp4">
+          <video muted autoplay loop>
+            <source src="<%= healingData.src %>" type="video/mp4">
           </video> 
+          <!-- <img src="/img/category_bg.jpg"/> -->
+          <!-- <video muted autoplay loop>
+            <source src= "/img/Rain.mp4" type="video/mp4">
+          </video> -->
+          
           <div class="quote">
             <p><%=healingData.quote%></p>
             <p><%=healingData.quote_src%></p>
           </div>
         </div>
+
         <h2 id="clock">00:00:00</h2>
         <script>
+          /*======== 1초마다 setInterval. 시계 기능 =======*/
           const clock = document.querySelector("h2#clock");
 
           function getClock() {
@@ -96,9 +105,11 @@
           <br>
           <span></span>
         </div>
+        <!--=========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출 ==========-->
         <script>navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);</script>
-        <!-- <script>timer;</script> -->
+        <!--=========== 그 후에 타이머 호출하면 **초마다 날씨api호출하도록 할것임 -->
+        <script>timer;</script>
+        <script src="/js/main/healing.js"></script>
       </div>
-      <!-- <script src="/js/main/weather.js"></script> -->
     </body> 
 </html>
