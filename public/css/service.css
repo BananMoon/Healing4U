@@ -1,12 +1,5 @@
 body {
     font-family: 'Open Sans', sans-serif;
-
-}
-
-#container{
-    height: 400px;
-    width:400px;
-    position: relative;
 }
 
 .bg {
