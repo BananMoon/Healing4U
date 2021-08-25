@@ -114,37 +114,52 @@ router.get("/test", function(req,res){
   // } else {
   //   month_param = 3;    //겨울
   // }
-  // adsSrc_List = [];
+  // adsSrc_list = [];
   // let sql = 'SELECT * FROM advertisement WHERE emotion=? AND season=?';
   // conn.query(sql, [emotion_param, month_param], function (err, rows, fields){
   //   console.log(rows);
   //   rows.forEach((row, index)=>{
   //     //광고서비스는 기분과 계절로 구분 (날씨는 프론트 단에서) 
-  //     adsSrc_List.push(row.src);
+  //     adsSrc_list.push(row.src);
   //   });
-  //   console.log(adsSrc_List);
+  //   console.log(adsSrc_list);
   //   //아래코드는 advertisement.ejs에서!
-  //   //let adData = adsList[Math.floor(Math.random()*adsList.length)];
+  //   //let adData = adsSrc_list[Math.floor(Math.random()*adsSrc_list.length)];
   //   //여기서 
   // });
+  // console.log(adsSrc_list)
   // res.render('advertisement', {
-  //   adsList: adsSrc_List
+  //   adsList: adsSrc_list,
+  //   userID: user_id
   // })
 });
 
-function apiCall() {
-  router.get("/test", function(req,res){
-    var get_body = req.body;
-    console.log(get_body);
-    return get_body.now_emotion;
-  })
-}
+// function apiCall() {
+//   router.get("/test", function(req,res){
+//     var get_body = req.body;
+//     console.log(get_body);
+//     return get_body.now_emotion;
+//   })
+// }
+
+router.post('/adDB', function(req, res) {
+  console.log('POST 방식으로 /adDB 호출됨');
+  let ad_id= req.body.ad_id;
+  let user_id = req.body.user_id;
+  console.log('광고id는 ',ad_id, 'userid는', user_id);
+  let update_sql = 'UPDATE * FROM advertisement WHERE =1';
+  conn.query(update_sql, function (err, rows, fields){
+    rows.forEach((row, index)=>{
+      //광고서비스는 기분과 날씨와 계절로 구분 (3-5 6-8 9-11 12-2)      
+      adsList.push(row);
+    });
+})
 
 /* ========'/' 페이지에서 감정값을 받으면 advertisement.ejs를 랜더링할것임. ==========*/
 // 성공하면 해당 api는 지울거임
 router.get('/advertisement', function(req, res) {
   let adsList=[];
-  let sql = 'SELECT * FROM healings WHERE season=1';
+  let sql = 'SELECT * FROM advertisement WHERE season=1';
   conn.query(sql, function (err, rows, fields){
     rows.forEach((row, index)=>{
       //광고서비스는 기분과 날씨와 계절로 구분 (3-5 6-8 9-11 12-2)      
@@ -154,23 +169,24 @@ router.get('/advertisement', function(req, res) {
     let adData = adsList[Math.floor(Math.random()*adsList.length)];
     // 안드쪽에서 update를 못해서 provised 칼럼을 update하는 방식은 못함.
     //android (emotion, src, service_name, address, detail_long, tel, navermap_url) 
-    let insert_sql = 'INSERT INTO android (emotion, src, service_name, address, detail_long, tel, navermap_url) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    let params1 = adData.emotion;
-    let params2 = adData.src;
-    let params3 = adData.service_name;
-    let params4 = adData.address;
-    let params5 = adData.detail_long;
-    let params6 = adData.tel;
-    let params7 = adData.navermap_url;
+    // let insert_sql = 'INSERT INTO android (emotion, src, service_name, address, detail_long, tel, navermap_url) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    // let params1 = adData.emotion;
+    // let params2 = adData.src;
+    // let params3 = adData.service_name;
+    // let params4 = adData.address;
+    // let params5 = adData.detail_long;
+    // let params6 = adData.tel;
+    // let params7 = adData.navermap_url;
 
-    //3. android 테이블에 새 행 추가
-    conn.query(insert_sql, [params1,params2,params3, params4, params5, params6, params7], function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
-      if(err) console.log('query is not excuted. insert fail...\n' + err);
-      else console.log('a column of android table is inserted');
-    });
-
+    // //3. android 테이블에 새 행 추가
+    // conn.query(insert_sql, [params1,params2,params3, params4, params5, params6, params7], function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
+    //   if(err) console.log('query is not excuted. insert fail...\n' + err);
+    //   else console.log('a column of android table is inserted');
+    // });
+    const user_id = 1;
     res.render('advertisement', {
-      adData: adData.video_src
+      adData: adData,
+      userID: user_id
     })
   });
 });

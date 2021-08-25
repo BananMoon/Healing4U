@@ -5,16 +5,113 @@
 <html>
     <head>
         <link rel='stylesheet' href='/css/main.css' /> 
+        <script>
+            function callAPI(bgSrc, ad_id, user_id) {
+                console.log(bgSrc);
+                console.log(ad_id);
+                console.log(user_id);
+                console.log("call success");
+                $.ajax({
+                    url: '/adDB',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {
+                        'ad_id': ad_id,
+                        'user_id': user_id
+                    },
+                    success: function(response) {
+                        consol.log('adDB 통신 success');
+                    }
+                });
+                // $.ajax({
+                //         type: "POST",
+                //         url: `/${weather}`,
+                //         data: {},
+                //         error: function(xhr, status, error) {
+                //             if (status == 404) {
+                //                 alert("서버 응답 실패");
+                //             }
+                //             window.location.href = "/";
+                //         },
+                //         success: function(response) {
+                //             console.log("저장 완료");
+                //         }
+                //     });
+            }
+            // //화면 전환
+            // function Timer() { 
+            //     setTimeout("locateKap()",25000); 
+            // } 
+            function Timer() {
+                setTimeout("updateDBAPI()", 15000);
+            }
+            // function locateKap(){
+            //     location.replace("/");
+            // }
+            // cnt = 25; // 카운트다운 시간 초단위로 표시
+            // function countdown() {
+            //     if(cnt == 0){
+            //         // 시간이 0일경우
+            //         locateKap();
+            $.ajax({
+                        type: "POST",
+                        url: `/${weather}`,
+                        data: {},
+                        error: function(xhr, status, error) {
+                            if (status == 404) {
+                                alert("서버 응답 실패");
+                            }
+                            window.location.href = "/";
+                        },
+                        success: function(response) {
+                            console.log("저장 완료");
+                        }
+                    });
+            //     } else {
+            //         // 시간이 남았을 경우 카운트다운을 지속한다.
+            //         document.all.count_text.innerHTML = cnt + "초후에 힐링 화면으로 이동합니다..";
+            //         setTimeout("countdown()",1000);
+            //         cnt--;
+            //     }
+            // }
+            
+        </script>
     </head> 
-    <body>
+    <body onLoad="Timer();">
+        <h2 class="hidden"><%= userID %></h2>
+        <script>const user_ID = document.querySelector('h2').innerText;</script>
         <div class="bg">
-            <% if (adData.indexOf('.jpg') != -1) { %>
-                <img src="<%= adData %>"/>
-            <% }else if (adData.indexOf('.mp4') != -1) { %>
+            <% if (adData.src.indexOf('.jpg') != -1) { %>
+                <img src="<%= adData.src %>"/>
+                <h1 class="hidden"><%= adData.id %></h1>
+                
+                <script>
+                    const bgTag = document.querySelector('.bg img[src]').getAttribute('src');
+                    const ad_ID = document.querySelector('.bg h1').innerText;
+                    console.log(bgTag);
+                    console.log(ad_ID);
+                    console.log(user_ID);
+                    // callAPI(bgTag, ad_ID);
+                    callAPI(bgTag, ad_ID, user_ID);
+                </script>
+            <% }else if (adData.src.indexOf('.mp4') != -1) { %>
                 <video muted autoplay loop>
-                    <source src="<%= adData %>" type="video/mp4">
+                    <source src="<%= adData.src %>" type="video/mp4">
                 </video>
+                <h1 class="hidden"><%= adData.id %></h1>
+                <script>
+                    const bgTag = document.querySelector(".bg video");
+                    const bgSrcTag = bgTag.querySelector("source[src]").getAttribute('src');
+                    const ad_ID = document.querySelector('.bg h1').innerText;
+                    console.log(bgSrcTag);
+                    console.log(ad_ID);
+                    console.log(user_ID);
+
+                    // callAPI(bgTag, ad_ID);
+                    callAPI(bgTag, ad_ID, user_ID);
+                </script>
             <% } %>
         </div>
+        
     </body>
 </html>
