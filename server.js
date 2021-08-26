@@ -22,14 +22,11 @@ app.use('/node_modules', express.static(path.join(__dirname+'/node_modules')))
 const indexRouter = require('./routes');
 app.use('/', indexRouter);
 
-// (현재) db용 페이지는 라우터 거치지 않고 페이지 호출.
-app.get('/rating', function(req, res) {
-  res.sendFile(__dirname + '/rating.html');
-});
+
 
 // port open
-app.listen(2004, function() {
-  console.log('listening on 2004♥');
+app.listen(3004, function() {
+  console.log('listening on 3004♥');
 });
 
 /*--------------mysql 연동-------------*/

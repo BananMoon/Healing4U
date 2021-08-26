@@ -3,14 +3,63 @@
     <head>
         <title>Providing Healing Service..</title> 
         <link rel='stylesheet' href='/css/main.css' /> 
+        <link rel='shortcut icon' href="#"/>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
         </style>
-        <!-- <script src="https://momentjs.com/downloads/moment-with-locales.js"></script> -->
+        <script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+        <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
         <script>
           /*========== 날씨 api(openweatherapi이용) ==========*/
-          const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8"
+          const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8";
           function onGeoOk(position){
+              const lat = position.coords.latitude;
+              const lon = position.coords.longitude;
+              const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+              fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                  const cityTag = document.querySelector('#weather span:first-child');
+                  const weatherTag =  document.querySelector('#weather span:last-child');
+                  const temperature = data.main.temp;
+                  const weather = data.weather[0].main;
+                  const city = data.name;
+                  cityTag.innerText = `City: ${city}`;
+                  weatherTag.innerText = `Weather: ${weather}
+                    Temporary: ${temperature} °C`;
+                  const weatherList = [city, weather, temperature];
+                });
+          }
+          function weatherAPI(weather) {
+            $.ajax({
+              type: "GET",
+              url: `/${weather}`,
+              data: {},
+              error: function(xhr, status, error) {
+                  if (status == 404) {
+                      alert("서버 응답 실패");
+                      window.location.href = "/";
+                  }
+              },
+              success: function(response) {
+                let healingData = response["healingData"];
+                console.log(healingData.video_src);
+                // $("#video").attr("src", healingData["video_src"]);
+
+                var videoSrc = document.querySelector('.container');
+                videoSrc.innerHTML = "<video muted autoplay loop src=" + response.video_src + "></video>"
+                // var quote = document.getElementById('quote');
+                // quote.innerHTML="<p>"+response.quote+"</p><p>"+response.quote_src+"</p>";
+                
+              }
+            });
+          }
+          
+          function onGeoOk_apiCall(position){
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
                 const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
@@ -27,54 +76,31 @@
                     Temporary: ${temperature} °C`;
                     const weatherList = [city, weather, temperature];
                     //serviceAPI(weatherList);
-                    console.log('api안에 ',weather);
-
-                    /* ========== 날씨 api값을 이용하여 api 호출. ============ */
-                    // $.ajax({
-                    //     type: "POST",
-                    //     url: `/${weather}`,
-                    //     data: {},
-                    //     error: function(xhr, status, error) {
-                    //         if (status == 404) {
-                    //             alert("서버 응답 실패");
-                    //         }
-                    //         window.location.href = "/";
-                    //     },
-                    //     success: function(response) {
-                    //         console.log("저장 완료");
-                    //     }
-                    // });
-                });
+                    console.log('api 호출: ',weather);
+                    weatherAPI(weather);
+                })
           }
           function onGeoError() {
             alert("Can't find you. No weather for you.");
           }
           /*==== 처음 날씨api 호출과 별개로 **초마다 날씨 api호출해서 db조회한 데이터와함께 화면 다시 랜더링해야함. timer 호출은 아래에서==== */
-          // timer = setInterval( function() {
-          //   //날씨api
-          //   navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
- 
-          // }, 5000);
+          timer = setInterval( function() {
+            //날씨api
+            navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
+           /* ========== 날씨 api값을 이용하여 api 호출. ============ */
+
+          }, 10000);
         </script>  
     </head> 
     <body>
       <div id="container">
         <div class="bg">
-          <video muted autoplay loop>
-            <source src="<%= healingData.video_src %>" type="video/mp4">
-          </video> 
-          <!-- <img src="/img/category_bg.jpg"/> -->
-          <!-- <video muted autoplay loop>
-            <source src= "/img/Rain.mp4" type="video/mp4">
-          </video> -->
-          <h2><%= healingData.video_src %></h2>
-          
-          <div class="quote">
-            <p><%=healingData.quote%></p>
-            <p><%=healingData.quote_src%></p>
-          </div>
-        </div>
-
+          <video id="video" muted autoplay loop src="<%= healingData.video_src %>"></video>       
+        </div>
+        <div id="quote">
+          <p><%= healingData.quote%></p>
+           <p><%=healingData.quote_src%></p>
+        </div>
         <h2 id="clock">00:00:00</h2>
         <script>
           /*======== 1초마다 setInterval. 시계 기능 =======*/
@@ -87,10 +113,10 @@
               const seconds = String(date.getSeconds()).padStart(2, "0");
 
               clock.innerText = `${hours}시 ${minutes}분 ${seconds}초`;
-          } //이 함수를 매 2초마다 실행
+          } 
 
-          getClock();
-          setInterval(getClock, 1000);  // 동작은 전혀 다름.
+          getClock();                   // 처음 화면 셋팅
+          setInterval(getClock, 1000);  // 1초마다 getClock() 호출
         </script>
         <h1 id="date">날짜</h2>
         <script>
@@ -105,11 +131,11 @@
           <br>
           <span></span>
         </div>
+      </div>
         <!--=========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출 ==========-->
         <script>navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);</script>
         <!--=========== 그 후에 타이머 호출하면 **초마다 날씨api호출하도록 할것임 -->
-        <!-- <script>timer;</script> -->
-        <!-- <script src="/js/main/healing.js"></script> -->
-      </div>
+        <script>timer;</script>
+        <script src="/js/main/healing.js"></script>
     </body> 
 </html>
