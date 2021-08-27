@@ -72,10 +72,10 @@
 
         <div id="bg">
             <% adSrc = adData.src %>
+            <!-- <% if (adSrc.indexOf('.jpg') != -1 || adSrc.indexOf('.jpeg') != -1 || adSrc.indexOf('.JPG') !=) { %> -->
             <% if (adSrc.toLowerCase().indexOf('.jpg') != -1 || adSrc.indexOf('.jpeg') != -1) { %>
                 <img src="<%= adData.src %>"/>
-
-            <% }else if (adSrc.indexOf('.mp4') != -1) { %>
+            <% } else if (adSrc.indexOf('.mp4') != -1) { %>
                 <video muted autoplay loop>
                     <source src="<%= adData.src %>" type="video/mp4">
                 </video>

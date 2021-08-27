@@ -107,3 +107,11 @@ body {
     left: 40%;
     font-size: 20px;
 }
+
+#qr {
+    position: absolute;
+    width:200px;
+    height:200px;
+    left: 86%;
+    bottom: 1%;
+}
