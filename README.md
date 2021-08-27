@@ -1,6 +1,16 @@
 # Healing4U
 감정 인식을 활용한 AI 힐링 옥외 광고(OOH, Out-of-home advertising) 및 모바일 앱(Application) 서비스
 
+### 기능
+1. 힐링서비스 제공
+  - 날씨 api 연동 ([openweatherAPI](https://openweathermap.org/api))
+  - 날씨값을 이용한 DB 조회 및 서비스 제공
+
+2. 광고 서비스 제공
+  - 딥러닝 서버로부터 수신된 사용자의 감정값과 계절값을 이용한 DB 조회 및 서비스 제공
+
+3. 만족도 평가 요청
+  - 사용자에게 제공된 광고 서비스에 대한 만족도 평가를 요청하여 DB 저장 및 안드로이드에게 전달
 
 ### 모듈
 1. nodemon

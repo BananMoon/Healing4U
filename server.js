@@ -25,8 +25,8 @@ app.use('/', indexRouter);
 
 
 // port open
-app.listen(3004, function() {
-  console.log('listening on 3004♥');
+app.listen(2004, function() {
+  console.log('listening on 2004♥');
 });
 
 /*--------------mysql 연동-------------*/

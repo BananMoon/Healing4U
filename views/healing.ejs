@@ -34,31 +34,6 @@
                   const weatherList = [city, weather, temperature];
                 });
           }
-          function weatherAPI(weather) {
-            $.ajax({
-              type: "GET",
-              url: `/${weather}`,
-              data: {},
-              error: function(xhr, status, error) {
-                  if (status == 404) {
-                      alert("서버 응답 실패");
-                      window.location.href = "/";
-                  }
-              },
-              success: function(response) {
-                let healingData = response["healingData"];
-                console.log(healingData.video_src);
-                // $("#video").attr("src", healingData["video_src"]);
-
-                var videoSrc = document.querySelector('.container');
-                videoSrc.innerHTML = "<video muted autoplay loop src=" + response.video_src + "></video>"
-                // var quote = document.getElementById('quote');
-                // quote.innerHTML="<p>"+response.quote+"</p><p>"+response.quote_src+"</p>";
-                
-              }
-            });
-          }
-          
           function onGeoOk_apiCall(position){
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
@@ -89,13 +64,13 @@
             navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
            /* ========== 날씨 api값을 이용하여 api 호출. ============ */
 
-          }, 10000);
+          }, 60000);
         </script>  
     </head> 
     <body>
       <div id="container">
-        <div class="bg">
-          <video id="video" muted autoplay loop src="<%= healingData.video_src %>"></video>       
+        <div id="bg">
+          <video muted autoplay loop src="<%= healingData.video_src %>">재생 안됨</video>
         </div>
         <div id="quote">
           <p><%= healingData.quote%></p>
@@ -134,8 +109,38 @@
       </div>
         <!--=========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출 ==========-->
         <script>navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);</script>
+        <script>
+          function weatherAPI(weather) {
+            $.ajax({
+              type: "GET",
+              url: `/healing/${weather}`,
+              data: {},
+              error: function(xhr, status, error) {
+                  if (status == 404) {
+                      alert("서버 응답 실패");
+                      window.location.href = "/";
+                  }
+              },
+              success: function(response) {
+                let healingData = response;
+                console.log(healingData.video_src);
+                // $("#video").attr("src", healingData["video_src"]);
+                
+                var videoSrc = document.getElementById('container');
+                console.log(videoSrc);
+                videoSrc.innerHTML="<div id='bg'><video muted autoplay loop src="+response.video_src+"></video></div>";
+                // videoSrc.setAttribute("src", response.video_src);
+                // videoSrc.innerHTML = "<video muted autoplay loop src=" + response.video_src + "></video>"
+                var quote = document.getElementById('quote');
+                console.log(quote);
+                quote.innerHTML="<p>"+response.quote+"</p><p>"+response.quote_src+"</p>";
+                
+              }
+            });
+          }
+        </script>
         <!--=========== 그 후에 타이머 호출하면 **초마다 날씨api호출하도록 할것임 -->
         <script>timer;</script>
-        <script src="/js/main/healing.js"></script>
+        <!-- <script src="/js/main/healing.js"></script> -->
     </body> 
 </html>

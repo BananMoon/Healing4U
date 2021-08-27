@@ -5,13 +5,18 @@
 <html>
     <head>
         <link rel='stylesheet' href='/css/main.css' /> 
+        <script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+        <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
         <script>
             function Timer(ad_ID, user_ID) { 
                 console.log("======Timer 함수 내=======");
                 console.log(ad_ID, user_ID);
-                setTimeout(callAPI(),5000, ad_ID, user_ID); 
+                setTimeout(callAPI, 15000, ad_ID, user_ID); //15초 후에 db에 저장하면서 rating화면으로 전환.
             } 
-
             function callAPI(ad_ID, user_ID) {
                 console.log("======callAPI함수 내=======");
                 console.log(ad_ID);
@@ -26,9 +31,15 @@
                         'user_id': user_ID
                     },
                     success: function(response) {
-                        consol.log('adDB 통신 success');
+                        console.log('adDB 통신 success');
+                        console.log(response.userID);
+                        // res.render('rating', {
+                        //     user_id:response.user_id
+                        // })
+                        console.log("'rating' 렌더링 성공");
                     }
                 });
+                // location.replace("/rating");
             }
             // //화면 전환
             // function Timer() { 
@@ -46,40 +57,29 @@
         </script>
     </head> 
     <body>
-        <h2 class="hidden"><%= userID %></h2>
-        <script>const user_ID = document.querySelector('h2').innerText;</script>
-        <div class="bg">
-            <% if (adData.src.indexOf('.jpg') != -1) { %>
+        <h3 style='display:none;'><%= userID %></h3>
+        <h2 style='display:none;'><%= adData.id %></h2>
+        <script>
+            // const bgSrcTag = document.querySelector('.bg img[src]').getAttribute('src');
+            const ad_ID = document.querySelector('h2').innerText;
+            const user_ID = document.querySelector('h3').innerText;
+            // console.log(bgTag);
+            // console.log(ad_ID);
+            // console.log(user_ID);
+            // callAPI(bgTag, ad_ID);
+            Timer(ad_ID, user_ID);
+        </script>
+
+        <div id="bg">
+            <% adSrc = adData.src %>
+            <% if (adSrc.toLowerCase().indexOf('.jpg') != -1 || adSrc.indexOf('.jpeg') != -1) { %>
                 <img src="<%= adData.src %>"/>
-                <h1 class="hidden"><%= adData.id %></h1>
-                
-                <script>
-                    // const bgSrcTag = document.querySelector('.bg img[src]').getAttribute('src');
-                    const ad_ID = document.querySelector('.bg h1').innerText;
-                    // console.log(bgTag);
-                    // console.log(ad_ID);
-                    // console.log(user_ID);
-                    // callAPI(bgTag, ad_ID);
-                    Timer(ad_ID, user_ID);
-                </script>
-            <% }else if (adData.src.indexOf('.mp4') != -1) { %>
+
+            <% }else if (adSrc.indexOf('.mp4') != -1) { %>
                 <video muted autoplay loop>
                     <source src="<%= adData.src %>" type="video/mp4">
                 </video>
-                <h1 class="hidden"><%= adData.id %></h1>
-                <script>
-                    // const bgTag = document.querySelector(".bg video");
-                    // const bgSrcTag = bgTag.querySelector("source[src]").getAttribute('src');
-                    const ad_ID = document.querySelector('.bg h1').innerText;
-                    // console.log(bgSrcTag);
-                    // console.log(ad_ID);
-                    // console.log(user_ID);
-
-                    // callAPI(bgTag, ad_ID);
-                    Timer(ad_ID, user_ID);
-                </script>
             <% } %>
         </div>
-        
     </body>
 </html>
