@@ -30,53 +30,50 @@
                     success: function(response) {
                         console.log('adDB 통신 success');
                         console.log(response.userID);
-                        // res.render('rating', {
-                        //     user_id:response.user_id
-                        // })
-                        console.log("'rating' 렌더링 성공");
+
+                        // 여기서 user_id와 함께 rating.ejs를 호출해야함. ajax를 여기서 한번 더 해볼까?
+                        //호출하고 rating.ejs 페이지로 넘어가야하는데..
+                        // $.ajax({
+                        //     url: '/rating',
+                        //     dataType: 'json',
+                        //     type: 'POST',
+                        //     data: {
+                        //         'ad_id': ad_ID,
+                        //         'user_id': user_ID
+                        //     },
+                        //     success: function(response) {
+                        //         console.log('adDB 통신 success');
+                        //         console.log(response.userID);
+                        //         // res.render('rating', {
+                        //         //     user_id:response.user_id
+                        //         // })
+                        //         console.log("'rating' 렌더링 성공");
+                        //     }
+                        // });
                     }
                 });
-                // location.replace("/rating");
+                // location.replace("/rating"); -->
             }
-            // //화면 전환
-            // function Timer() { 
-            //     setTimeout("locateKap()",25000); 
-            // } 
-
-          
-            //     } else {
-            //         // 시간이 남았을 경우 카운트다운을 지속한다.
-            //         document.all.count_text.innerHTML = cnt + "초후에 힐링 화면으로 이동합니다..";
-            //         setTimeout("countdown()",1000);
-            //         cnt--;
-            //     }
-            // } 
         </script>
     </head> 
     <body>
         <h3 style='display:none;'><%= userID %></h3>
         <h2 style='display:none;'><%= adData.id %></h2>
         <script>
-            // const bgSrcTag = document.querySelector('.bg img[src]').getAttribute('src');
             const ad_ID = document.querySelector('h2').innerText;
             const user_ID = document.querySelector('h3').innerText;
-            // console.log(bgTag);
-            // console.log(ad_ID);
-            // console.log(user_ID);
-            // callAPI(bgTag, ad_ID);
+            // console.log(user_ID, ad_ID);
             Timer(ad_ID, user_ID);
         </script>
-
-        <div id="bg">
-            <% adSrc = adData.src %>
-            <!-- <% if (adSrc.indexOf('.jpg') != -1 || adSrc.indexOf('.jpeg') != -1 || adSrc.indexOf('.JPG') !=) { %> -->
-            <% if (adSrc.toLowerCase().indexOf('.jpg') != -1 || adSrc.indexOf('.jpeg') != -1) { %>
-                <img src="<%= adData.src %>"/>
-            <% } else if (adSrc.indexOf('.mp4') != -1) { %>
-                <video muted autoplay loop>
-                    <source src="<%= adData.src %>" type="video/mp4">
-                </video>
-            <% } %>
+        <div class="bg">
+        <% adSrc = adData.src %>
+        <% if (adSrc.toLowerCase().indexOf('.jpg') != -1 || adSrc.toLowerCase().indexOf('.jpeg') != -1) { %>
+            <img src="<%= adData.src %>"/>
+        <% }else if (adSrc.indexOf('.mp4') != -1) { %>
+            <video muted autoplay loop>
+                <source src="<%= adData.src %>" type="video/mp4">
+            </video>
+        <% } %>
         </div>
     </body>
 </html>

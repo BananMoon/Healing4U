@@ -15,13 +15,13 @@ console.log('뷰 엔진이 ejs로 설정되었습니다.');
 
 // middleware 
 app.use(express.static(__dirname+"/public"));     // 모든 서버로 오는 요청은 해당 middleware를 지나가야한다.
-
 app.use('/node_modules', express.static(path.join(__dirname+'/node_modules')))
 
 // router - service page
 const indexRouter = require('./routes');
+// const ratingRouter = require('./routes/rating');
 app.use('/', indexRouter);
-
+// app.use('/rating', ratingRouter);
 
 
 // port open

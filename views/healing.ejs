@@ -70,7 +70,6 @@
     <body>
       <div id="container">
         <div id="bg">
-          <video muted autoplay loop src="/img/Raing.mp4">재생 안됨</video>
           <video muted autoplay loop src="<%= healingData.video_src %>">재생 안됨</video>
         </div>
         <div id="quote">
@@ -123,8 +122,7 @@
                   }
               },
               success: function(response) {
-                let healingData = response;
-                console.log(healingData.video_src);
+                console.log(response.video_src);
                 // $("#video").attr("src", healingData["video_src"]);
                 
                 var videoSrc = document.getElementById('container');
