@@ -3,7 +3,7 @@ const mysql = require('mysql');
 
 //db 정보
 const db_info = {
-    host: 'healing.cdkn59lq9zjm.ap-northeast-2.rds.amazonaws.com',
+    host: 'healing.ceuy4iegap9i.ap-northeast-2.rds.amazonaws.com',  //aws RDS
     user: 'healing4u',
     password: 'healing4u',
     database: "healingDB"

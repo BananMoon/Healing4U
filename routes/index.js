@@ -33,6 +33,7 @@ router.get('/', function(req, res) {
   conn.query(sql, month_param, function (err, rows, fields){              // DB 쿼리문
     rows.forEach((row, index)=>{
       dataList.push(row);
+      console.log(row);
     });
     healingData = dataList[Math.floor(Math.random()*dataList.length)];    // 랜덤으로 데이터 1개 추출 
 
@@ -43,7 +44,7 @@ router.get('/', function(req, res) {
     }); //오류가 안뜬다면 healing.ejs 로 healingData를 보낸다.
   });
 });
-
+//===================================================================================
 /*=======날씨api를 통해 받은 날씨값을 **초마다 해당 api를 호출하여 db를 조회. 해당 데이터와 함께 페이지 랜더링 ========*/
 router.get("/healing/:weather", async (req, res) => {
   const { weather } = req.params;           // 실시간 날씨 값을 저장
@@ -54,7 +55,7 @@ router.get("/healing/:weather", async (req, res) => {
   else if (weather == "Snow") {
     weather_param = 2;  // 눈
   } else {
-    weather_param = 0;  // 맑음, 안개(Mist, Hazy) 등..
+    weather_param = 0;  // 맑음, 안개(Mist, Hazy, Clouds) 등..
   }
   // 이외 코드는 위와 동일하여 생략
   //season
@@ -84,6 +85,7 @@ router.get("/healing/:weather", async (req, res) => {
   });
   console.log('===============api 호출에 응답할 data: ',healingData);
 
+  //이걸 어떻게 화면전환시키지?
   res.send({ 
     video_src: healingData.video_src,
     quote: healingData.quote,
@@ -101,7 +103,7 @@ router.get("/healing/:weather", async (req, res) => {
 
 /*========== 딥러닝 서버로부터 감정값을 받아서 db조회후 데이터값과 함께 광고서비스를 랜더링.=========*/
 // 우선 db조회 부터는 주석처리해놓음.
-router.get("/test", function(req,res){
+router.get("/dl/test", function(req,res){
   var get_body = req.body;
   console.log('dl서버:',get_body);
   let emotion_param = get_body.now_emotion;
@@ -132,25 +134,12 @@ router.get("/test", function(req,res){
     });
     let adData = adsList[Math.floor(Math.random()*adsList.length)];
 
-    //아래코드는 advertisement.ejs에서!
-    //let adData = adsSrc_list[Math.floor(Math.random()*adsSrc_list.length)];
-    //여기서 
-  
-    // console.log(adData)
-    res.render('advertisement', {
-      adData: adData,
-      userID: user_id
-    })
+    res.send('/advertisement?userId='+user_id);
+    // res.render('advertisement', {
+    //   userID: user_id
+    // })
   });
 });
-
-// function apiCall() {
-//   router.get("/test", function(req,res){
-//     var get_body = req.body;
-//     console.log(get_body);
-//     return get_body.now_emotion;
-//   })
-// }
 
 //'/advertisement'에서 호출. users 테이블에 데이터 update & rating 페이지를 user_id와 함께 랜더링.
 router.post('/adDB', function(req, res) {
@@ -165,7 +154,7 @@ router.post('/adDB', function(req, res) {
     return res.status(400).end();
   }
 
-  //DB update
+  //users 테이블 update
   let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
   conn.query(update_sql, [ad_id, user_id], function (err, rows, fields){
     if(err) console.log('query is not excuted. insert fail...\n' + err);
@@ -187,9 +176,20 @@ router.post('/adDB', function(req, res) {
 /* ========'/' 페이지에서 감정값을 받으면 advertisement.ejs를 랜더링할것임. ==========*/
 // 성공하면 해당 api는 지울거임
 router.get('/advertisement', function(req, res) {
+  let today = new Date();
+  let month = today.getMonth()+1;
+  if (3<=month && month<=5) {
+    month_param = 0;    //봄
+  } else if (6<=month && month<=8) {
+    month_param = 1;    //여름
+  } else if (9<=month && month<=11) {
+    month_param = 2;    //가을
+  } else {
+    month_param = 3;    //겨울
+  }
   let adsList=[];
-  let sql = 'SELECT * FROM advertisement WHERE season=1';
-  conn.query(sql, function (err, rows, fields){
+  let sql = 'SELECT * FROM advertisement WHERE season=?';
+  conn.query(sql, month_param, function (err, rows, fields){
     rows.forEach((row, index)=>{
       //광고서비스는 기분과 날씨와 계절로 구분 (3-5 6-8 9-11 12-2)      
       adsList.push(row);
@@ -197,6 +197,8 @@ router.get('/advertisement', function(req, res) {
     //2. 랜덤 광고데이터 1개 저장.
     let adData = adsList[Math.floor(Math.random()*adsList.length)];
     let user_id = 1;
+
+    console.log('adData',adData);
     res.render('advertisement', {
       adData: adData,
       userID: user_id
