@@ -5,8 +5,11 @@ const db_config = require('../config/db_info');
 const conn = db_config.init(); // db의 커넥터를 활성화 시킨다.
 db_config.connect(conn); //db에 커넥터를 연결해준다.
 
-router.get('/rating', function(req, res) {
+router.get('/rating/home/:userId', function(req, res) {
+  const { usreId } = req.params;
+  console.log('rating에서 userId: ', userId);
   res.render('rating', {
+    userID: userId
   })
 })
 

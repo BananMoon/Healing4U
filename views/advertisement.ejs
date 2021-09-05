@@ -30,7 +30,9 @@
                     success: function(response) {
                         console.log('adDB 통신 success');
                         console.log(response.userID);
-                        console.log(response.url);
+                        //흠..
+                        //location.replace("/rating/home/:userID");
+                        // console.log(response.url);
                         // 여기서 user_id와 함께 rating.ejs를 호출해야함. ajax를 여기서 한번 더 해볼까?
                         //호출하고 rating.ejs 페이지로 넘어가야하는데..
                         // $.ajax({
@@ -52,7 +54,7 @@
                         // });
                     }
                 });
-                // location.replace("/rating"); -->
+                //location.replace("/rating");
             }
         </script>
     </head> 
