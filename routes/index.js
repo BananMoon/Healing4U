@@ -207,34 +207,37 @@ router.get('/advertisement', function(req, res) {
   });
 });
 
-router.get('/rating', function(req, res) {
+//rating
+router.get('/rating/home/:userId', function(req, res) {
+  const { userId } = req.params;
+  console.log('서버에서 userId: ', userId);
   res.render('rating', {
-    userID: user_id
+    userID: userId
   })
 })
 
-// // rating 결과값을 전달
-// router.get("/rating/:result", async (req, res) => {
-//   const { result } = req.params;
-//   console.log('서버에서 rating값: ',result);
-
-//   // 결과값 체크
-//   if (Number.isNaN(result)) {
-//     return res.status(400).end();
-//   }
+// rating 결과값을 전달
+router.get("/rating/:result/:userId", async (req, res) => {
+  const { result } = req.params;
+  const { userId } = req.params;
+  console.log('서버에서 rating값: ',result);
+  console.log('클릭 API에서 userId값: ',userId)
+  // 결과값 체크
+  if (Number.isNaN(result)) {
+    return res.status(400).end();
+  }
   
-//   let insert_sql = 'INSERT INTO users (rating) VALUES (?)';
-//   let rating_param = result;
-//   // goods = await Goods.findOne({ goodsId: goodsId });
-//   // res.json({ detail: goods });
-//   conn.query(insert_sql, rating_param, function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
-//     if(err) console.log('query is not excuted. insert fail...\n' + err);
-//     else console.log('a rating data is inserted');
-//   });
+  let insert_sql = 'INSERT INTO users (rating) VALUES (?) WHERE user';
+  let rating_param = result;
+  // goods = await Goods.findOne({ goodsId: goodsId });
+  // res.json({ detail: goods });
+  conn.query(insert_sql, rating_param, function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
+    if(err) console.log('query is not excuted. insert fail...\n' + err);
+    else console.log('a rating data is inserted');
+  });
 
-//   // res.render('healing');
-//   return res.status(204).end();
-// });
-
+  // res.render('healing');
+  return res.status(204).end();
+});
 
 module.exports = router;

@@ -2,7 +2,7 @@
 <html>
     <HEAD>
         <META http-equiv="content-type" content="text/html; charset=euc-kr"> 
-        <link rel = "stylesheet", href="css/service.css"/>    
+        <link rel = "stylesheet", href="/css/service.css"/>    
         <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -38,10 +38,12 @@
             <p>축적된 별점데이터를 기반으로 저희의 어플 "Healing4U"의 사용자분들께 서비스를 추천해드리고 있습니다.</p>
         </div>
         <div id="button_grp">
-            <button type="button" class="like" value="1" onclick="good_run(this.value)">
+            <h2 style='display:none;'><%= userID %></h2>
+
+            <button type="button" class="like" value="1" onclick="good_run(this.value, userID)">
                 <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Like-512.png">
             </button>
-            <button type="button" class="unlike" value="0" onclick="bad_run(this.value)">
+            <button type="button" class="unlike" value="0" onclick="bad_run(this.value, userID)">
                 <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Unlike-512.png">
             </button>
         </div>

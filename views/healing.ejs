@@ -4,15 +4,15 @@
         <title>Providing Healing Service..</title> 
         <link rel='stylesheet' href='/css/main.css' /> 
         <link rel='shortcut icon' href="#"/>
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
-        </style>
         <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
         crossorigin="anonymous"></script>
         <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+        </style>
         <script>
           /*========== 날씨 api(openweatherapi이용) ==========*/
           const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8";
@@ -70,13 +70,9 @@
     <body>
       <div id="container">
         <div id="bg">
-          <!-- 테스트용. 로컬에서 가져와도 안됨.. -->
-          <video muted autoplay loop>
-            <source src="/public/img/Rain.mp4" type='video/mp4'/>
+          <video id="video" muted autoplay loop src="<%= healingData.video_src %>" >
             재생 안됨
           </video>
-
-          <video muted autoplay loop src="<%= healingData.video_src %>" type='video/mp4'>재생 안됨</video>
         </div>
         <div id="quote">
           <p><%= healingData.quote%></p>
@@ -114,38 +110,11 @@
         </div>
       </div>
         <!--=========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출 ==========-->
-        <script>navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);</script>
         <script>
-          function weatherAPI(weather) {
-            $.ajax({
-              type: "GET",
-              url: `/healing/${weather}`,
-              data: {},
-              error: function(xhr, status, error) {
-                  if (status == 404) {
-                      alert("서버 응답 실패");
-                      window.location.href = "/";
-                  }
-              },
-              success: function(response) {
-                console.log(response.video_src);
-                // $("#video").attr("src", healingData["video_src"]);
-                
-                var videoSrc = document.getElementById('container');
-                console.log(videoSrc);
-                videoSrc.innerHTML="<div id='bg'><video muted autoplay loop src="+response.video_src+"></video></div>";
-                // videoSrc.setAttribute("src", response.video_src);
-                // videoSrc.innerHTML = "<video muted autoplay loop src=" + response.video_src + "></video>"
-                var quote = document.getElementById('quote');
-                console.log(quote);
-                quote.innerHTML="<p>"+response.quote+"</p><p>"+response.quote_src+"</p>";
-                
-              }
-            });
-          }
+        navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
+        // =========== 그 후에 타이머 호출하면 **초마다 날씨api호출하도록 할것임 
+        timer;
         </script>
-        <!--=========== 그 후에 타이머 호출하면 **초마다 날씨api호출하도록 할것임 -->
-        <script>timer;</script>
-        <!-- <script src="/js/main/healing.js"></script> -->
+        <script src="/js/main/healing.js"></script>
     </body> 
 </html>

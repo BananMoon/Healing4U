@@ -41,22 +41,22 @@
 //}
 
 
-function good_run(result){
-    console.log(result);
+function good_run(result, userId){
+    console.log(result, userId);
     console.log('button clicked!');
-    requestAPI(result);
+    requestAPI(result, userId);
 }
 
-function bad_run(result) {
-    console.log(result);
+function bad_run(result, userId) {
+    console.log(result, userId);
     console.log('button clicked!');
-    requestAPI(result);
+    requestAPI(result, userId);
 }
 
-function requestAPI(result) {
+function requestAPI(result, userId) {
     $.ajax({
         type: "GET",
-        url: `/rating/${result}`,
+        url: `/rating/${result}/${userId}`,
         data: {},
         error: function(xhr, status, error) {
             if (status == 404) {

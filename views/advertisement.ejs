@@ -30,6 +30,7 @@
                     success: function(response) {
                         console.log('adDB 통신 success');
                         console.log(response.userID);
+                        location.href= "/rating/home/" + response.userID;
                         //흠..
                         //location.replace("/rating/home/:userID");
                         // console.log(response.url);
