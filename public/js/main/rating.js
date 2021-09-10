@@ -41,22 +41,22 @@
 //}
 
 
-function good_run(result, userId){
-    console.log(result, userId);
+function good_run(button, userId){
+    console.log(button, userId);
     console.log('button clicked!');
-    requestAPI(result, userId);
+    requestAPI(button, userId);
 }
 
-function bad_run(result, userId) {
-    console.log(result, userId);
+function bad_run(button, userId) {
+    console.log(button, userId);
     console.log('button clicked!');
-    requestAPI(result, userId);
+    requestAPI(button, userId);
 }
 
-function requestAPI(result, userId) {
+function requestAPI(button, userId) {
     $.ajax({
         type: "GET",
-        url: `/rating/${result}/${userId}`,
+        url: `/rating/${button}/${userId}`,
         data: {},
         error: function(xhr, status, error) {
             if (status == 404) {
@@ -66,6 +66,7 @@ function requestAPI(result, userId) {
         },
         success: function(response) {
             alert("저장 완료");
+            window.location.href = "/";
         }
     });
 }

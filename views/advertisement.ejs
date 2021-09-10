@@ -9,28 +9,31 @@
         <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
         <script>
-            function Timer(ad_ID, user_ID) { 
+            function Timer(ad_ID, userId) { 
                 console.log("======Timer 함수 내=======");
-                console.log(ad_ID, user_ID);
-                setTimeout(callAPI, 5000, ad_ID, user_ID); //15초 후에 db에 저장하면서 rating화면으로 전환.
+                console.log(ad_ID, userId);
+                setTimeout(callAPI, 5000, ad_ID, userId); //15초 후에 db에 저장하면서 rating화면으로 전환.
             } 
-            function callAPI(ad_ID, user_ID) {
-                console.log("======callAPI함수 내=======");
-                console.log(ad_ID);
-                console.log(user_ID);
-                console.log("call success");
-                $.ajax({
-                    url: '/adDB',
-                    dataType: 'json',
-                    type: 'POST',
-                    data: {
-                        'ad_id': ad_ID,
-                        'user_id': user_ID
-                    },
-                    success: function(response) {
-                        console.log('adDB 통신 success');
-                        console.log(response.userID);
-                        location.href= "/rating/home/" + response.userID;
+            //DL서버 요청에 대한 응답으로 advertisement 화면전환이 가능하면 아래 API 필요없고, 불가능해도.. 필요한가?
+            function callAPI(ad_ID, userId) {
+                location.href= "/rating/home/" + userId;
+                // console.log("======callAPI함수 내=======");
+                
+                // console.log(ad_ID);
+                // console.log(user_ID);
+                // console.log("call success");
+                // $.ajax({
+                //     url: '/adDB',
+                //     dataType: 'json',
+                //     type: 'POST',
+                //     data: {
+                //         'ad_id': ad_ID,
+                //         'user_id': user_ID
+                //     },
+                //     success: function(response) {
+                //         console.log('adDB 통신 success');
+                //         console.log(response.userID);
+                //         location.href= "/rating/home/" + response.userID;
                         //흠..
                         //location.replace("/rating/home/:userID");
                         // console.log(response.url);
@@ -53,20 +56,20 @@
                         //         console.log("'rating' 렌더링 성공");
                         //     }
                         // });
-                    }
-                });
-                //location.replace("/rating");
             }
+                // });
+                //location.replace("/rating");
+            // }
         </script>
     </head> 
     <body>
         <h3 style='display:none;'><%= userID %></h3>
         <h2 style='display:none;'><%= adData.ad_id %></h2>
         <script>
-            const user_ID = document.querySelector('h3').innerText;
-            const ad_ID = document.querySelector('h2').innerText;
-            console.log(user_ID, ad_ID);
-            Timer(ad_ID, user_ID);
+            const userId = document.querySelector('h3').innerText;
+            const adId = document.querySelector('h2').innerText;
+            console.log(userId, userId);
+            Timer(adId, userId);
         </script>
         <div class="bg">
         <% adSrc = adData.src %>

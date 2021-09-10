@@ -108,11 +108,15 @@ router.get("/dl/test", function(req,res){
   console.log('dl서버:',get_body);
   let emotion_param = get_body.now_emotion;
   let user_id = get_body.user_id;
+
+  //에러 체크
+  if (!emotion_param && !user_id) {
+    return res.status(400).end();
+  }
   console.log('실시간 사용자 감정값 : ', emotion_param);
   console.log('user ID : ', user_id);
 
-  //now_emotion, season을 이용해서 광고테이블에서 광고 조회해서 advertisement로 랜더링
-  //조회된 광고들에서 해당하는 weather의 데이터중 랜덤으로 해서 보여줌.
+  //(WHERE now_emotion, season) 광고테이블에서 광고 조회해서 advertisement로 랜더링
   let today = new Date();
   let month = today.getMonth()+1;
   if (3<=month && month<=5) {
@@ -134,8 +138,16 @@ router.get("/dl/test", function(req,res){
     });
     let adData = adsList[Math.floor(Math.random()*adsList.length)];
 
+    let ad_id = adData.ad_id;
+    //랜덤으로 뽑힌 필드의 ad_id를 users 테이블에 update
+    let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
+    conn.query(update_sql, [ad_id, user_id], function (err, rows, fields){
+      if(err) console.log('query is not excuted. insert fail...\n' + err);
+      else console.log('a column of users table is updated');
+    });
     res.send('/advertisement?userId='+user_id);
     // res.render('advertisement', {
+    //   adData: adData,  
     //   userID: user_id
     // })
   });
@@ -154,21 +166,21 @@ router.post('/adDB', function(req, res) {
     return res.status(400).end();
   }
 
-  //users 테이블 update
-  let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
-  conn.query(update_sql, [ad_id, user_id], function (err, rows, fields){
-    if(err) console.log('query is not excuted. insert fail...\n' + err);
-    else console.log('a column of users table is updated');
-  });
-  console.log('렌더링 전==============');
-  // res.send({ 
-  //   user_id: user_id
-  // });
+//   //users 테이블 update
+//   let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
+//   conn.query(update_sql, [ad_id, user_id], function (err, rows, fields){
+//     if(err) console.log('query is not excuted. insert fail...\n' + err);
+//     else console.log('a column of users table is updated');
+//   });
+//   console.log('렌더링 전==============');
+//   // res.send({ 
+//   //   user_id: user_id
+//   // });
 
-  //왜 안먹힐까
-  // res.render('rating', {
-  //   userID: user_id
-  // })
+//   //왜 안먹힐까
+//   // res.render('rating', {
+//   //   userID: user_id
+//   // })
   
   // return res.status(201).json({userID:user_id});
   return res.json({userID:user_id});
@@ -207,33 +219,41 @@ router.get('/advertisement', function(req, res) {
   });
 });
 
-//rating
+//rating 화면 전환
 router.get('/rating/home/:userId', function(req, res) {
   const { userId } = req.params;
   console.log('서버에서 userId: ', userId);
+  // return res.status(204).end();
+  // res.send({ 
+  //   video_src: healingData.video_src,
+  //   quote: healingData.quote,
+  //   quote_src: healingData.quote_src
+  // });
   res.render('rating', {
     userID: userId
   })
 })
 
-// rating 결과값을 전달
-router.get("/rating/:result/:userId", async (req, res) => {
-  const { result } = req.params;
+// 버튼 클릭시 호출 API
+router.get("/rating/:button/:userId", async (req, res) => {
+  const { button } = req.params;
   const { userId } = req.params;
-  console.log('서버에서 rating값: ',result);
+  console.log('서버에서 rating값: ',button);
   console.log('클릭 API에서 userId값: ',userId)
   // 결과값 체크
-  if (Number.isNaN(result)) {
+  if (Number.isNaN(button)) {
     return res.status(400).end();
   }
+  //금일 날짜 ->DL 서버에 요청
+  let today = new Date();
+  let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  console.log(date);  //2021-9-10
   
-  let insert_sql = 'INSERT INTO users (rating) VALUES (?) WHERE user';
-  let rating_param = result;
-  // goods = await Goods.findOne({ goodsId: goodsId });
-  // res.json({ detail: goods });
-  conn.query(insert_sql, rating_param, function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
+  //userId로 날짜와 button값 저장
+  let insert_sql = 'INSERT INTO users (rating, date) VALUES (?,?) WHERE user=?';
+  conn.query(insert_sql, [button, date, userId], function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
     if(err) console.log('query is not excuted. insert fail...\n' + err);
-    else console.log('a rating data is inserted');
+    else console.log('Datas are inserted at users table');
   });
 
   // res.render('healing');

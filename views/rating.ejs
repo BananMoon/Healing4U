@@ -39,11 +39,14 @@
         </div>
         <div id="button_grp">
             <h2 style='display:none;'><%= userID %></h2>
-
-            <button type="button" class="like" value="1" onclick="good_run(this.value, userID)">
+            <script>
+                let userIdTag = document.querySelector('#button_grp h2');
+                let userId = userIdTag.innerText;
+            </script>
+            <button type="button" class="like" value="1" onclick="good_run(this.value, userId)">
                 <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Like-512.png">
             </button>
-            <button type="button" class="unlike" value="0" onclick="bad_run(this.value, userID)">
+            <button type="button" class="unlike" value="0" onclick="bad_run(this.value, userId)">
                 <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Unlike-512.png">
             </button>
         </div>
