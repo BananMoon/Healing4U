@@ -10,6 +10,7 @@
         crossorigin="anonymous"></script>
         <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
         </style>
@@ -62,8 +63,8 @@
           timer = setInterval( function() {
             //날씨api
             navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
-           /* ========== 날씨 api값을 이용하여 api 호출. ============ */
-
+            //딥러닝서버 요청 api
+            //DLapi();
           }, 6000);
         </script>  
     </head> 
