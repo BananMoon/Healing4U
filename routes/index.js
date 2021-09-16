@@ -1,9 +1,7 @@
 // router 이용
 var express = require('express');
 var router = express.Router();
-const db_config = require('../config/db_info');
-const conn = db_config.init(); // db의 커넥터를 활성화 시킨다.
-db_config.connect(conn); //db에 커넥터를 연결해준다.
+const db = require('../config/db_info');
 // for 'post'방식
 var bodyParser = require('body-parser');
 router.use(bodyParser.json());
@@ -28,20 +26,10 @@ router.get('/', function(req, res) {
   // weather 반영 전) season
   console.log('계절 값: ',month_param);
   // DB 조회
-  var sql = 'SELECT * FROM healings WHERE season=?';
-  dataList=[];
-  conn.query(sql, month_param, function (err, rows, fields){              // DB 쿼리문
-    rows.forEach((row, index)=>{
-      dataList.push(row);
-      console.log(row);
-    });
-    healingData = dataList[Math.floor(Math.random()*dataList.length)];    // 랜덤으로 데이터 1개 추출 
+  db.getSeasonHealing((datas) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
+    console.log(datas);
+    res.render('healing', {healingData: datas});
 
-    console.log('get 데이터:', healingData);
-    if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
-    else  res.render('healing', {
-      healingData: healingData
-    }); //오류가 안뜬다면 healing.ejs 로 healingData를 보낸다.
   });
 });
 //===================================================================================
@@ -69,28 +57,18 @@ router.get("/healing/:weather", async (req, res) => {
     month_param = 2;    //가을
   } else {
     month_param = 3;    //겨울
-  }
-  dataList = []
-  var sql = 'SELECT * FROM healings WHERE weather=? AND season=?';
-  conn.query(sql, [weather_param, month_param], function (err, rows, fields){
-    rows.forEach((row, index)=>{
-      dataList.push(row);
-    })
-    healingData = dataList[Math.floor(Math.random()*dataList.length)]; 
-    // console.log('1',healingData);
-    // console.log('2',healingData.video_src);
-
-    if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
-    else  console.log('query is excuted.');
+  }  
+  db.getWeatherHealing((healingData) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
+    console.log('===============api 호출에 응답할 data: ',healingData);
+    res.send({ 
+      video_src: healingData.video_src,
+      quote: healingData.quote,
+      quote_src: healingData.quote_src
+    });
   });
-  console.log('===============api 호출에 응답할 data: ',healingData);
 
   //이걸 어떻게 화면전환시키지?
-  res.send({ 
-    video_src: healingData.video_src,
-    quote: healingData.quote,
-    quote_src: healingData.quote_src
-  });
+  
   // res.json({ healingData: healingData });
   // res.json(healingData);
   // res.render('healing', {
@@ -128,24 +106,10 @@ router.get("/dl/test", function(req,res){
   } else {
     month_param = 3;    //겨울
   }
-  adsList = [];
-  let sql = 'SELECT * FROM advertisement WHERE emotion=? AND season=?';
-  conn.query(sql, [emotion_param, month_param], function (err, rows, fields){
-    console.log(rows);
-    rows.forEach((row, index)=>{
-      //광고서비스는 기분과 계절로 구분 (날씨는 프론트 단에서) 
-      adsList.push(row);
-    });
-    let adData = adsList[Math.floor(Math.random()*adsList.length)];
-
-    let ad_id = adData.ad_id;
-    //랜덤으로 뽑힌 필드의 ad_id를 users 테이블에 update
-    let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
-    conn.query(update_sql, [ad_id, user_id], function (err, rows, fields){
-      if(err) console.log('query is not excuted. insert fail...\n' + err);
-      else console.log('a column of users table is updated');
-    });
+  db.getAD((adData) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
+    console.log('===============api 호출에 응답할 data: ',healingData);
     res.send('/advertisement?userId='+user_id);
+    
     // res.render('advertisement', {
     //   adData: adData,  
     //   userID: user_id
@@ -200,18 +164,9 @@ router.get('/advertisement', function(req, res) {
   } else {
     month_param = 3;    //겨울
   }
-  let adsList=[];
-  let sql = 'SELECT * FROM advertisement WHERE season=?';
-  conn.query(sql, month_param, function (err, rows, fields){
-    rows.forEach((row, index)=>{
-      //광고서비스는 기분과 날씨와 계절로 구분 (3-5 6-8 9-11 12-2)      
-      adsList.push(row);
-    });
-    //2. 랜덤 광고데이터 1개 저장.
-    let adData = adsList[Math.floor(Math.random()*adsList.length)];
-    let user_id = 1;
+  let user_id = 1;
 
-    console.log('adData',adData);
+  db.getADFirst((adData) => {
     res.render('advertisement', {
       adData: adData,
       userID: user_id

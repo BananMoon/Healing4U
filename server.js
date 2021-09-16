@@ -3,8 +3,6 @@ const app = express();           //express 라이브러리 사용
 const path = require('path');   //ejs사용
 
 const db_config = require(__dirname + '/config/db_info.js'); //config/database.js 에 저장해놓은 mysql 정보를 불러온다.
-const dbconnection = db_config.init(); // db의 커넥터를 활성화 시킨다.
-db_config.connect(dbconnection); //db에 커넥터를 연결해준다.
 
 /*--------------서버 setting-------------*/
 
@@ -49,37 +47,37 @@ app.listen(2004, function() {
 //testQuery = "SELECT img_src, address, detail_short, service_name FROM services WHERE (emotion=0 AND img_src is not null";
 
 /*--------안드로이드 송신용 페이지---------*/
-app.get('/adsDB', function (req, res) {  
-  dbconnection.query("SELECT * FROM advertisement", function (err, rows, fields) {
-      if(err) console.log('query is not excuted. select fail...\n' + err);
-      else res.send(rows);
-  });
-});
-app.get('/usersDB', function (req, res) {  
-  dbconnection.query("SELECT * FROM users", function (err, rows, fields) {
-    if(err) console.log('query is not excuted. select fail...\n' + err);
-    else res.send(rows);
-  });
-});
-app.get('/healingsDB', function (req, res) {  
-  dbconnection.query("SELECT * FROM healings", function (err, rows, fields) {
-    if(err) console.log('query is not excuted. select fail...\n' + err);
-    else res.send(rows);
-  });
-});
+// app.get('/adsDB', function (req, res) {  
+//   dbconnection.query("SELECT * FROM advertisement", function (err, rows, fields) {
+//       if(err) console.log('query is not excuted. select fail...\n' + err);
+//       else res.send(rows);
+//   });
+// });
+// app.get('/usersDB', function (req, res) {  
+//   dbconnection.query("SELECT * FROM users", function (err, rows, fields) {
+//     if(err) console.log('query is not excuted. select fail...\n' + err);
+//     else res.send(rows);
+//   });
+// });
+// app.get('/healingsDB', function (req, res) {  
+//   dbconnection.query("SELECT * FROM healings", function (err, rows, fields) {
+//     if(err) console.log('query is not excuted. select fail...\n' + err);
+//     else res.send(rows);
+//   });
+// });
 
-app.get('/androidDB', function (req, res) {  
-  dbconnection.query("SELECT * FROM android", function (err, rows, fields) {
-    if(err) console.log('query is not excuted. select fail...\n' + err);
-    else res.send(rows);
-  });
-});
-// /*-------------DL 서버 연동------------*/
-// json (api 통해서)
-app.get('/abc',function(req,res,next){
-  console.log('posting');
-  return res.json({success:true, msg:"good"});
-});
+// app.get('/androidDB', function (req, res) {  
+//   dbconnection.query("SELECT * FROM android", function (err, rows, fields) {
+//     if(err) console.log('query is not excuted. select fail...\n' + err);
+//     else res.send(rows);
+//   });
+// });
+// // /*-------------DL 서버 연동------------*/
+// // json (api 통해서)
+// app.get('/abc',function(req,res,next){
+//   console.log('posting');
+//   return res.json({success:true, msg:"good"});
+// });
 
 // string (console 통해서)
 // /*-------------DL 서버 연동------------*/

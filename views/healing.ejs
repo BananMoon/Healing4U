@@ -2,7 +2,7 @@
  <html>
     <head>
         <title>Providing Healing Service..</title> 
-        <link rel='stylesheet' href='/css/main.css' /> 
+        <link rel='stylesheet' href='/css/service.css' /> 
         <link rel='shortcut icon' href="#"/>
         <script
         src="https://code.jquery.com/jquery-3.5.1.js"
@@ -69,18 +69,16 @@
         </script>  
     </head> 
     <body>
-      <div id="container">
-        <div id="bg">
-          <video id="video" muted autoplay loop src="<%= healingData.video_src %>" >
-            재생 안됨
-          </video>
-        </div>
-        <div id="quote">
-          <p><%= healingData.quote%></p>
-           <p><%=healingData.quote_src%></p>
-        </div>
-        <h2 id="clock">00:00:00</h2>
-        <script>
+      <div id="bg">
+        <video id="video" muted autoplay loop src="<%= healingData.video_src %>" type="video/mp4">
+        </video>
+      </div>
+      <div id="quote">
+        <p><%= healingData.quote%></p>
+        <p><%=healingData.quote_src%></p>
+      </div>
+      <h2 id="clock">00:00:00</h2>
+      <script>
           /*======== 1초마다 setInterval. 시계 기능 =======*/
           const clock = document.querySelector("h2#clock");
 
@@ -95,27 +93,26 @@
 
           getClock();                   // 처음 화면 셋팅
           setInterval(getClock, 1000);  // 1초마다 getClock() 호출
-        </script>
-        <h1 id="date">날짜</h2>
-        <script>
-          const dateTag = document.querySelector("h1#date");
-          date = new Date();
-          dateFormat = String(moment(date).format(`dddd, Do MM YYYY`));
-          dateTag.innerText= `${dateFormat}`;
-        </script>
+      </script>
+      <h1 id="date">날짜</h2>
+      <script>
+        const dateTag = document.querySelector("h1#date");
+        date = new Date();
+        dateFormat = String(moment(date).format(`dddd, Do MM YYYY`));
+        dateTag.innerText= `${dateFormat}`;
+      </script>
 
-        <div id="weather">
-          <span></span>
-          <br>
-          <span></span>
-        </div>
+      <div id="weather">
+        <span></span>
+        <br>
+        <span></span>
       </div>
         <!--=========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출 ==========-->
-        <script>
+      <script>
         navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
         // =========== 그 후에 타이머 호출하면 **초마다 날씨api호출하도록 할것임 
         timer;
-        </script>
-        <script src="/js/main/healing.js"></script>
+      </script>
+      <script src="/js/main/healing.js"></script>
     </body> 
 </html>
