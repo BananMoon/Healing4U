@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/66311276/133728137-9d42b81f-929f-4e63-82f5-ebf3fc162c3a.png" alt="text" width="680" />
+</p>
+
 # Healing4U 프로젝트
 감정 인식을 활용한 AI 힐링 옥외 광고(OOH, Out-of-home advertising) 및 모바일 앱(Application) 서비스
 
