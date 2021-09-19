@@ -1,0 +1,79 @@
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url('https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+body {
+    padding: 0px;
+    margin: 0px;
+    /* font-family: "font-family: 'Noto Sans KR', sans-serif;"; */
+     font-family: 'Yeon Sung', cursive;
+}
+
+.hidden {
+    display: none;
+}
+
+.bg > video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+.bg > img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.quote {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-family: 'Yeon Sung', cursive;
+}
+.quote p {
+    text-align: center;
+    font-size: 48px;
+    color: #ffffff;
+    font-family: 'Yeon Sung', cursive;
+}
+
+#date{
+    position: absolute;
+    left:3%;
+    top:5%;
+    /* text-align: center; */
+    width: max-content;
+    font-size: 2.0em; 
+    font-weight: bold; 
+    color: rgb(41, 50, 73);
+    background-color: rgba(255,255,255,0.3);
+}
+#clock{
+    position: absolute;
+    left:8%;
+    top: 10%;
+    width: max-content; 
+    font-size: 2.0em; 
+    font-weight: bold; 
+    color: rgb(41, 50, 73);
+    background-color: rgba(255,255,255,0.3);
+}
+
+#weather{
+    position: absolute;
+    text-align: center;
+    width: max-content; 
+    font-size: 1.8em; 
+    font-weight: bold; 
+    bottom:10%;
+    right: 5%;
+    color: rgb(41, 50, 73);
+    background-color: rgba(255,255,255,0.6);
+}
