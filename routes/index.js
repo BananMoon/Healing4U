@@ -250,21 +250,28 @@ router.get('/rating/home/:userId', function(req, res) {
 router.get('/rating/:button/:userId', async (req, res) => {
   let { button } = req.params;
   let { userId } = req.params;
-  console.log('서버에서 rating값: ',button);
-  console.log('클릭 API에서 userId값: ',userId)
-  // 결과값 체크
+ // 결과값 체크
   if (Number.isNaN(button)) {
     return res.status(400).end();
   }
+
   //금일 날짜 ->DL 서버에 요청
   let today = new Date();
   let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
   console.log(date);  //2021-9-10
+  
+  // String->int 형변환
+  let num_button = parseInt(button);
+  let num_userId = parseInt(userId);
 
-  let insert_sql = 'INSERT INTO users (rating, date) VALUES (?,?) WHERE user_id=?';
-  conn.query(insert_sql, [button, date, userId], function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
-    if(err) console.log('query is not excuted. insert fail...\n' + err);
-    else return res.status(204).end();
+  let update_sql = 'UPDATE users SET rating=? AND today=? WHERE user_id=?';
+  let params = [num_button, date, num_userId];
+  conn.query(update_sql, params, function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
+    if(err) console.log('update query is not excuted. insert fail...\n' + err);
+    else {
+      console.log('update query is succeed!');
+      return res.status(204).end();
+    } 
   });
 });
   // db.saveRating((button) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
