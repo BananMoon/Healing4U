@@ -12,11 +12,28 @@
             function Timer(ad_ID, userId) { 
                 console.log("======Timer 함수 내=======");
                 console.log(ad_ID, userId);
-                setTimeout(callAPI, 5000, ad_ID, userId); //15초 후에 db에 저장하면서 rating화면으로 전환.
+                setTimeout(callAPI, 5000, userId); //15초 후에 db에 저장하면서 rating화면으로 전환.
             } 
             //DL서버 요청에 대한 응답으로 advertisement 화면전환이 가능하면 아래 API 필요없고, 불가능해도.. 필요한가?
-            function callAPI(ad_ID, userId) {
+            function callAPI(userId) {
                 location.href= "/rating/home/" + userId;
+
+                // $.ajax({
+                //     type: "GET",
+                //     url: `/rating/home/${adId}/${userId}`,
+                //     data: {},
+                //     error: function(xhr, status, error) {
+                //         if (status == 404) {
+                //             alert("서버 응답 실패");
+                //         }
+                //         window.location.href = "/";
+                //     },
+                //     success: function(res) {
+                        
+                //         window.location.href= "/rating/home/" + res.userID;                       
+                //     }
+                // });
+                // location.href= "/rating/home/" + userId;
                 // console.log("======callAPI함수 내=======");
                 
                 // console.log(ad_ID);

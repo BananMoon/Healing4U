@@ -2,20 +2,21 @@
 const mysql = require('mysql');
 
 //db 정보
-const conn = mysql.createConnection({
+const conn = {
     host: 'healing.ceuy4iegap9i.ap-northeast-2.rds.amazonaws.com',  //aws RDS
     user: 'healing4u',
     password: 'healing4u',
     database: "healingDB"
-});
+};
 
 module.exports = {
     init,
     connect,
-    getSeasonHealing,
-    getWeatherHealing,
-    getAD,
-    getADFirst
+    mysql:mysql
+    // getSeasonHealing,
+    // getWeatherHealing,
+    // getAD,
+    // getADFirst,
     // saveRating
 }
 
@@ -106,7 +107,7 @@ function getADFirst(callback) {
 
 function saveRating(callback) {
     // console.log('saveRating에서: ', button, date, userId);
-    let insert_sql = 'INSERT INTO users (rating, date) VALUES (?,?) WHERE user=?';
+    let insert_sql = 'INSERT INTO users (rating, date) VALUES (?,?) WHERE user_id=?';
     conn.query(insert_sql, [button, date], userId, function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
       if(err) console.log('query is not excuted. insert fail...\n' + err);
       else callback(button);

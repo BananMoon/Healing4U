@@ -2,8 +2,8 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../config/db_info');
-// const conn = db.init(); // db의 커넥터를 활성화 시킨다.
-// db.connect(conn); //db에 커넥터를 연결해준다.
+const conn = db.init(); // db의 커넥터를 활성화 시킨다.
+db.connect(conn); //db에 커넥터를 연결해준다.
 
 // for 'post'방식
 var bodyParser = require('body-parser');
@@ -29,10 +29,18 @@ router.get('/', function(req, res) {
   // weather 반영 전) season
   console.log('계절 값: ',month_param);
   // DB 조회
-  db.getSeasonHealing((datas) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
-    console.log(datas);
-    res.render('healing', {healingData: datas});
+  var sql = 'SELECT * FROM healings WHERE season=?';
+  dataList=[];
+  conn.query(sql, month_param, function (err, rows, fields){              // DB 쿼리문
+    rows.forEach((row, index)=>{
+      dataList.push(row);
+      console.log(row);
+    });
+    healingData = dataList[Math.floor(Math.random()*dataList.length)];    // 랜덤으로 데이터 1개 추출 
 
+    console.log('get 데이터:', healingData);
+    if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
+    else  res.render('healing', {healingData: healingData});
   });
 });
 //===================================================================================
@@ -61,14 +69,24 @@ router.get("/healing/:weather", async (req, res) => {
   } else {
     month_param = 3;    //겨울
   }  
-  db.getWeatherHealing((healingData) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
-    console.log('===============api 호출에 응답할 data: ',healingData);
-    res.send({ 
+  //DB 조회
+  dataList = [];
+  var sql = 'SELECT * FROM healings WHERE weather=? AND season=?';
+  conn.query(sql, [weather_param, month_param], function (err, rows, fields){
+    rows.forEach((row, index)=>{
+      dataList.push(row);
+    })
+    healingData = dataList[Math.floor(Math.random()*dataList.length)]; 
+  // console.log('1',healingData);
+  // console.log('2',healingData.video_src);
+
+    if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
+    else  res.send({ 
       video_src: healingData.video_src,
       quote: healingData.quote,
       quote_src: healingData.quote_src
     });
-  });
+  })
 
   //이걸 어떻게 화면전환시키지?
   
@@ -109,15 +127,27 @@ router.get("/dl/test", function(req,res){
   } else {
     month_param = 3;    //겨울
   }
-  db.getAD((adData) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
-    console.log('===============api 호출에 응답할 data: ',healingData);
-    res.send('/advertisement?userId='+user_id);
-    
-    // res.render('advertisement', {
-    //   adData: adData,  
-    //   userID: user_id
-    // })
+  adsList = [];
+  let sql = 'SELECT * FROM advertisement WHERE emotion=? AND season=?';
+  conn.query(sql, [emotion_param, month_param], function (err, rows, fields){
+    console.log(rows);
+    rows.forEach((row, index)=>{
+      //광고서비스는 기분과 계절로 구분 (날씨는 프론트 단에서) 
+      adsList.push(row);
+    });
+    let adData = adsList[Math.floor(Math.random()*adsList.length)];
+
+    let ad_id = adData.ad_id;
+    //랜덤으로 뽑힌 필드의 ad_id를 users 테이블에 update
+    let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
+    conn.query(update_sql, [ad_id, user_id], function (err, rows, fields){
+      if(err) console.log('query is not excuted. insert fail...\n' + err);
+      else res.send('/advertisement?userId='+user_id);
+    });
   });
+  // db.getAD((adData) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
+  //   console.log('===============api 호출에 응답할 data: ',healingData);
+  //   res.send('/advertisement?userId='+user_id);
 });
 
 //'/advertisement'에서 호출. users 테이블에 데이터 update & rating 페이지를 user_id와 함께 랜더링.
@@ -131,6 +161,8 @@ router.post('/adDB', function(req, res) {
   //에러 체크
   if (!ad_id && !user_id) {
     return res.status(400).end();
+    // return res.json({userID:user_id});
+
   }
 
 //   //users 테이블 update
@@ -148,10 +180,7 @@ router.post('/adDB', function(req, res) {
 //   // res.render('rating', {
 //   //   userID: user_id
 //   // })
-  
-  // return res.status(201).json({userID:user_id});
-  return res.json({userID:user_id});
-})
+  })
 
 /* ========'/' 페이지에서 감정값을 받으면 advertisement.ejs를 랜더링할것임. ==========*/
 // 성공하면 해당 api는 지울거임
@@ -169,24 +198,49 @@ router.get('/advertisement', function(req, res) {
   }
   let user_id = 2;
 
-  db.getADFirst((adData) => {
-    res.render('advertisement', {
+  let adsList=[];
+  let sql = 'SELECT * FROM advertisement WHERE season=?';
+  conn.query(sql, month_param, function (err, rows, fields){
+    rows.forEach((row, index)=>{
+      //광고서비스는 기분과 날씨와 계절로 구분 (3-5 6-8 9-11 12-2)      
+      adsList.push(row);
+    });
+    //2. 랜덤 광고데이터 1개 저장.
+    let adData = adsList[Math.floor(Math.random()*adsList.length)];
+
+    console.log('adData',adData);
+    if(err) console.log('query is not excuted. insert fail...\n' + err);
+    else res.render('advertisement', {
       adData: adData,
       userID: user_id
     })
   });
+  // db.getADFirst((adData) => {
+  //   res.render('advertisement', {
+  //     adData: adData,
+  //     userID: user_id
+  //   })
+  // });
 });
 
 //rating 화면 전환
+//ad_id를 여기서 테이블에 저장할지 고민..
+// router.get('/rating/home/:adId/:userId', async (req, res) => {
+//   let { adId } = req.params;
+//   let { userId } = req.params;
+//   console.log('서버에서 userId: ', userId);
+//   console.log('서버에서 adId: ', adId);
+
+//   // 결과값 체크
+//   if (Number.isNaN(adId) && Number.isNaN(userId)) {
+//     return res.status(400).end();
+//   }
+//   return res.json({userID:userId});
+// });
 router.get('/rating/home/:userId', function(req, res) {
   const { userId } = req.params;
   console.log('서버에서 userId: ', userId);
-  // return res.status(204).end();
-  // res.send({ 
-  //   video_src: healingData.video_src,
-  //   quote: healingData.quote,
-  //   quote_src: healingData.quote_src
-  // });
+  
   res.render('rating', {
     userID: userId
   })
@@ -206,25 +260,17 @@ router.get('/rating/:button/:userId', async (req, res) => {
   let today = new Date();
   let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
   console.log(date);  //2021-9-10
-  
-  //userId로 날짜와 button값 저장
-  // rating값 저장
-  // db.saveRating((adData) => {
+
+  let insert_sql = 'INSERT INTO users (rating, date) VALUES (?,?) WHERE user_id=?';
+  conn.query(insert_sql, [button, date, userId], function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
+    if(err) console.log('query is not excuted. insert fail...\n' + err);
+    else return res.status(204).end();
+  });
+});
+  // db.saveRating((button) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
+  //   console.log('db로부터 온 data: ',button);
+  //   // res.render('healing');
   //   return res.status(204).end();
 
   // });
-  // db.saveRating((button) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
-  //   console.log('db로부터 온 data: ',button);
-  //   res.render('healing');
-  // });
-  let insert_sql = 'INSERT INTO users (rating, date) VALUES (?, ?) WHERE user_id=?';
-  db.query(insert_sql, [button, date, userId], function(err) { // sql를 실행하고 VALUES 으로 params를 보낸다.
-    if(err) console.log('query is not excuted. insert fail...\n' + err);
-    else console.log('Datas are inserted at users table');
-  });
-
-  // res.render('healing');
-  // return res.status(204).end();
-});
-
 module.exports = router;
