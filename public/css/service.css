@@ -1,11 +1,13 @@
-@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css); */
+
 body {
     padding: 0px;
     margin: 0px;
-    /* font-family: "font-family: 'Noto Sans KR', sans-serif;"; */
-     font-family: 'Yeon Sung', cursive;
+    /* font-family: 'Yeon Sung', cursive; */
+    font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
 .hidden {
@@ -35,12 +37,11 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    font-family: 'Yeon Sung', cursive;
 }
 .quote p {
     text-align: center;
     font-size: 48px;
-    color: #ffffff;
+    color: #fff5f5;
     font-family: 'Yeon Sung', cursive;
 }
 
@@ -48,22 +49,21 @@ body {
     position: absolute;
     left:3%;
     top:5%;
-    /* text-align: center; */
     width: max-content;
     font-size: 2.0em; 
     font-weight: bold; 
     color: rgb(41, 50, 73);
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,0.6);
 }
 #clock{
     position: absolute;
-    left:8%;
+    left:7%;
     top: 10%;
     width: max-content; 
     font-size: 2.0em; 
     font-weight: bold; 
     color: rgb(41, 50, 73);
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,0.6);
 }
 
 #weather{
