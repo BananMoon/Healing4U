@@ -5,7 +5,7 @@ const db = require('../config/db_info');
 const conn = db.init(); // db의 커넥터를 활성화 시킨다.
 db.connect(conn); //db에 커넥터를 연결해준다.
 
-// for 'post'방식
+// req.body를 사용하기위해 body-parser 모듈 사용
 var bodyParser = require('body-parser');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -45,8 +45,9 @@ router.get('/', function(req, res) {
 });
 //===================================================================================
 /*=======날씨api를 통해 받은 날씨값을 **초마다 해당 api를 호출하여 db를 조회. 해당 데이터와 함께 페이지 랜더링 ========*/
-router.get("/healing/:weather", async (req, res) => {
-  const { weather } = req.params;           // 실시간 날씨 값을 저장
+router.put("/healing", async (req, res) => {
+  const weather = req.body.weather;
+  // const { weather } = req.params;           // 실시간 날씨 값을 저장
   console.log('====================서버에서 weather값: ',weather);  // DB에서 조회할 값으로 변환
   if (weather == "Rain") {
     weather_param = 1;  // 비
@@ -101,8 +102,46 @@ router.get("/healing/:weather", async (req, res) => {
 
 
 /*========== 딥러닝 서버로부터 감정값을 받아서 db조회후 데이터값과 함께 광고서비스를 랜더링.=========*/
+var request = require('request');
+
+router.get("/dltest", function(req, res) {
+  console.log("GET요청 /dltest 호출됨");
+  
+  //콜백 이 실행되면 그 값이 아래 DLTestResult의 {result} 에 저장
+  const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
+    const options = {
+        method: 'POST',
+        uri: "http:// ??  /yolo",
+        qs: { //쿼리 스트링(query string)
+            test: "test"
+        }
+    }
+    // 위에 정의해논 options uri로 async 요청! request의 응답이 body로 오면 아래 callback 호출
+    request(options, async function (err, res, body) {
+        callback(undefined, {
+            result: body
+        });
+    });
+  }
+
+  //콜백 실행
+  DLTestResult((err, {result} = {}) => {
+    if (err) {
+      console.log("error!!!!");
+      res.send({
+        message: "fail",
+        status: "fail"
+      });
+    }else {  //error 아니면!
+      json = JSON.parse(result);    //parsing해야하나?
+      console.log(json, ': from flask')
+      console.log('성공했으니 클라이언트에 응답!');
+      return res.status(204).end(); //클라이언트에 응답
+    } 
+  })
+});
 // 우선 db조회 부터는 주석처리해놓음.
-router.get("/dl/test", function(req,res){
+router.put("/dl/test", function(req,res){
   var get_body = req.body;
   console.log('dl서버:',get_body);
   let emotion_param = get_body.now_emotion;
@@ -145,6 +184,7 @@ router.get("/dl/test", function(req,res){
       else res.send('/advertisement?userId='+user_id);
     });
   });
+  router.get()
   // db.getAD((adData) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
   //   console.log('===============api 호출에 응답할 data: ',healingData);
   //   res.send('/advertisement?userId='+user_id);
@@ -247,14 +287,15 @@ router.get('/rating/home/:userId', function(req, res) {
 })
 
 // 버튼 클릭시 호출 API
-router.get('/rating/:button/:userId', async (req, res) => {
-  let { button } = req.params;
-  let { userId } = req.params;
+router.put('/rating', async (req, res) => {
+  let button = req.body.button;
+  let userId = req.body.userId;
  // 결과값 체크
   if (Number.isNaN(button)) {
     return res.status(400).end();
   }
 
+  console.log(button, userId);
   //금일 날짜 ->DL 서버에 요청
   let today = new Date();
   let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();

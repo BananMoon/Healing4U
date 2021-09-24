@@ -1,20 +1,21 @@
-function good_run(button, userId){
-    console.log(button, userId);
+function good_run(rating, userID){
+    console.log(rating, userID);
     console.log('button clicked!');
-    requestAPI(button, userId);
+    requestAPI(rating, userID);
 }
 
-function bad_run(button, userId) {
-    console.log(button, userId);
+function bad_run(rating, userID) {
+    console.log(rating, userID);
     console.log('button clicked!');
-    requestAPI(button, userId);
+    requestAPI(rating, userID);
 }
 
-function requestAPI(button, userId) {
+function requestAPI(rating, userID) {
     $.ajax({
-        type: "GET",
-        url: `/rating/${button}/${userId}`,
-        data: {},
+        type: "PUT",
+        url: '/rating',
+        data: {button: rating, userId: userID },
+        dataType: 'json',
         error: function(xhr, status, error) {
             if (status == 404) {
                 alert("서버 응답 실패");

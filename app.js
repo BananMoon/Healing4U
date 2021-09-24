@@ -27,24 +27,6 @@ app.listen(2004, function() {
   console.log('listening on 2004♥');
 });
 
-/*--------------mysql 연동-------------*/
-
-/*- 웹 브라우저에서 보내온 요청은 웹 서버인 익스프레스에서 컨트롤러로 보낸다.
-- 익스프레스에서는 특정 패스로 들어온 요청을 라우팅 함수에서 처리하므로 라우팅 함수를 컨트롤러라고 한다.
-- 컨트롤러 안에서는 사용자 요청을 처리하기 위해 mongoose 스키마와 모델 객체를 이용해 데이터베이스를 조회하거나 데이터베이스에 저장한다. 
--> 다음의 이유로 db 조회요청을 위한 router를 따로 만들어줘야할듯함 */
-
-//connection 정의
-// const dbconnection = mysql.createConnection({
-//   host: 'healing.cdkn59lq9zjm.ap-northeast-2.rds.amazonaws.com',
-//   user: 'healing4u',
-//   password: 'healing4u',
-//   database: "healingDB"
-// });
-
-// dbconnection.connect();         // RDS에 접속
-
-//testQuery = "SELECT img_src, address, detail_short, service_name FROM services WHERE (emotion=0 AND img_src is not null";
 
 /*--------안드로이드 송신용 페이지---------*/
 // app.get('/adsDB', function (req, res) {  
