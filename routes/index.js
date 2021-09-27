@@ -179,23 +179,23 @@ router.get('/advertisement/:now_emotion/:userId', function(req, res) {
       adsList.push(row);
     });
     let adData = adsList[Math.floor(Math.random()*adsList.length)];
-    adId = adData.ad_id;
+    let adId = adData.ad_id;
 
     if(err) console.log('query is not excuted. insert fail...\n' + err);
-    else console.log('광고데이터 조회 완료!');
+    else {
+      console.log('광고데이터 조회 완료!');
+      console.log('users 테이블 업데이트 쿼리!');
+      let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
+      conn.query(update_sql, [adId, userId], function (err, rows, fields){
+      if(err) console.log('query is not excuted. insert fail...\n' + err);
+      else res.render('advertisement', {
+        adData: adData,
+        userID: userId
+      })
   });
-  console.log('ad_id 확인: '+ ad_id);
 
   //2. 조회된 광고데이터의 ad_id를 users 테이블에 update
-  console.log('users 테이블 업데이트 쿼리!');
-  let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
-  conn.query(update_sql, [adId, userId], function (err, rows, fields){
-    if(err) console.log('query is not excuted. insert fail...\n' + err);
-    else res.render('advertisement', {
-      adData: adData,
-      userID: userId
-    })
-  });
+  
 });
 
 //'/advertisement'에서 호출. users 테이블에 데이터 update & rating 페이지를 user_id와 함께 랜더링.
