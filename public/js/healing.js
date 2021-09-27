@@ -38,19 +38,10 @@ function DLapi() {
             }
         },
         success: function(response) {
-          console.log(response.video_src);
-          // $("#video").attr("src", healingData["video_src"]);
-          
-          var videoSrc = document.querySelector('.bg > video');
-          // videoSrc.innerHTML="<div id=\'bg\'><video muted autoplay loop src="+response.video_src+"></video></div>";
-          videoSrc.setAttribute("src", response.video_src);
-          // videoSrc.innerHTML = "<video muted autoplay loop src=" + response.video_src + "></video>"
-          var quote = document.querySelector('.bg > div');
-          console.log('api 호출 성공시, video: ',videoSrc.src, '\n힐링문구: ', quote);
-          quote.innerHTML="<p>"+response.quote+"</p><p>"+response.quote_src+"</p>";
-          
+            window.location.href = `${response.ad_url}`;
+            // '/advertisement/'+now_emotion + '/' + user_id
         }
-      });
+    });
     // let socket = io.connect('ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8080');
     // socket.on('connect',function() {
     //     console.log('Client has connected to the server!');
@@ -67,6 +58,6 @@ function DLapi() {
     // })
 };
 // Sends a message to the server via sockets
-function send(message) {
-    socket.send('msg',message);
-};
+// function send(message) {
+//     socket.send('msg',message);
+// };

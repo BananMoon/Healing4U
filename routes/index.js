@@ -111,7 +111,7 @@ router.get("/dltest", function(req, res) {
   const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
     const options = {
         method: 'POST',
-        uri: "http:// ??  /yolo",
+        uri: "http://localhost:5000/test",
         qs: { //쿼리 스트링(query string)
             test: "test"
         }
@@ -135,75 +135,83 @@ router.get("/dltest", function(req, res) {
     }else {  //error 아니면!
       json = JSON.parse(result);    //parsing해야하나?
       console.log(json, ': from flask')
-      console.log('성공했으니 클라이언트에 응답!');
-      return res.status(204).end(); //클라이언트에 응답
+      //json으로 user_id와 emotion이 넘어올 것임
+      const now_emotion = json.now_emotion;
+      const user_id = json.user_id;
+      console.log("실시간 사용자 감정값 : "+ now_emotion);
+      console.log("userID: " + user_id);
+      const ad_url = '/advertisement/' + now_emotion + '/' + user_id; // /advertisement/2/16
+
+      return res.send({ 
+          ad_url: ad_url
+      });
+      
+      // console.log('성공했으니 클라이언트에 응답!'); //출력 안될듯함
+      // return res.status(204).end(); //클라이언트에 응답
     } 
   })
 });
-// 우선 db조회 부터는 주석처리해놓음.
-router.put("/dl/test", function(req,res){
-  var get_body = req.body;
-  console.log('dl서버:',get_body);
-  let emotion_param = get_body.now_emotion;
-  let user_id = get_body.user_id;
 
-  //에러 체크
-  if (!emotion_param && !user_id) {
-    return res.status(400).end();
-  }
-  console.log('실시간 사용자 감정값 : ', emotion_param);
-  console.log('user ID : ', user_id);
 
-  //(WHERE now_emotion, season) 광고테이블에서 광고 조회해서 advertisement로 랜더링
+/* ========'/' 페이지에서 감정값을 받으면 advertisement.ejs를 랜더링할것임. ==========*/
+router.get('/advertisement/:now_emotion/:userId', function(req, res) {
+  const { now_emotion } = req.params;
+  const { userId } = req.params;
+
+  //1. advertisement에서 광고데이터 조회
   let today = new Date();
   let month = today.getMonth()+1;
   if (3<=month && month<=5) {
-    month_param = 0;    //봄
+    season_param = 0;    //봄
   } else if (6<=month && month<=8) {
-    month_param = 1;    //여름
+    season_param = 1;    //여름
   } else if (9<=month && month<=11) {
-    month_param = 2;    //가을
+    season_param = 2;    //가을
   } else {
-    month_param = 3;    //겨울
+    season_param = 3;    //겨울
   }
   adsList = [];
   let sql = 'SELECT * FROM advertisement WHERE emotion=? AND season=?';
-  conn.query(sql, [emotion_param, month_param], function (err, rows, fields){
+  conn.query(sql, [now_emotion, season_param], function (err, rows, fields){
     console.log(rows);
     rows.forEach((row, index)=>{
-      //광고서비스는 기분과 계절로 구분 (날씨는 프론트 단에서) 
+    //광고서비스는 기분과 계절로 구분 (날씨는 프론트 단에서) 
       adsList.push(row);
     });
     let adData = adsList[Math.floor(Math.random()*adsList.length)];
+    adId = adData.ad_id;
 
-    let ad_id = adData.ad_id;
-    //랜덤으로 뽑힌 필드의 ad_id를 users 테이블에 update
-    let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
-    conn.query(update_sql, [ad_id, user_id], function (err, rows, fields){
-      if(err) console.log('query is not excuted. insert fail...\n' + err);
-      else res.send('/advertisement?userId='+user_id);
-    });
+    if(err) console.log('query is not excuted. insert fail...\n' + err);
+    else console.log('광고데이터 조회 완료!');
   });
-  router.get()
-  // db.getAD((adData) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
-  //   console.log('===============api 호출에 응답할 data: ',healingData);
-  //   res.send('/advertisement?userId='+user_id);
+  console.log('ad_id 확인: '+ ad_id);
+
+  //2. 조회된 광고데이터의 ad_id를 users 테이블에 update
+  console.log('users 테이블 업데이트 쿼리!');
+  let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
+  conn.query(update_sql, [adId, userId], function (err, rows, fields){
+    if(err) console.log('query is not excuted. insert fail...\n' + err);
+    else res.render('advertisement', {
+      adData: adData,
+      userID: userId
+    })
+  });
 });
 
 //'/advertisement'에서 호출. users 테이블에 데이터 update & rating 페이지를 user_id와 함께 랜더링.
-router.post('/adDB', function(req, res) {
-  console.log("POST 방식으로 '/adDB' 호출됨");
-  let ad_id= req.body.ad_id;
-  console.log(typeof(ad_id));
-  let user_id = req.body.user_id;
-  console.log('광고id는 ',ad_id, 'userid는', user_id);
+// router.post('/adDB', function(req, res) {
+//   console.log("POST 방식으로 '/adDB' 호출됨");
+//   let ad_id= req.body.ad_id;
+//   console.log(typeof(ad_id));
+//   let user_id = req.body.user_id;
+//   console.log('광고id는 ',ad_id, 'userid는', user_id);
 
-  //에러 체크
-  if (!ad_id && !user_id) {
-    return res.status(400).end();
-    // return res.json({userID:user_id});
+//   //에러 체크
+//   if (!ad_id && !user_id) {
+//     return res.status(400).end();
+//     // return res.json({userID:user_id});
 
-  }
+//   }
 
 //   //users 테이블 update
 //   let update_sql = 'UPDATE users SET ad_id = ? WHERE user_id = ?';
@@ -220,48 +228,8 @@ router.post('/adDB', function(req, res) {
 //   // res.render('rating', {
 //   //   userID: user_id
 //   // })
-  })
+// })
 
-/* ========'/' 페이지에서 감정값을 받으면 advertisement.ejs를 랜더링할것임. ==========*/
-// 성공하면 해당 api는 지울거임
-router.get('/advertisement', function(req, res) {
-  let today = new Date();
-  let month = today.getMonth()+1;
-  if (3<=month && month<=5) {
-    month_param = 0;    //봄
-  } else if (6<=month && month<=8) {
-    month_param = 1;    //여름
-  } else if (9<=month && month<=11) {
-    month_param = 2;    //가을
-  } else {
-    month_param = 3;    //겨울
-  }
-  let user_id = 2;
-
-  let adsList=[];
-  let sql = 'SELECT * FROM advertisement WHERE season=?';
-  conn.query(sql, month_param, function (err, rows, fields){
-    rows.forEach((row, index)=>{
-      //광고서비스는 기분과 날씨와 계절로 구분 (3-5 6-8 9-11 12-2)      
-      adsList.push(row);
-    });
-    //2. 랜덤 광고데이터 1개 저장.
-    let adData = adsList[Math.floor(Math.random()*adsList.length)];
-
-    console.log('adData',adData);
-    if(err) console.log('query is not excuted. insert fail...\n' + err);
-    else res.render('advertisement', {
-      adData: adData,
-      userID: user_id
-    })
-  });
-  // db.getADFirst((adData) => {
-  //   res.render('advertisement', {
-  //     adData: adData,
-  //     userID: user_id
-  //   })
-  // });
-});
 
 //rating 화면 전환
 //ad_id를 여기서 테이블에 저장할지 고민..
@@ -315,10 +283,4 @@ router.put('/rating', async (req, res) => {
     } 
   });
 });
-  // db.saveRating((button) => {   //db객체에서 getAllServices함수를 호출해 db 전체 조회
-  //   console.log('db로부터 온 data: ',button);
-  //   // res.render('healing');
-  //   return res.status(204).end();
-
-  // });
 module.exports = router;

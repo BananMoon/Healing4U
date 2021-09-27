@@ -17,66 +17,6 @@
             //DL서버 요청에 대한 응답으로 advertisement 화면전환이 가능하면 아래 API 필요없고, 불가능해도.. 필요한가?
             function callAPI(userId) {
                 location.href= "/rating/home/" + userId;
-
-                // $.ajax({
-                //     type: "GET",
-                //     url: `/rating/home/${adId}/${userId}`,
-                //     data: {},
-                //     error: function(xhr, status, error) {
-                //         if (status == 404) {
-                //             alert("서버 응답 실패");
-                //         }
-                //         window.location.href = "/";
-                //     },
-                //     success: function(res) {
-                        
-                //         window.location.href= "/rating/home/" + res.userID;                       
-                //     }
-                // });
-                // location.href= "/rating/home/" + userId;
-                // console.log("======callAPI함수 내=======");
-                
-                // console.log(ad_ID);
-                // console.log(user_ID);
-                // console.log("call success");
-                // $.ajax({
-                //     url: '/adDB',
-                //     dataType: 'json',
-                //     type: 'POST',
-                //     data: {
-                //         'ad_id': ad_ID,
-                //         'user_id': user_ID
-                //     },
-                //     success: function(response) {
-                //         console.log('adDB 통신 success');
-                //         console.log(response.userID);
-                //         location.href= "/rating/home/" + response.userID;
-                        //흠..
-                        //location.replace("/rating/home/:userID");
-                        // console.log(response.url);
-                        // 여기서 user_id와 함께 rating.ejs를 호출해야함. ajax를 여기서 한번 더 해볼까?
-                        //호출하고 rating.ejs 페이지로 넘어가야하는데..
-                        // $.ajax({
-                        //     url: '/rating',
-                        //     dataType: 'json',
-                        //     type: 'POST',
-                        //     data: {
-                        //         'ad_id': ad_ID,
-                        //         'user_id': user_ID
-                        //     },
-                        //     success: function(response) {
-                        //         console.log('adDB 통신 success');
-                        //         console.log(response.userID);
-                        //         // res.render('rating', {
-                        //         //     user_id:response.user_id
-                        //         // })
-                        //         console.log("'rating' 렌더링 성공");
-                        //     }
-                        // });
-            }
-                // });
-                //location.replace("/rating");
-            // }
         </script>
     </head> 
     <body>
