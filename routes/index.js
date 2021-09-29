@@ -46,19 +46,22 @@ router.get('/', function(req, res) {
 
 /*=======날씨api를 통해 받은 날씨값을 **초마다 해당 api를 호출하여 db를 조회. 해당 데이터와 함께 페이지 랜더링 ========*/
 router.put("/healing", async (req, res) => {
-  const weather = req.body.weather;
-  // const { weather } = req.params;           // 실시간 날씨 값을 저장
+  const weather = req.body.weather;        // 실시간 날씨 값을 저장
+
+  // 1. weather
   console.log('====================서버에서 weather값: ',weather);  // DB에서 조회할 값으로 변환
   if (weather == "Rain") {
     weather_param = 1;  // 비
   }
   else if (weather == "Snow") {
     weather_param = 2;  // 눈
-  } else {
-    weather_param = 0;  // 맑음, 안개(Mist, Hazy, Clouds) 등..
+  } else if (weather == "Mist" || weather == "Hazy") {
+    weather_param = 3;  // 안개(Mist, Hazy) 등..
+  } else {    // 맑음(Clouds, Fog) 등..
+    weather_param = 0;
   }
-  // 이외 코드는 위와 동일하여 생략
-  //season
+
+  // 2. season
   let today = new Date();
   let month = today.getMonth()+1;
   if (3<=month && month<=5) {
@@ -70,7 +73,8 @@ router.put("/healing", async (req, res) => {
   } else {
     month_param = 3;    //겨울
   }  
-  //DB 조회
+
+  // 3. DB 조회
   dataList = [];
   var sql = 'SELECT * FROM healings WHERE weather=? AND season=?';
   conn.query(sql, [weather_param, month_param], function (err, rows, fields){
@@ -101,7 +105,7 @@ router.get("/dltest", function(req, res) {
   const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
     const options = {
         method: 'GET',
-        uri: "http://localhost:5000/test",
+        uri: "http://localhost:5000/test",  //http://{aws ip주소}/test
         qs: { //쿼리 스트링(query string)
             test: "test"
         }
@@ -154,20 +158,27 @@ router.get('/advertisement/:userId/:adId', function(req, res) {
 
   let sql = "SELECT * FROM advertisement WHERE ad_id=?";
   adsList = [];
-  conn.query(sql, adId, function (err, row, fields){
-    console.log("index.js에서 광고데이터 전달받음: " + row);
+  conn.query(sql, 18, function (err, row, fields){
     row.forEach((r)=>{
       //광고서비스는 기분과 계절로 구분 (날씨는 프론트 단에서) 
         adsList.push(r);
+        // console.log(JSON.parse(r));
     });
-    console.log("index.js에서 광고데이터 전달받음: " + adsList[0]);
+    ad_src =  adsList[0].src
+
+    console.log("src출력: "+ ad_src);
+    //광고url
+    //JSON.stringify() 메서드는 JavaScript 값이나 객체를 JSON 문자열로 변환합니다
+    //JSON.parse() 메서드는 JSON 문자열의 구문을 분석하고, 그 결과에서 JavaScript 값이나 객체를 생성
+
+    // console.log("ad_id 출력: "+ stringRow.ad_id);
     // 문제 : adsList가 [object Object] 라 뜨네.....
 
     if(err) console.log('query is not excuted. insert fail...\n' + err);
     else {
       console.log('광고데이터 조회 완료!');
       res.render('advertisement', {
-          adData: row,
+          adSrc: ad_src,
           userID: userId
       });
     }  

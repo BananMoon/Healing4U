@@ -97,7 +97,7 @@
               <script>
                 const dateTag = document.querySelector("h1#date");
                 date = new Date();
-                dateFormat = String(moment(date).format(`dddd, Do MM YYYY`));
+                dateFormat = String(moment(date).format(`YYYY. MM. DD. dddd`));
                 dateTag.innerText= `${dateFormat}`;
               </script>
               <div id="weather">
