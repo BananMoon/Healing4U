@@ -39,7 +39,7 @@ function DLapi() {
         },
         success: function(response) {
             window.location.href = `${response.ad_url}`;
-            // '/advertisement/'+now_emotion + '/' + user_id
+            // '/advertisement/' + user_id + '/' + ad_id
         }
     });
     // let socket = io.connect('ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8080');

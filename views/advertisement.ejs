@@ -9,28 +9,27 @@
         <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
         <script>
-            function Timer(ad_ID, userId) { 
+            function Timer(userID) { 
                 console.log("======Timer 함수 내=======");
-                console.log(ad_ID, userId);
-                setTimeout(callAPI, 5000, userId); //15초 후에 db에 저장하면서 rating화면으로 전환.
+                console.log(userID);
+                setTimeout(callAPI, 5000, userID); //15초 후에 db에 저장하면서 rating화면으로 전환.
             } 
             //DL서버 요청에 대한 응답으로 advertisement 화면전환이 가능하면 아래 API 필요없고, 불가능해도.. 필요한가?
-            function callAPI(userId) {
-                location.href= "/rating/home/" + userId;
+            function callAPI(userID) {
+                location.href= "/rating/home/" + userID;
             }
         </script>
     </head> 
     <body>
         <h3 style='display:none;'><%= userID %></h3>
-        <h2 style='display:none;'><%= adData.ad_id %></h2>
         <script>
-            const userId = document.querySelector('h3').innerText;
-            const adId = document.querySelector('h2').innerText;
-            console.log(userId, userId);
-            Timer(adId, userId);
+            const userID = document.querySelector('h3').innerText;
+            console.log(userID);
+            Timer(userID);
         </script>
         <div class="bg">
         <% adSrc = adData.src %>
+        <% console.log(adSrc); %>
         <% if (adSrc.toLowerCase().indexOf('.jpg') != -1 || adSrc.toLowerCase().indexOf('.jpeg') != -1) { %>
             <img src="<%= adData.src %>"/>
         <% }else if (adSrc.indexOf('.mp4') != -1) { %>
