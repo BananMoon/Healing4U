@@ -118,7 +118,7 @@ router.get("/dltest", function(req, res) {
     });
   }
 
-  //콜백 실행
+  //콜백 실행. result는 딥러닝서버로부터 받은 값
   DLTestResult((err, {result} = {}) => {
     if (err) {
       console.log("error!!!!");
@@ -130,11 +130,9 @@ router.get("/dltest", function(req, res) {
       json = JSON.parse(result);    //json으로 왔으니 parsing해야할듯
       console.log(json, ': from flask')
       //json으로 user_id와 emotion이 넘어올 것임
-      const now_emotion = json.now_emotion;
       const user_id = json.user_id;
       const ad_id = json.ad_id;
 
-      console.log("실시간 사용자 감정값 : "+ now_emotion);
       console.log("userID: " + user_id);
       console.log("adID: " + ad_id);
 
@@ -153,8 +151,8 @@ router.get('/advertisement/:userId/:adId', function(req, res) {
   const { adId } = req.params;
 
   //1. advertisement에서 광고데이터 조회
-  console.log("index.js에서 userId"+ userId);
-  console.log("index.js에서 adId"+ adId);
+  console.log("index.js에서 userId : "+ userId);
+  console.log("index.js에서 adId : "+ adId);
 
   let sql = "SELECT * FROM advertisement WHERE ad_id=?";
   adsList = [];
