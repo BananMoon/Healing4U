@@ -3,11 +3,14 @@
     <HEAD>
         <META http-equiv="content-type" content="text/html; charset=euc-kr"> 
         <link rel = "stylesheet", href="/css/rating.css"/>    
+        <!-- jquery CDN -->
         <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
         crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+        <!-- qrcode 라이브러리 CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <TITLE> Healing Rating Page</TITLE> 
         <SCRIPT LANGUAGE="JavaScript"> 
             function Timer() { 
@@ -32,7 +35,6 @@
     </HEAD> 
     <BODY onLoad="Timer();">
       <div id="container">
-        <div id="bgd"></div>
         <div id="content" class ="container-max">
             <h1>방금 제공 받으신 서비스, 어떠셨나요?</h1>
             <p>축적된 별점데이터를 기반으로 저희의 모바일웹 "Healing4U"를 통해 사용자분들께 광고서비스를 추천해드리고 있습니다.</p>
@@ -50,8 +52,19 @@
                 <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Unlike-512.png">
             </button>
         </div>
-        <div id="count_text"></div>
-        <img id="qr" src="/img/qrcode.png"/>
+        <div class="text">
+            <span id="count_text"></span>
+            <br>
+            <span>더 많은 서비스를 제공받고 싶다면, 오른쪽 QR코드를 이용하세요.</span>
+        </div>
+        <!-- <div id="count_text"</div>
+        <div class="text"></div> --> 
+        <!-- <img id="qrcode" src="/img/qrcode.png"/> -->
+        <div id="qr"></div>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qr"), "http://naver.com/"+userId);
+        </script>
+
       </div>
 
         <script>countdown();</script>
