@@ -11,7 +11,7 @@
         crossorigin="anonymous"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script> -->
         <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
         <script>
           /*========== 날씨 api(openweatherapi이용) ==========*/
           const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8";
@@ -22,17 +22,10 @@
               fetch(url)
                 .then((response) => response.json())
                 .then((data) => {
-                  const cityTag = document.querySelector('#weather span:first-child');
-                  const weatherTag =  document.querySelector('#weather span:last-child');
-                  const temperature = data.main.temp;
-                  const weather = data.weather[0].main;
-                  const city = data.name;
-                  cityTag.innerText = `City: ${city}`;
-                  weatherTag.innerText = `Weather: ${weather}
-                    Temporary: ${temperature} °C`;
-                  const weatherList = [city, weather, temperature];
+                  setWeather(data);                  
                 });
           }
+          //날씨 반영
           function onGeoOk_apiCall(position){
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
@@ -40,22 +33,33 @@
                 fetch(url)
                 .then((response) => response.json())
                 .then((data) => {
-                    const cityTag = document.querySelector('#weather span:first-child');
-                    const weatherTag =  document.querySelector('#weather span:last-child');
-                    const temperature = data.main.temp;
-                    const weather = data.weather[0].main;
-                    const city = data.name;
-                    cityTag.innerText = `City: ${city}`;
-                    weatherTag.innerText = `Weather: ${weather}
-                    Temporary: ${temperature} °C`;
-                    const weatherList = [city, weather, temperature];
-                    //serviceAPI(weatherList);
-                    console.log('api 호출: ',weather);
-                    weatherAPI(weather);
+                  setWeather(data); 
+                  const weatherData = data.weather[0].main;
+                  console.log('api 호출: ',weatherData);
+                  weatherAPI(weatherData);
                 })
           }
           function onGeoError() {
             alert("Can't find you. No weather for you.");
+          }
+          function setWeather(data) {
+            const cityTag = document.querySelector('#city');
+            console.log(cityTag);
+            const weatherTag =  document.querySelector('#weather');
+            const tempTag = document.querySelector('#temp')
+            const iconTag = document.querySelector('#weatherEle img');
+            const temperature = data.main.temp;
+            const weatherData = data.weather[0].main;
+            const cityData = data.name;
+            
+            const iconCode = data.weather[0].icon;
+            console.log(iconCode);
+            const iconUrl ='http://openweathermap.org/img/wn/'+iconCode+'@2x.png';
+            // html 수정
+            cityTag.innerText = `City: ${cityData}`;
+            weatherTag.innerText = `Weather: ${weatherData}`;
+            tempTag.innerText = `Temporary: ${temperature} °C`;
+            iconTag.setAttribute('src', iconUrl);
           }
           timer = setInterval( function() {
             //날씨api
@@ -76,10 +80,17 @@
               <p><%=healingData.quote%></p>
               <p><%=healingData.quote_src%></p>
             </div>
-            <h2 id="clock">00:00:00</h2>
+
+            <!-- 날짜와 시간 -->
+            <div class="calendar">
+              <span id="date">날짜</span>
+              <br>
+              <span id="clock">00:00:00</span>
+            </div>
+          
             <script>
-          /*======== 1초마다 setInterval. 시계 기능 =======*/
-            const clock = document.querySelector("h2#clock");
+          /*======== 시계기능 =======*/
+            const clock = document.querySelector("#clock");
 
             function getClock() {
                 const date = new Date();  //호출 당시 시각
@@ -92,18 +103,27 @@
 
             getClock();                   // 처음 화면 셋팅
             setInterval(getClock, 1000);  // 1초마다 getClock() 호출
-            </script>
-            <h1 id="date">날짜</h2>
-              <script>
-                const dateTag = document.querySelector("h1#date");
-                date = new Date();
-                dateFormat = String(moment(date).format(`YYYY. MM. DD. dddd`));
-                dateTag.innerText= `${dateFormat}`;
+
+          /*======== 날짜기능 =======*/            
+            const dateTag = document.querySelector("#date");
+            date = new Date();
+            dateFormat = moment(date).format('YYYY년 MM월 DD일 dddd');            
+            dateTag.innerText= `${dateFormat}`;
               </script>
-              <div id="weather">
-                <span></span>
-                <br>
-                <span></span>
+
+              <div id="weatherEle">
+                <table>
+                  <tr>
+                    <td><div><img id="icon" src="" alt="Weather icon"></div></td>
+                    <td>
+                      <span id="city"></span>
+                      <br>
+                      <span id="weather"></span>
+                      <br>
+                      <span id="temp"></span>
+                    </td>
+                  <tr>
+                </table>
               </div>
                 <!--=========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출 ==========-->
               <script>

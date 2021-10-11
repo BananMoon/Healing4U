@@ -96,54 +96,54 @@ router.put("/healing", async (req, res) => {
 
 
 /*========== 딥러닝 서버로 api 요청=========*/
-var request = require('request');
+// var request = require('request');
 
-router.get("/dltest", function(req, res) {
-  console.log("GET요청 /dltest 호출됨");
+// router.get("/dltest", function(req, res) {
+//   console.log("GET요청 /dltest 호출됨");
   
-  //콜백 이 실행되면 그 값이 아래 DLTestResult의 {result} 에 저장
-  const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
-    const options = {
-        method: 'GET',
-        uri: "http://localhost:5000/test",  //http://{aws ip주소}/test
-        qs: { //쿼리 스트링(query string)
-            test: "test"
-        }
-    }
-    // 위에 정의해논 options uri로 async 요청! request의 응답이 body로 오면 아래 callback 호출
-    request(options, async function (err, res, body) {
-        callback(undefined, {
-            result: body
-        });
-    });
-  }
+//   //콜백 이 실행되면 그 값이 아래 DLTestResult의 {result} 에 저장
+//   const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
+//     const options = {
+//         method: 'GET',
+//         uri: "http://localhost:5000/test",  //http://{aws ip주소}/test
+//         qs: { //쿼리 스트링(query string)
+//             test: "test"
+//         }
+//     }
+//     // 위에 정의해논 options uri로 async 요청! request의 응답이 body로 오면 아래 callback 호출
+//     request(options, async function (err, res, body) {
+//         callback(undefined, {
+//             result: body
+//         });
+//     });
+//   }
 
-  //콜백 실행. result는 딥러닝서버로부터 받은 값
-  DLTestResult((err, {result} = {}) => {
-    if (err) {
-      console.log("error!!!!");
-      res.send({
-        message: "fail",
-        status: "fail"
-      });
-    }else {  //error 아니면!
-      json = JSON.parse(result);    //json으로 왔으니 parsing해야할듯
-      console.log(json, ': from flask')
-      //json으로 user_id와 emotion이 넘어올 것임
-      const user_id = json.user_id;
-      const ad_id = json.ad_id;
+//   //콜백 실행. result는 딥러닝서버로부터 받은 값
+//   DLTestResult((err, {result} = {}) => {
+//     if (err) {
+//       console.log("error!!!!");
+//       res.send({
+//         message: "fail",
+//         status: "fail"
+//       });
+//     }else {  //error 아니면!
+//       json = JSON.parse(result);    //json으로 왔으니 parsing해야할듯
+//       console.log(json, ': from flask')
+//       //json으로 user_id와 emotion이 넘어올 것임
+//       const user_id = json.user_id;
+//       const ad_id = json.ad_id;
 
-      console.log("userID: " + user_id);
-      console.log("adID: " + ad_id);
+//       console.log("userID: " + user_id);
+//       console.log("adID: " + ad_id);
 
-      const ad_url = '/advertisement/' + user_id + '/' + ad_id; // /advertisement/2/16
+//       const ad_url = '/advertisement/' + user_id + '/' + ad_id; // /advertisement/2/16
 
-      return res.send({ 
-          ad_url: ad_url
-      });
-    } 
-  })
-});
+//       return res.send({ 
+//           ad_url: ad_url
+//       });
+//     } 
+//   })
+// });
 
 /* advertisement 페이지 전환 api */
 router.get('/advertisement/:userId/:adId', function(req, res) {

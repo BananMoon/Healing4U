@@ -44,36 +44,30 @@ body {
     color: #fff5f5;
     font-family: 'Yeon Sung', cursive;
 }
-
-#date{
+.calendar {
+    padding: 7px;
+    border-radius: 10px;
     position: absolute;
     left:2%;
     top:5%;
+    text-align: center;
     width: max-content;
     font-size: 2.0em; 
     font-weight: bold; 
     color: rgb(41, 50, 73);
-    background-color: rgba(255,255,255,0.6);
-}
-#clock{
-    position: absolute;
-    left:7%;
-    top: 11%;
-    width: max-content; 
-    font-size: 2.0em; 
-    font-weight: bold; 
-    color: rgb(41, 50, 73);
-    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(255,255,255,0.55);  
 }
 
-#weather{
+#weatherEle{
+    padding: 7px;
+    border-radius: 10px;
     position: absolute;
     text-align: center;
     width: max-content; 
     font-size: 1.8em; 
     font-weight: bold; 
-    bottom:10%;
-    right: 5%;
+    bottom:5%;
+    right: 2%;
     color: rgb(41, 50, 73);
-    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(255,255,255,0.55);
 }
