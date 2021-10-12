@@ -105,7 +105,7 @@ router.get("/dltest", function(req, res) {
   const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
     const options = {
         method: 'GET',
-        uri: "http://localhost:5000/test",  //http://{aws ip주소}/test
+        uri: "ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8888/test",  //http://{aws ip주소}/test
         qs: { //쿼리 스트링(query string)
             test: "test"
         }
