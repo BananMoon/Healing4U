@@ -61,12 +61,12 @@
             tempTag.innerText = `Temporary: ${temperature} °C`;
             iconTag.setAttribute('src', iconUrl);
           }
-          // timer = setInterval( function() {
-          //   //날씨api
-          //   navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
-            //딥러닝서버 요청 api
-            //
-          // }, 12000); //12초
+          timer = setInterval( function() {
+            //날씨api
+            navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
+            // 딥러닝서버 요청 api
+            
+          }, 12000); //12초
           timer2 = setInterval( function() {
             DLapi();
           }, 6000); //6초
