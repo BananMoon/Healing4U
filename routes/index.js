@@ -81,6 +81,7 @@ router.put("/healing", async (req, res) => {
     rows.forEach((row, index)=>{
       dataList.push(row);
     })
+    console.log(dataList);
     healingData = dataList[Math.floor(Math.random()*dataList.length)]; 
 
     if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
