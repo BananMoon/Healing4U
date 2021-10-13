@@ -61,12 +61,12 @@
             tempTag.innerText = `Temporary: ${temperature} °C`;
             iconTag.setAttribute('src', iconUrl);
           }
-          timer = setInterval( function() {
-            //날씨api
-            navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
+          // timer = setInterval( function() {
+          //   //날씨api
+          //   navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
             //딥러닝서버 요청 api
             //
-          }, 12000); //12초
+          // }, 12000); //12초
           timer2 = setInterval( function() {
             DLapi();
           }, 6000); //6초
@@ -129,7 +129,7 @@
               <script>
                 navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
                 // =========== 그 후에 타이머 호출하면 **초마다 날씨api호출하도록 할것임 
-                timer;
+                // timer;
                 timer2;
               </script>
               <script src="/js/healing.js"></script>
