@@ -106,7 +106,7 @@ router.get("/dltest", function(req, res) {
   const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
     const options = {
         method: 'GET',
-        uri: "http://ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8888/test",  //http://{aws ip주소}/test
+        uri: "http://ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8888/test",  //http://{aws ip주소}/test, http://localhost:5000/test
         qs: { //쿼리 스트링(query string)
             test: "test"
         }
@@ -158,21 +158,9 @@ router.get('/advertisement/:userId/:adId', function(req, res) {
 
   let sql = "SELECT * FROM advertisement WHERE ad_id=?";
   adsList = [];
-  conn.query(sql, 18, function (err, row, fields){
-    row.forEach((r)=>{
-      //광고서비스는 기분과 계절로 구분 (날씨는 프론트 단에서) 
-        adsList.push(r);
-        // console.log(JSON.parse(r));
-    });
-    ad_src =  adsList[0].src
-
+  conn.query(sql, adId, function (err, row, fields){
+    ad_src = row[0].src
     console.log("src출력: "+ ad_src);
-    //광고url
-    //JSON.stringify() 메서드는 JavaScript 값이나 객체를 JSON 문자열로 변환합니다
-    //JSON.parse() 메서드는 JSON 문자열의 구문을 분석하고, 그 결과에서 JavaScript 값이나 객체를 생성
-
-    // console.log("ad_id 출력: "+ stringRow.ad_id);
-    // 문제 : adsList가 [object Object] 라 뜨네.....
 
     if(err) console.log('query is not excuted. insert fail...\n' + err);
     else {
