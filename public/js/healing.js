@@ -7,14 +7,9 @@ function weatherAPI(Weather) {
     })
     .done(function(response) {
         console.log(response.video_src);
-        // $("#video").attr("src", healingData["video_src"]);
-        
         var videoSrc = document.querySelector('.bg > video');
-        // videoSrc.innerHTML="<div id=\'bg\'><video muted autoplay loop src="+response.video_src+"></video></div>";
         videoSrc.setAttribute("src", response.video_src);
-        // videoSrc.innerHTML = "<video muted autoplay loop src=" + response.video_src + "></video>"
         var quote = document.querySelector('.bg > div');
-        console.log('api 호출 성공시, video: ',videoSrc.src, '\n힐링문구: ', quote);
         quote.innerHTML="<p>"+response.quote+"</p><p>"+response.quote_src+"</p>";
         
     })

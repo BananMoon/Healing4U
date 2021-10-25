@@ -44,13 +44,12 @@ router.get('/', function(req, res) {
   });
 });
 
-/*=======날씨api를 통해 받은 날씨값을 **초마다 해당 api를 호출하여 db를 조회. 해당 데이터와 함께 페이지 랜더링 ========*/
+/*=======날씨api를 통해 받은 날씨값을 **초마다 해당 api를 호출========*/
 router.put("/healing", async (req, res) => {
-  const weather = req.body.weather;        // 실시간 날씨 값을 저장
-
   // 1. weather
-  console.log('====================서버에서 weather값: ',weather);  // DB에서 조회할 값으로 변환
-  if (weather == "Rain") {
+  const weather = req.body.weather;        // 실시간 날씨 값을 저장
+  console.log('====================서버에서 weather값: ',weather);
+  if (weather == "Rain") {  // DB에서 조회할 값으로 변환
     weather_param = 1;  // 비
   }
   else if (weather == "Snow") {
@@ -60,7 +59,6 @@ router.put("/healing", async (req, res) => {
   } else {    // 맑음(Clouds, Fog) 등..
     weather_param = 0;
   }
-
   // 2. season
   let today = new Date();
   let month = today.getMonth()+1;
@@ -73,7 +71,6 @@ router.put("/healing", async (req, res) => {
   } else {
     month_param = 3;    //겨울
   }  
-
   // 3. DB 조회
   dataList = [];
   var sql = 'SELECT * FROM healings WHERE weather=? AND season=?';
@@ -81,18 +78,15 @@ router.put("/healing", async (req, res) => {
     rows.forEach((row, index)=>{
       dataList.push(row);
     })
-    console.log(dataList);
     healingData = dataList[Math.floor(Math.random()*dataList.length)]; 
 
-    if(err) console.log('query is not excuted. select fail...\n' + err); // 만일 오류가 있으면 로그 띄우기
+    if(err) console.log('query is not excuted. select fail...\n' + err);
     else  res.send({ 
       video_src: healingData.video_src,
       quote: healingData.quote,
       quote_src: healingData.quote_src
     });
   })
-
-  console.log('rendering finish======================');
 });
 
 
@@ -106,7 +100,7 @@ router.get("/dltest", function(req, res) {
   const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
     const options = {
         method: 'GET',
-        uri: "http://ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8888/test",  //http://{aws ip주소}/test, http://localhost:5000/test
+        uri: "http://ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8888/test http://localhost:5000/testt",  //http://{aws ip주소}/test, http://localhost:5000/tes
         qs: { //쿼리 스트링(query string)
             test: "test"
         }
