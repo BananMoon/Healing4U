@@ -37,22 +37,5 @@ function DLapi() {
             // '/advertisement/' + user_id + '/' + ad_id
         }
     });
-    // let socket = io.connect('ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8080');
-    // socket.on('connect',function() {
-    //     console.log('Client has connected to the server!');
-    // });
-    // socket.on('msg',function(data) {
-    //     console.log('Received a message from the DLserver!',data);
-    // send("data received!");
-    // });
-    // socket.on('disconnect',function() {
-    //     console.log('The client has disconnected!');
-    // });
-    // socket.on("error", function( error ) {
-    //     console.log("error: "+ error);
-    // })
 };
-// Sends a message to the server via sockets
-// function send(message) {
-//     socket.send('msg',message);
-// };
+
