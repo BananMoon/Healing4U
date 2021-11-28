@@ -9,6 +9,7 @@
   * [중요 기능](#importantFunc)
   * [기술 스택](#stack)
   * [ETC](#etc)
+  * 시연 모습은 [여기](https://www.notion.so/625d5964a7094ebe8c680c0474ca5042#a4b4fc9e2ca54c25955dc66fb4916e4d)로 와주세요
 
 
 ## Healing4U 프로젝트 <a id="Healing4Uproject"></a>
