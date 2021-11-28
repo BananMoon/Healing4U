@@ -1,6 +1,8 @@
-// router 이용
+// router 임포트
 var express = require('express');
 var router = express.Router();
+
+// DB 연결
 const db = require('../config/db_info');
 const conn = db.init(); // db의 커넥터를 활성화 시킨다.
 db.connect(conn); //db에 커넥터를 연결해준다.
@@ -14,24 +16,12 @@ router.use(bodyParser.urlencoded({ extended: true }));
 /*GET home page */
 router.get('/', function(req, res) {
   let dataList = [];
-  let today = new Date();
-  let month = today.getMonth()+1;
-  console.log('달: ',month);
-  if (3<=month && month<=5) {
-    month_param = 0;    //봄
-  } else if (6<=month && month<=8) {
-    month_param = 1;    //여름
-  } else if (9<=month && month<=11) {
-    month_param = 2;    //가을
-  } else {
-    month_param = 3;    //겨울
-  }
-  // weather 반영 전) season
-  console.log('계절 값: ',month_param);
+  let season_param = monthToSeason();
+  console.log('계절 값: ',season_param);
+
   // DB 조회
   var sql = 'SELECT * FROM healings WHERE season=?';
-  dataList=[];
-  conn.query(sql, month_param, function (err, rows, fields){              // DB 쿼리문
+  conn.query(sql, season_param, function (err, rows, fields){              // DB 쿼리문
     rows.forEach((row, index)=>{
       dataList.push(row);
       console.log(row);
@@ -60,21 +50,12 @@ router.put("/healing", async (req, res) => {
     weather_param = 0;
   }
   // 2. season
-  let today = new Date();
-  let month = today.getMonth()+1;
-  if (3<=month && month<=5) {
-    month_param = 0;    //봄
-  } else if (6<=month && month<=8) {
-    month_param = 1;    //여름
-  } else if (9<=month && month<=11) {
-    month_param = 2;    //가을
-  } else {
-    month_param = 3;    //겨울
-  }  
+  let season_param = monthToSeason();
+  
   // 3. DB 조회
   dataList = [];
   var sql = 'SELECT * FROM healings WHERE weather=? AND season=?';
-  conn.query(sql, [weather_param, month_param], function (err, rows, fields){
+  conn.query(sql, [weather_param, season_param], function (err, rows, fields){
     rows.forEach((row, index)=>{
       dataList.push(row);
     })
@@ -206,3 +187,19 @@ router.put('/rating', async (req, res) => {
   });
 });
 module.exports = router;
+
+// month->season 변환 함수
+function monthToSeason() {
+  let today = new Date();
+  let month = today.getMonth()+1;
+  if (3<=month && month<=5) {
+    season_param = 0;    //봄
+  } else if (6<=month && month<=8) {
+    season_param = 1;    //여름
+  } else if (9<=month && month<=11) {
+    season_param = 2;    //가을
+  } else {
+    season_param = 3;    //겨울
+  }
+  return season_param;
+}

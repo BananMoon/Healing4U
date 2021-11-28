@@ -2,19 +2,19 @@
 <html>
     <head>
         <link rel='stylesheet' href='/css/service.css' /> 
+        <!-- jquery -->
         <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
         crossorigin="anonymous"></script>
-        <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+        <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script>
             function Timer(userID) { 
                 console.log("======Timer 함수 내=======");
                 console.log(userID);
                 setTimeout(callAPI, 15000, userID); // 1초: 1000,  15초 후에 db에 저장하면서 rating화면으로 전환.
-            } 
-            //DL서버 요청에 대한 응답으로 advertisement 화면전환이 가능하면 아래 API 필요없고, 불가능해도.. 필요한가?
+            }
             function callAPI(userID) {
                 location.href= "/rating/home/" + userID;
             }

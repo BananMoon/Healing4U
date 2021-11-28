@@ -1,12 +1,5 @@
-function good_run(rating, userID){
-    console.log(rating, userID);
-    console.log('button clicked!');
-    requestAPI(rating, userID);
-}
-
-function bad_run(rating, userID) {
-    console.log(rating, userID);
-    console.log('button clicked!');
+function buttonClicked (rating, userID){
+    console.log(userID + 'userID '+ rating + 'button clicked!');
     requestAPI(rating, userID);
 }
 

@@ -45,10 +45,10 @@
                 let userIdTag = document.querySelector('#button_grp h2');
                 let userId = userIdTag.innerText;
             </script>
-            <button type="button" class="like" value="1" onclick="good_run(this.value, userId)">
+            <button type="button" class="like" value="1" onclick="buttonClicked(this.value, userId)">
                 <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Like-512.png">
             </button>
-            <button type="button" class="unlike" value="0" onclick="bad_run(this.value, userId)">
+            <button type="button" class="unlike" value="0" onclick="buttonClicked(this.value, userId)">
                 <img id = "btn_img" src="https://cdn4.iconfinder.com/data/icons/business-solid-the-capitalism/64/Unlike-512.png">
             </button>
         </div>
@@ -57,16 +57,12 @@
             <br>
             <span>더 많은 서비스를 제공받고 싶다면, 오른쪽 QR코드를 이용하세요.</span>
         </div>
-        <!-- <div id="count_text"</div>
-        <div class="text"></div> --> 
-        <!-- <img id="qrcode" src="/img/qrcode.png"/> -->
         <div id="qr"></div>
         <script type="text/javascript">
-            new QRCode(document.getElementById("qr"), "http://13.125.36.224:2004/?id="+userId);
+            new QRCode(document.getElementById("qr"), "http://13.125.36.224:2004/");
         </script>
 
       </div>
-
         <script>countdown();</script>
         <script src="/js/rating.js"></script>
     </BODY> 

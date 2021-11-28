@@ -9,23 +9,14 @@
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
         crossorigin="anonymous"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script> -->
-        <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
+        <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
         <script>
           /*========== 날씨 api(openweatherapi이용) ==========*/
           const API_KEY = "a0383cc2ac06a4b4308bb75c735f62d8";
-          // function onGeoOk(position){
-          //     const lat = position.coords.latitude;
-          //     const lon = position.coords.longitude;
-          //     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-          //     fetch(url)
-          //       .then((response) => response.json())
-          //       .then((data) => {
-          //         setWeather(data);                  
-          //       });
-          // }
-          //날씨 반영
+
+          /*========== js: 날씨 반영 =========== */
+          // api 호출
           function onGeoOk_apiCall(position){
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
@@ -42,6 +33,7 @@
           function onGeoError() {
             alert("Can't find you. No weather for you.");
           }
+          // 변수 저장
           function setWeather(data) {
             const cityTag = document.querySelector('#city');
             console.log(cityTag);
@@ -62,14 +54,8 @@
             iconTag.setAttribute('src', iconUrl);
           }
           timer = setInterval( function() {
-            //날씨api
-            navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
-            // 딥러닝서버 요청 api
-            
-          }, 12000); //12초
-          timer2 = setInterval( function() {
             DLapi();
-          }, 6000); //6초
+          }, 6000); //6초마다 감정값(from 딥러닝서버) 수신 여부 체크
         </script>
     </head> 
     <body>
@@ -81,7 +67,7 @@
               <p><%=healingData.quote_src%></p>
             </div>
 
-            <!-- 날짜와 시간 -->
+            <!-- html: 날짜와 시계 -->
             <div class="calendar">
               <span id="date">날짜</span>
               <br>
@@ -89,28 +75,28 @@
             </div>
           
             <script>
-          /*======== 시계기능 =======*/
-            const clock = document.querySelector("#clock");
+              /*======== js: 시계기능 =======*/
+              const clock = document.querySelector("#clock");
 
-            function getClock() {
-                const date = new Date();  //호출 당시 시각
-                const hours = String(date.getHours()).padStart(2, "0");
-                const minutes = String(date.getMinutes()).padStart(2, "0");
-                const seconds = String(date.getSeconds()).padStart(2, "0");
+              function getClock() {
+                  const date = new Date();  //호출 당시 시각
+                  const hours = String(date.getHours()).padStart(2, "0");
+                  const minutes = String(date.getMinutes()).padStart(2, "0");
+                  const seconds = String(date.getSeconds()).padStart(2, "0");
 
-                clock.innerText = `${hours}시 ${minutes}분 ${seconds}초`;
-            } 
+                  clock.innerText = `${hours}시 ${minutes}분 ${seconds}초`;
+              } 
 
-            getClock();                   // 처음 화면 셋팅
-            setInterval(getClock, 1000);  // 1초마다 getClock() 호출
+              setInterval(getClock, 1000);  // 1초마다 getClock() 호출
+              getClock();                   // 처음 화면 셋팅 후
 
-          /*======== 날짜기능 =======*/            
-            const dateTag = document.querySelector("#date");
-            date = new Date();
-            dateFormat = moment(date).format('YYYY년 MM월 DD일 dddd');            
-            dateTag.innerText= `${dateFormat}`;
-              </script>
-
+          /*======== js: 날짜기능 =======*/            
+              const dateTag = document.querySelector("#date");
+              date = new Date();
+              dateFormat = moment(date).format('YYYY년 MM월 DD일 dddd');            
+              dateTag.innerText= `${dateFormat}`;
+            </script>
+          <!-- html: 날씨 아이콘-->
               <div id="weatherEle">
                 <table>
                   <tr>
@@ -125,12 +111,11 @@
                   <tr>
                 </table>
               </div>
-                <!--=========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출 ==========-->
               <script>
+                // =========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출
                 navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
-                // =========== 그 후에 타이머 호출하면 **초마다 날씨api호출하도록 할것임 
-                // timer;
-                timer2;
+                // =========== 그 후에 타이머 호출하면 **초마다 날씨api호출
+                timer;
               </script>
               <script src="/js/healing.js"></script>
           </div>
