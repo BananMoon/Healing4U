@@ -32,7 +32,7 @@
 
 ## 서비스 구성도 <a id="serviceArchitecture"></a>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/66311276/143766399-10654253-1648-408e-98fc-66660d88b935.png" alt="text" width="680" height="400" />
+  <img src="https://user-images.githubusercontent.com/66311276/144560242-213dd017-8eeb-4295-a5a8-d086c5b6f973.png" alt="text" width="680" height="400" />
 </p>
 
 |단계|내용|설명|
