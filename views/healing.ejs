@@ -53,9 +53,12 @@
             tempTag.innerText = `Temporary: ${temperature} °C`;
             iconTag.setAttribute('src', iconUrl);
           }
-          timer = setInterval( function() {
+          timer_dl = setInterval( function() {
             DLapi();
-          }, 6000); //6초마다 감정값(from 딥러닝서버) 수신 여부 체크
+          }, 2000); //2초마다 감정값(from 딥러닝서버) 수신 여부 체크
+          timer_weather = setInterval( function() {
+            navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
+          }, 900000); // 15분마다 날씨api 요청
         </script>
     </head> 
     <body>
@@ -67,9 +70,9 @@
               <p><%=healingData.quote_src%></p>
             </div>
 
-            <!-- html: 날짜와 시계 -->
+            <!-- html: 일시와 시계 -->
             <div class="calendar">
-              <span id="date">날짜</span>
+              <span id="date">일시</span>
               <br>
               <span id="clock">00:00:00</span>
             </div>
@@ -114,8 +117,8 @@
               <script>
                 // =========== 처음 화면에서 날씨를 보여주기위해 날씨 api호출
                 navigator.geolocation.getCurrentPosition(onGeoOk_apiCall, onGeoError);
-                // =========== 그 후에 타이머 호출하면 **초마다 날씨api호출
-                timer;
+                timer_dl; // 딥러닝서버에 요청 (2초)
+                timer_weather;  // 날씨api호출 (15분)
               </script>
               <script src="/js/healing.js"></script>
           </div>

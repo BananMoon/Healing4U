@@ -81,13 +81,13 @@ router.get("/dltest", function(req, res) {
   const DLTestResult = (callback) => { //여기 수정해야 함.-> 왜지?
     const options = {
         method: 'GET',
-        uri: "http://ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8888/test http://localhost:5000/testt",  //http://{aws ip주소}/test, http://localhost:5000/tes
+        uri: "http://ec2-3-129-8-135.us-east-2.compute.amazonaws.com:8888/test",  //http://{aws ip주소}/test, http://localhost:5000/test
         qs: { //쿼리 스트링(query string)
             test: "test"
         }
     }
-    // 위에 정의해논 options uri로 async 요청! request의 응답이 body로 오면 아래 callback 호출
-    request(options, async function (err, res, body) {
+    // 위에 정의해논 uri에 request 라이브러리로 요청! request의 응답이 body로 오면 아래 콜백함수 호출
+    request(options, function (err, res, body) {
         console.log("콜백 전 : "+ body);
         callback(undefined, {
             result: body
