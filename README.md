@@ -116,7 +116,7 @@
 - Slack
 - Gitlab
 
-### IDE 
+### IDEA
 - Visual Studio Code
 - IntelliJ
 - Jupyter Notebook
