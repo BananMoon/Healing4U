@@ -61,7 +61,7 @@
 - AWS EC2  👉 PC 웹 서버
 - AWS Deep Learning AMI   👉 딥러닝 서버
 - AWS S3  👉 이미지 저장소로 사용
-- AWS route 53  👉 DNS
+- AWS route 53  👉 도메인 설정 (+가비아)
 - AWS RDS (MySQL)  👉 DB 서버
 
 ### Communication
