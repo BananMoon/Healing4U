@@ -5,12 +5,11 @@
 ### 목차
   * [Healing4U 프로젝트?](#Healing4Uproject)
   * [서비스 구성도](#serviceArchitecture)
+  * [기술 스택](#stack)
   * [서비스 흐름도](#serviceFlow)
   * [중요 기능](#importantFunc)
-  * [기술 스택](#stack)
   * [ETC](#etc)
-  * 시연 모습은 [여기](https://www.notion.so/625d5964a7094ebe8c680c0474ca5042#a4b4fc9e2ca54c25955dc66fb4916e4d)로 와주세요
-
+  * 시연 모습은 [여기](https://www.notion.so/397a04fb1e9240639ab1c35434045227)에서 확인할 수 있습니다🥰
 
 ## Healing4U 프로젝트 <a id="Healing4Uproject"></a>
 - 감정 인식을 활용한 AI 힐링 옥외 광고(OOH, Out-of-home advertising) 및 모바일웹(Mobile-Web) 서비스
@@ -27,7 +26,7 @@
 데이터 수집, 모델 개발, 딥러닝 서버 구축 및 연동(AWS_deep learning ami) <br>
 
 > 공동 작업 <br>
-학습 데이터 및 서비스 데이터 수집, SW보고서 작성, 논문 작성
+학습 데이터 및 서비스 데이터 수집, S/W 보고서 작성, 논문 작성
 
 
 ## 서비스 구성도 <a id="serviceArchitecture"></a>
@@ -43,7 +42,36 @@
 |④|광고(힐링) 서비스 제공|분류 결과에 따른 광고(힐링) 서비스를 패널로 제공|
 |⑤|추가적인 광고(힐링) 서비스|QR코드를 통해 모바일 웹에 접속하여 추가적인 광고(힐링) 서비스를 제공|
 
+ 
+<br>
 
+## 🛠️ 기술 스택(Stack) <a id="stack"></a>
+### Language & Framework
+- JavaScript, HTML/CSS, ejs  👉 [PC] 프론트엔드 구현
+- Node.js  👉 [PC] 백엔드 개발
+- Java & Spring Framework (JDK 11, Gradle)  👉 [모바일] 백엔드 구현
+- BootStrap  👉 [모바일] 프론트엔드 구현
+- Python & Flask  👉 크롤링과 딥러닝 서버 구축
+
+                                                          
+### Database
+- MySQL
+
+### Infra
+- AWS EC2  👉 PC 웹 서버
+- AWS Deep Learning AMI   👉 딥러닝 서버
+- AWS S3  👉 이미지 저장소로 사용
+- AWS route 53  👉 DNS
+- AWS RDS (MySQL)  👉 DB 서버
+
+### Communication
+- Slack
+- Gitlab
+
+### IDEA
+- Visual Studio Code
+- IntelliJ
+- Jupyter Notebook
 
 ## 서비스 흐름도 <a id="serviceFlow"></a>
 <p align="center">
@@ -92,34 +120,6 @@
     5️⃣ **광고데이터 히스토리 서비스**
     - 사용자가 최근 제공받은 광고 서비스의 기록을 보여준다.
 
- 
-<br>
-
-## 🛠️ 기술 스택(Stack) <a id="stack"></a>
-### Language & Framework(Flatform)
-- JavaScript, CSS, ejs & Node.js
-- Java & Spring Framework (JDK 11, Gradle)
-- Python & Flask
-
-                                                          
-### Database
-- MySQL
-
-### Infra
-- AWS EC2
-- AWS Deep Learning AMI
-- AWS S3
-- AWS route 53
-- AWS RDS (MySQL)
-
-### Communication
-- Slack
-- Gitlab
-
-### IDEA
-- Visual Studio Code
-- IntelliJ
-- Jupyter Notebook
 
 <hr>
                                            
