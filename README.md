@@ -32,22 +32,22 @@
 
 ## 🛠️ 기술 스택(Stack) <a id="stack"></a>
 ### Language & Framework
-- JavaScript, HTML/CSS, ejs  👉 [PC] 프론트엔드 구현
-- Node.js  👉 [PC] 백엔드 개발
-- Java & Spring Framework (JDK 11, Gradle)  👉 [모바일] 백엔드 구현
-- BootStrap  👉 [모바일] 프론트엔드 구현
-- Python & Flask  👉 크롤링과 딥러닝 서버 구축
+- JavaScript, HTML/CSS, ejs
+- Node.js 
+- Java & Spring Framework (JDK 11, Gradle)
+- BootStrap
+- Python & Flask
 
                                                           
 ### Database
 - MySQL
 
 ### Infra
-- AWS EC2  👉 PC 웹 서버
-- AWS Deep Learning AMI   👉 딥러닝 서버
-- AWS S3  👉 이미지 저장소로 사용
+- AWS EC2
+- AWS Deep Learning AMI 
+- AWS S3  👉 이미지 저장소
 - AWS route 53  👉 도메인 설정 (+가비아)
-- AWS RDS (MySQL)  👉 DB 서버
+- AWS RDS (MySQL)
 
 ### Communication
 - Slack
@@ -55,7 +55,6 @@
 
 ### IDEA
 - Visual Studio Code
-- IntelliJ
 - Jupyter Notebook
 ---
 
@@ -99,8 +98,8 @@
   
 **2. 힐링 서비스 제공**
   - 날씨 api 연동 ([openweatherAPI](https://openweathermap.org/api))
-  - 날씨값을 이용하여 힐링 비디오와 힐링 문구를 조회
-  - 날씨와 계절에 적합한 힐링 서비스(비디오와 문구)를 옥외 패널을 통해 제공
+  - 날씨값을 이용하여 힐링 영상과 힐링 문구를 조회
+  - 날씨와 계절에 적합한 힐링 서비스(영상과 문구)를 옥외 패널을 통해 제공
 
 **3. 광고 서비스 제공**
   - 딥러닝 서버로부터 수신된 사용자의 감정값과 계절값을 이용하여 DB 조회
@@ -113,9 +112,6 @@
   - 모바일웹 서비스 (옥외 패널에서 QRCode를 통해 연계된다.)
   - 패널을 통해 제공받은 광고 서비스의 세부정보와 **부가적인 서비스 제공**
     - QRCode를 통해 연결된 첫 화면에서 모달창을 띄워 사용자로부터 사용자 ID를 제공받는다. <br>
-  </div>
-  </details>
-                                                          
 <details>
 <summary>부가적인 서비스 더보기</summary>
 <div markdown="1">
@@ -140,6 +136,9 @@
 </div>
 </details>
 <hr>
+</div>
+</details>
+                                                          
                                            
 ## ETC <a id="etc"></a>
 > 웹서버 구축 및 배포
